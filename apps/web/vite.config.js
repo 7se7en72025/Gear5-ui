@@ -22,24 +22,6 @@ export default defineConfig({
     target: "es2020",
     minify: "esbuild",
     cssMinify: true,
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          "three-vendor": ["three", "@react-three/fiber", "@react-three/drei"],
-          "animation-vendor": ["gsap"],
-          "ui-vendor": ["valtio"],
-        },
-      },
-    },
     chunkSizeWarningLimit: 1000,
-  },
-  optimizeDeps: {
-    include: [
-      "three",
-      "@react-three/fiber",
-      "@react-three/drei",
-      "gsap",
-      "valtio",
-    ],
   },
 });
