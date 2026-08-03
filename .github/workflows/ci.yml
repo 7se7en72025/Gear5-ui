@@ -16,4 +16,8 @@ jobs:
           node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - run: pnpm turbo build lint
+      - run: pnpm build
+      - run: pnpm lint
+      - run: pnpm typecheck
+      # Fails if the committed registry JSON has drifted from source.
+      - run: git diff --exit-code apps/docs/public/r

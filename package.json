@@ -1,21 +1,21 @@
 {
-  "name": "nyxa-ui",
+  "name": "bharat-ui-monorepo",
   "private": true,
   "version": "0.0.0",
-  "description": "NYXA - A constellation-themed UI component library",
-  "author": "NYXA",
+  "description": "Form primitives for Indian fintech — UPI, PAN, Aadhaar, IFSC and GST inputs for React.",
   "license": "MIT",
   "engines": {
     "node": ">=18"
   },
   "packageManager": "pnpm@9.15.4",
   "scripts": {
-    "dev": "pnpm --filter @nyxa/web dev",
-    "build": "turbo build",
-    "build:ui": "pnpm --filter @nyxa/ui build",
-    "build:web": "pnpm --filter @nyxa/web build",
-    "lint": "biome check .",
-    "lint:fix": "biome check --write .",
+    "dev": "pnpm --filter @bharat-ui/docs dev",
+    "build": "pnpm registry:build && turbo build",
+    "build:ui": "pnpm --filter bharat-ui build",
+    "build:docs": "pnpm --filter @bharat-ui/docs build",
+    "registry:build": "shadcn build --output apps/docs/public/r",
+    "lint": "turbo lint",
+    "typecheck": "turbo typecheck",
     "format": "biome format --write .",
     "test": "vitest",
     "changeset": "changeset",
@@ -24,6 +24,7 @@
   "devDependencies": {
     "@biomejs/biome": "^2.0.0",
     "@changesets/cli": "^2.31.0",
+    "shadcn": "^4.16.1",
     "turbo": "^2.10.5",
     "vitest": "^2.1.0"
   }
