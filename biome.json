@@ -6,7 +6,9 @@
       "!**/node_modules",
       "!**/dist",
       "!**/*.d.ts",
-      "!**/public"
+      "!**/public",
+      "!**/.next",
+      "!apps/docs/**"
     ]
   },
   "formatter": {
