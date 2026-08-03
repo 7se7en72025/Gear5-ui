@@ -43,3 +43,6 @@ lerna-debug.log*
 
 # OS
 Thumbs.db
+
+# TypeScript incremental build info
+*.tsbuildinfo
