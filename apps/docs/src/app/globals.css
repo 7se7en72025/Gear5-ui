@@ -5,10 +5,16 @@
 @source "../../../../packages/ui/src";
 
 /*
- * Theming is CSS-first: `light-dark()` resolves against `color-scheme`, so the
- * OS preference works with zero JavaScript and there is no flash of the wrong
- * theme on first paint. The `.light` / `.dark` classes only override
- * `color-scheme`, which flips every token at once.
+ * Theming uses explicit light/dark blocks rather than `light-dark()`.
+ *
+ * `light-dark()` reads better, but Lightning CSS (Tailwind v4's transformer)
+ * polyfills it into a space-toggle keyed on prefers-color-scheme, which does
+ * not follow a class-based `color-scheme` override — so an explicit theme
+ * choice left half the page on the wrong palette. Duplicating the dark block
+ * is uglier and completely reliable.
+ *
+ * `.dark` / `.light` win over the media query; neither class means "follow the
+ * OS", which is also what the server renders.
  */
 @custom-variant dark {
   @media (prefers-color-scheme: dark) {
@@ -22,40 +28,79 @@
 }
 
 :root {
-  color-scheme: light dark;
+  color-scheme: light;
 
-  --background: light-dark(#fdfdfc, #09090b);
-  --surface: light-dark(#ffffff, #121214);
-  --surface-2: light-dark(#f6f5f4, #17171a);
-  --foreground: light-dark(#0c0a09, #fafaf9);
-  --muted: light-dark(#78716c, #a1a1aa);
-  --faint: light-dark(#a8a29e, #71717a);
-  --border: light-dark(#e7e5e4, #242427);
-  --border-strong: light-dark(#d6d3d1, #35353a);
-  --accent: light-dark(#ea580c, #fb923c);
-  --accent-soft: light-dark(#fff3ec, rgba(251, 146, 60, 0.1));
-  --grid: light-dark(rgba(12, 10, 9, 0.05), rgba(255, 255, 255, 0.045));
-  /* Split in two because light-dark() takes exactly two arguments, so a
-     multi-layer box-shadow can't live in a single call. */
-  --shadow-near: light-dark(0 1px 2px rgba(12, 10, 9, 0.04), 0 1px 2px rgba(0, 0, 0, 0.4));
-  --shadow-far: light-dark(
-    0 8px 24px -12px rgba(12, 10, 9, 0.12),
-    0 12px 32px -12px rgba(0, 0, 0, 0.6)
-  );
+  --background: #fdfdfc;
+  --surface: #ffffff;
+  --surface-2: #f6f5f4;
+  --foreground: #0c0a09;
+  --muted: #78716c;
+  --faint: #a8a29e;
+  --border: #e7e5e4;
+  --border-strong: #d6d3d1;
+  --accent: #ea580c;
+  --accent-soft: #fff3ec;
+  --grid: rgba(12, 10, 9, 0.05);
+  --shadow-near: 0 1px 2px rgba(12, 10, 9, 0.04);
+  --shadow-far: 0 8px 24px -12px rgba(12, 10, 9, 0.12);
 
-  --tok-key: light-dark(#0369a1, #7dd3fc);
-  --tok-string: light-dark(#15803d, #86efac);
-  --tok-number: light-dark(#b45309, #fdba74);
-  --tok-bool: light-dark(#7c3aed, #d8b4fe);
-  --tok-punct: light-dark(#a8a29e, #52525b);
+  --tok-key: #0369a1;
+  --tok-string: #15803d;
+  --tok-number: #b45309;
+  --tok-bool: #7c3aed;
+  --tok-punct: #a8a29e;
 }
 
-:root.light {
-  color-scheme: light;
+/* Duplicated deliberately — CSS has no mixin, and the two selectors can't
+   be grouped across a media-query boundary. Keep them in sync. */
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) {
+      color-scheme: dark;
+
+      --background: #09090b;
+      --surface: #121214;
+      --surface-2: #17171a;
+      --foreground: #fafaf9;
+      --muted: #a1a1aa;
+      --faint: #71717a;
+      --border: #242427;
+      --border-strong: #35353a;
+      --accent: #fb923c;
+      --accent-soft: rgba(251, 146, 60, 0.1);
+      --grid: rgba(255, 255, 255, 0.045);
+      --shadow-near: 0 1px 2px rgba(0, 0, 0, 0.4);
+      --shadow-far: 0 12px 32px -12px rgba(0, 0, 0, 0.6);
+
+      --tok-key: #7dd3fc;
+      --tok-string: #86efac;
+      --tok-number: #fdba74;
+      --tok-bool: #d8b4fe;
+      --tok-punct: #52525b;
+  }
 }
 
 :root.dark {
-  color-scheme: dark;
+    color-scheme: dark;
+
+    --background: #09090b;
+    --surface: #121214;
+    --surface-2: #17171a;
+    --foreground: #fafaf9;
+    --muted: #a1a1aa;
+    --faint: #71717a;
+    --border: #242427;
+    --border-strong: #35353a;
+    --accent: #fb923c;
+    --accent-soft: rgba(251, 146, 60, 0.1);
+    --grid: rgba(255, 255, 255, 0.045);
+    --shadow-near: 0 1px 2px rgba(0, 0, 0, 0.4);
+    --shadow-far: 0 12px 32px -12px rgba(0, 0, 0, 0.6);
+
+    --tok-key: #7dd3fc;
+    --tok-string: #86efac;
+    --tok-number: #fdba74;
+    --tok-bool: #d8b4fe;
+    --tok-punct: #52525b;
 }
 
 @theme inline {

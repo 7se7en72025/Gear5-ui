@@ -4,7 +4,7 @@
 
 **The form primitives Indian fintech keeps rebuilding.**
 
-React components for UPI, PAN, Aadhaar, IFSC and GST inputs — install them with the
+30 React components for UPI, PAN, Aadhaar, GSTIN, IFSC, RuPay and more — install them with the
 shadcn CLI so the code lands in your repo and stays yours, or use the npm package.
 
 [Docs & live playground](https://bharat-ui.vercel.app) · [Contributing](CONTRIBUTING.md) · MIT
@@ -94,33 +94,32 @@ fictional accounts. Always verify server-side before you move money.
 is maintained by hand, so an unknown handle is surfaced as a hint, not an error. Your
 users should never be blocked because this dataset went stale.
 
-## Roadmap
+## Components
 
-| Component | Status |
-|---|---|
-| `UPIInput` | shipped |
-| `AmountInput` — Indian digit grouping (₹12,34,567) | next |
-| `PANInput` — format plus embedded structural checks | next |
-| `IFSCField` — bank/branch lookup on blur | planned |
-| `AadhaarInput` — Verhoeff checksum, masked display | planned |
-| `GSTInput` — 15-char structure, cross-checked against embedded PAN | planned |
-| `PincodeAddress` — PIN auto-fills city and state | planned |
+**Identity & KYC** — `UPIInput` `PANInput` `AadhaarInput` `DOBInput` `VoterIdInput`
+`DrivingLicenceInput` `PassportInput` `VehicleNumberInput`
 
-## Repository layout
+**Banking & money** — `AmountInput` `AmountInWords` `IFSCInput` `BankAccountInput`
+`CardNumberInput` `CardExpiryInput` `CVVInput`
 
-```
-packages/ui/     the library — components and validation logic
-apps/docs/       the documentation site (Next.js)
-registry.json    shadcn registry manifest, built to apps/docs/public/r
-```
+**Business & tax** — `GSTINInput` `TANInput` `CINInput` `UdyamInput` `HSNInput`
+`FSSAIInput`
 
-```bash
-pnpm install
-pnpm dev              # docs site on :3000
-pnpm build            # registry + package + docs
-pnpm lint
-pnpm typecheck
-```
+**Contact & address** — `MobileInput` `OTPInput` `PincodeInput` `StateSelect`
+`AddressForm`
+
+**Display & utilities** — `MaskedValue` `CopyableId` `ConsentCheckbox`
+`ValidationSummary`
+
+### Which checksums actually run
+
+| Identifier | Algorithm | Verified offline |
+|---|---|---|
+| Aadhaar | Verhoeff (dihedral group D5) | yes |
+| GSTIN | Weighted mod-36 | yes |
+| Card number | Luhn (mod 10), plus RuPay BIN detection | yes |
+| PAN | 10th-character check digit | **no — the algorithm isn't public** |
+| IFSC, account no., Voter ID, passport | none exist | structural only |
 
 ## Contributing
 
