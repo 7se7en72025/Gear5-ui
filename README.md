@@ -4,7 +4,7 @@
 
 **The form primitives Indian fintech keeps rebuilding.**
 
-30 React components for UPI, PAN, Aadhaar, GSTIN, IFSC, RuPay and more — install them with the
+55 React components for UPI, PAN, Aadhaar, GSTIN, IFSC, RuPay and more — install them with the
 shadcn CLI so the code lands in your repo and stays yours, or use the npm package.
 
 [Docs & live playground](https://bharat-ui.vercel.app) · [Contributing](CONTRIBUTING.md) · MIT
@@ -108,6 +108,18 @@ users should never be blocked because this dataset went stale.
 **Contact & address** — `MobileInput` `OTPInput` `PincodeInput` `StateSelect`
 `AddressForm`
 
+**Health & welfare** — `ABHAInput` `UANInput` `ESICInput` `PRANInput`
+`RationCardInput`
+
+**Markets & banking** — `LEIInput` `ISINInput` `MICRInput` `DematInput`
+`SWIFTInput` `CKYCInput`
+
+**Corporate & compliance** — `DINInput` `LLPINInput` `FCRAInput` `IECInput`
+`RERAInput` `TINInput`
+
+**Payment & document references** — `UTRInput` `UMRNInput` `ChequeNumberInput`
+`EWayBillInput` `ARNInput` `RRNInput` `IRNInput` `LPGConsumerInput`
+
 **Display & utilities** — `MaskedValue` `CopyableId` `ConsentCheckbox`
 `ValidationSummary`
 
@@ -116,10 +128,13 @@ users should never be blocked because this dataset went stale.
 | Identifier | Algorithm | Verified offline |
 |---|---|---|
 | Aadhaar | Verhoeff (dihedral group D5) | yes |
+| LEI | ISO 7064 MOD 97-10 | yes |
+| ISIN | ISO 6166 check digit | yes |
 | GSTIN | Weighted mod-36 | yes |
 | Card number | Luhn (mod 10), plus RuPay BIN detection | yes |
 | PAN | 10th-character check digit | **no — the algorithm isn't public** |
-| IFSC, account no., Voter ID, passport | none exist | structural only |
+| ABHA, e-way bill | claimed but never published | structural only |
+| IFSC, account no., Voter ID, passport, MICR | none exist | structural only |
 
 ## Contributing
 

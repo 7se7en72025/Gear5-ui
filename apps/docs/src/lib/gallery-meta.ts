@@ -12,6 +12,8 @@ export type Category =
   | "Banking & money"
   | "Business & tax"
   | "Contact & address"
+  | "Health & welfare"
+  | "References"
   | "Display & utilities";
 
 export const CATEGORIES: Category[] = [
@@ -19,6 +21,8 @@ export const CATEGORIES: Category[] = [
   "Banking & money",
   "Business & tax",
   "Contact & address",
+  "Health & welfare",
+  "References",
   "Display & utilities",
 ];
 
@@ -101,6 +105,64 @@ export const GALLERY_META: GalleryMeta[] = [
     why: "Makes DPDP purpose, sharing and retention required props — not optional prose." },
   { name: "ValidationSummary", category: "Display & utilities", registry: "validation-summary",
     why: "Without it, a failed submit tells a screen reader user nothing." },
+
+  // ── Markets & banking (wave 3) ───────────────────────────────────────────
+  { name: "LEIInput", category: "Banking & money", registry: "market-id-inputs",
+    why: "ISO 7064 mod-97 checksum \u2014 verified against S&P Global's real LEI." },
+  { name: "ISINInput", category: "Banking & money", registry: "market-id-inputs",
+    why: "ISO 6166 check digit, verified against Reliance, Apple and BAE. Badges Indian securities." },
+  { name: "MICRInput", category: "Banking & money", registry: "market-id-inputs",
+    why: "The nine digits along the bottom of a cheque, split into city/bank/branch." },
+  { name: "DematInput", category: "Banking & money", registry: "market-id-inputs",
+    why: "Tells NSDL and CDSL apart \u2014 they have genuinely different formats." },
+  { name: "SWIFTInput", category: "Banking & money", registry: "market-id-inputs",
+    why: "8 characters means head office, 11 means a specific branch." },
+  { name: "CKYCInput", category: "Banking & money", registry: "market-id-inputs",
+    why: "Central KYC Registry number \u2014 14 digits." },
+  { name: "UTRInput", category: "References", registry: "market-id-inputs",
+    why: "Infers the rail from length: 12 is UPI, 16 IMPS, 22 NEFT/RTGS." },
+
+  // ── Health & welfare ─────────────────────────────────────────────────────
+  { name: "ABHAInput", category: "Health & welfare", registry: "health-id-inputs",
+    why: "Health data under DPDP. 14 digits \u2014 and we don't claim a checksum NHA never published." },
+  { name: "UANInput", category: "Health & welfare", registry: "health-id-inputs",
+    why: "The EPFO number that follows a member across employers." },
+  { name: "ESICInput", category: "Health & welfare", registry: "health-id-inputs",
+    why: "Employees' State Insurance number, 17 digits." },
+  { name: "PRANInput", category: "Health & welfare", registry: "health-id-inputs",
+    why: "National Pension System account number." },
+  { name: "RationCardInput", category: "Health & welfare", registry: "health-id-inputs",
+    why: "Format genuinely differs per state, so validation stays deliberately loose." },
+
+  // ── Corporate & compliance ───────────────────────────────────────────────
+  { name: "DINInput", category: "Business & tax", registry: "corporate-id-inputs",
+    why: "Director Identification Number \u2014 8 digits, one per person for life." },
+  { name: "LLPINInput", category: "Business & tax", registry: "corporate-id-inputs",
+    why: "Three letters then four digits, hyphenated as you type." },
+  { name: "FCRAInput", category: "Business & tax", registry: "corporate-id-inputs",
+    why: "Required of any NGO taking foreign contributions." },
+  { name: "IECInput", category: "Business & tax", registry: "corporate-id-inputs",
+    why: "Since 2021 an IEC just is the PAN. Pre-2021 regexes still expect 10 digits and reject every modern one." },
+  { name: "RERAInput", category: "Business & tax", registry: "corporate-id-inputs",
+    why: "Per-state authority formats, so this stays permissive on purpose." },
+  { name: "TINInput", category: "Business & tax", registry: "corporate-id-inputs",
+    why: "Pre-GST taxpayer number \u2014 still on historical invoices and in ledger migrations." },
+
+  // ── Payment & document references ────────────────────────────────────────
+  { name: "UMRNInput", category: "References", registry: "transaction-id-inputs",
+    why: "The e-NACH mandate reference every lending product shows when cancelling an auto-debit." },
+  { name: "ChequeNumberInput", category: "References", registry: "transaction-id-inputs",
+    why: "Six digits, bottom-left of the leaf." },
+  { name: "EWayBillInput", category: "References", registry: "transaction-id-inputs",
+    why: "12 digits. Widely rumoured to have a check digit \u2014 GSTN never published one." },
+  { name: "ARNInput", category: "References", registry: "transaction-id-inputs",
+    why: "How a pending GST registration is tracked." },
+  { name: "RRNInput", category: "References", registry: "transaction-id-inputs",
+    why: "What a bank asks for when you dispute a card transaction." },
+  { name: "IRNInput", category: "References", registry: "transaction-id-inputs",
+    why: "A SHA-256 from the Invoice Registration Portal \u2014 not a number, despite the name." },
+  { name: "LPGConsumerInput", category: "References", registry: "transaction-id-inputs",
+    why: "Length differs by distributor, so the accepted range is wide." },
 ];
 
 export const COMPONENT_COUNT = GALLERY_META.length;

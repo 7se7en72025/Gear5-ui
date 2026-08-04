@@ -4,10 +4,13 @@ import { Check, Shuffle, X } from "lucide-react";
 import * as React from "react";
 import {
   gstinCheckChar,
+  isinCheckDigit,
   luhnValid,
   validateAadhaar,
   validateCardNumber,
   validateGstin,
+  validateIsin,
+  validateLei,
   verhoeffValid,
 } from "bharat-ui";
 
@@ -62,6 +65,34 @@ const SCHEMES: Scheme[] = [
       validateCardNumber(v).valid
         ? "Passes Luhn, and the BIN resolves to RuPay."
         : "Fails Luhn — the digit sum isn't a multiple of 10.",
+  },
+  {
+    id: "lei",
+    label: "LEI",
+    algorithm: "ISO 7064 MOD 97-10",
+    // S&P Global's actual LEI — verified against the real register.
+    seed: "5493001KJTIIGC8Y1R12",
+    mutable: (_c, i) => i < 18,
+    check: (v) => validateLei(v).valid,
+    explain: (v) =>
+      validateLei(v).valid
+        ? "Passes mod-97. The whole 20 characters reduce to a remainder of 1."
+        : "Fails mod-97 — the last two digits no longer balance the other eighteen.",
+  },
+  {
+    id: "isin",
+    label: "ISIN",
+    algorithm: "ISO 6166 check digit",
+    // Reliance Industries.
+    seed: "INE002A01018",
+    mutable: (_c, i) => i >= 2 && i < 11,
+    check: (v) => validateIsin(v).valid,
+    explain: (v) => {
+      const expected = v.length >= 11 ? isinCheckDigit(v.slice(0, 11)) : null;
+      return validateIsin(v).valid
+        ? "Check digit agrees, and the IN prefix marks it as an Indian security."
+        : `Check digit should be ${expected ?? "?"} for this body.`;
+    },
   },
 ];
 
@@ -162,7 +193,7 @@ function SchemeRow({ scheme }: { scheme: Scheme }) {
  */
 export function ChecksumLab() {
   return (
-    <div className="grid gap-4 md:grid-cols-3">
+    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {SCHEMES.map((scheme) => (
         <SchemeRow key={scheme.id} scheme={scheme} />
       ))}

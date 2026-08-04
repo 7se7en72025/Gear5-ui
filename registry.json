@@ -671,6 +671,183 @@
           "target": "components/ui/field.tsx"
         }
       ]
+    },
+    {
+      "name": "health-id-inputs",
+      "type": "registry:ui",
+      "title": "Health & Pension ID Inputs",
+      "description": "ABHA, UAN, ESIC, PRAN and ration card fields.",
+      "dependencies": [
+        "lucide-react",
+        "clsx",
+        "tailwind-merge"
+      ],
+      "files": [
+        {
+          "path": "packages/ui/src/components/ui/health-id-inputs.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/health-id-inputs.tsx"
+        },
+        {
+          "path": "packages/ui/src/components/ui/field.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/field.tsx"
+        },
+        {
+          "path": "packages/ui/src/components/ui/identifier-input.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/identifier-input.tsx"
+        },
+        {
+          "path": "packages/ui/src/lib/health-ids.ts",
+          "type": "registry:lib",
+          "target": "lib/health-ids.ts"
+        },
+        {
+          "path": "packages/ui/src/lib/gov-ids.ts",
+          "type": "registry:lib",
+          "target": "lib/gov-ids.ts"
+        },
+        {
+          "path": "packages/ui/src/lib/vehicle.ts",
+          "type": "registry:lib",
+          "target": "lib/vehicle.ts"
+        }
+      ]
+    },
+    {
+      "name": "market-id-inputs",
+      "type": "registry:ui",
+      "title": "Markets & Banking ID Inputs",
+      "description": "LEI and ISIN with real checksums, plus MICR, demat, SWIFT, CKYC and UTR.",
+      "dependencies": [
+        "lucide-react",
+        "clsx",
+        "tailwind-merge"
+      ],
+      "files": [
+        {
+          "path": "packages/ui/src/components/ui/market-id-inputs.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/market-id-inputs.tsx"
+        },
+        {
+          "path": "packages/ui/src/components/ui/field.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/field.tsx"
+        },
+        {
+          "path": "packages/ui/src/components/ui/identifier-input.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/identifier-input.tsx"
+        },
+        {
+          "path": "packages/ui/src/lib/market-ids.ts",
+          "type": "registry:lib",
+          "target": "lib/market-ids.ts"
+        },
+        {
+          "path": "packages/ui/src/lib/gov-ids.ts",
+          "type": "registry:lib",
+          "target": "lib/gov-ids.ts"
+        },
+        {
+          "path": "packages/ui/src/lib/vehicle.ts",
+          "type": "registry:lib",
+          "target": "lib/vehicle.ts"
+        }
+      ]
+    },
+    {
+      "name": "corporate-id-inputs",
+      "type": "registry:ui",
+      "title": "Corporate ID Inputs",
+      "description": "DIN, LLPIN, FCRA, IEC, RERA and legacy TIN fields.",
+      "dependencies": [
+        "lucide-react",
+        "clsx",
+        "tailwind-merge"
+      ],
+      "files": [
+        {
+          "path": "packages/ui/src/components/ui/corporate-id-inputs.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/corporate-id-inputs.tsx"
+        },
+        {
+          "path": "packages/ui/src/components/ui/field.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/field.tsx"
+        },
+        {
+          "path": "packages/ui/src/components/ui/identifier-input.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/identifier-input.tsx"
+        },
+        {
+          "path": "packages/ui/src/lib/corporate-ids.ts",
+          "type": "registry:lib",
+          "target": "lib/corporate-ids.ts"
+        },
+        {
+          "path": "packages/ui/src/lib/gov-ids.ts",
+          "type": "registry:lib",
+          "target": "lib/gov-ids.ts"
+        },
+        {
+          "path": "packages/ui/src/lib/pan.ts",
+          "type": "registry:lib",
+          "target": "lib/pan.ts"
+        },
+        {
+          "path": "packages/ui/src/lib/vehicle.ts",
+          "type": "registry:lib",
+          "target": "lib/vehicle.ts"
+        }
+      ]
+    },
+    {
+      "name": "transaction-id-inputs",
+      "type": "registry:ui",
+      "title": "Transaction Reference Inputs",
+      "description": "UMRN, cheque number, e-way bill, ARN, RRN, IRN and LPG consumer ID.",
+      "dependencies": [
+        "lucide-react",
+        "clsx",
+        "tailwind-merge"
+      ],
+      "files": [
+        {
+          "path": "packages/ui/src/components/ui/transaction-id-inputs.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/transaction-id-inputs.tsx"
+        },
+        {
+          "path": "packages/ui/src/components/ui/field.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/field.tsx"
+        },
+        {
+          "path": "packages/ui/src/components/ui/identifier-input.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/identifier-input.tsx"
+        },
+        {
+          "path": "packages/ui/src/lib/transaction-ids.ts",
+          "type": "registry:lib",
+          "target": "lib/transaction-ids.ts"
+        },
+        {
+          "path": "packages/ui/src/lib/gov-ids.ts",
+          "type": "registry:lib",
+          "target": "lib/gov-ids.ts"
+        },
+        {
+          "path": "packages/ui/src/lib/vehicle.ts",
+          "type": "registry:lib",
+          "target": "lib/vehicle.ts"
+        }
+      ]
     }
   ]
 }

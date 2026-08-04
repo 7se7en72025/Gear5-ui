@@ -12,7 +12,7 @@ const STATS = [
   [String(COMPONENT_COUNT), "components"],
   [String(UPI_HANDLES.length), "UPI handles indexed"],
   [String(INDIAN_STATES.length), "states & UTs"],
-  ["3", "real checksums"],
+  ["5", "real checksums"],
 ] as const;
 
 const DECISIONS = [
@@ -86,7 +86,7 @@ export default function Home() {
               Not regex theatre
             </p>
             <h2 id="checksums" className="text-2xl font-semibold tracking-tight sm:text-3xl">
-              Three real checksums, running right here
+              Five real checksums, running right here
             </h2>
             <p className="mt-2 max-w-2xl text-[15px] text-muted">
               Most “validation” for Indian identifiers is a length check and a regex. Change a

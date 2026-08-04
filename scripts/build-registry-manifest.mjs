@@ -105,6 +105,31 @@ const ITEMS = [
   { name: "identifier-input", file: "identifier-input.tsx", libs: [],
     title: "Identifier Input",
     description: "Generic base for fixed-format identifier fields." },
+
+  // ── Health, pension & welfare ────────────────────────────────────────────
+  { name: "health-id-inputs", file: "health-id-inputs.tsx",
+    components: ["identifier-input.tsx"], libs: ["health-ids.ts", "gov-ids.ts", "vehicle.ts"],
+    title: "Health & Pension ID Inputs",
+    description: "ABHA, UAN, ESIC, PRAN and ration card fields." },
+
+  // ── Capital markets & banking ────────────────────────────────────────────
+  { name: "market-id-inputs", file: "market-id-inputs.tsx",
+    components: ["identifier-input.tsx"], libs: ["market-ids.ts", "gov-ids.ts", "vehicle.ts"],
+    title: "Markets & Banking ID Inputs",
+    description: "LEI and ISIN with real checksums, plus MICR, demat, SWIFT, CKYC and UTR." },
+
+  // ── Corporate & compliance ───────────────────────────────────────────────
+  { name: "corporate-id-inputs", file: "corporate-id-inputs.tsx",
+    components: ["identifier-input.tsx"],
+    libs: ["corporate-ids.ts", "gov-ids.ts", "pan.ts", "vehicle.ts"],
+    title: "Corporate ID Inputs",
+    description: "DIN, LLPIN, FCRA, IEC, RERA and legacy TIN fields." },
+
+  // ── Payment & document references ────────────────────────────────────────
+  { name: "transaction-id-inputs", file: "transaction-id-inputs.tsx",
+    components: ["identifier-input.tsx"], libs: ["transaction-ids.ts", "gov-ids.ts", "vehicle.ts"],
+    title: "Transaction Reference Inputs",
+    description: "UMRN, cheque number, e-way bill, ARN, RRN, IRN and LPG consumer ID." },
 ];
 
 const uiFile = (file) => ({

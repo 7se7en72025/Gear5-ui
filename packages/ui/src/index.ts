@@ -55,6 +55,21 @@ export {
   CopyableId,
   type CopyableIdProps,
 } from "./components/ui/copyable-id";
+// ── Corporate & compliance ─────────────────────────────────────────────────
+export {
+  DINInput,
+  type DINInputProps,
+  FCRAInput,
+  type FCRAInputProps,
+  IECInput,
+  type IECInputProps,
+  LLPINInput,
+  type LLPINInputProps,
+  RERAInput,
+  type RERAInputProps,
+  TINInput,
+  type TINInputProps,
+} from "./components/ui/corporate-id-inputs";
 export { DOBInput, type DOBInputProps } from "./components/ui/dob-input";
 export {
   cn,
@@ -75,11 +90,41 @@ export {
   type VoterIdInputProps,
 } from "./components/ui/gov-id-inputs";
 export { GSTINInput, type GSTINInputProps } from "./components/ui/gstin-input";
+// ── Health, pension & welfare ──────────────────────────────────────────────
+export {
+  ABHAInput,
+  type ABHAInputProps,
+  ESICInput,
+  type ESICInputProps,
+  PRANInput,
+  type PRANInputProps,
+  RationCardInput,
+  type RationCardInputProps,
+  UANInput,
+  type UANInputProps,
+} from "./components/ui/health-id-inputs";
 export {
   IdentifierInput,
   type IdentifierInputProps,
 } from "./components/ui/identifier-input";
 export { IFSCInput, type IFSCInputProps } from "./components/ui/ifsc-input";
+// ── Capital markets & banking ──────────────────────────────────────────────
+export {
+  CKYCInput,
+  type CKYCInputProps,
+  DematInput,
+  type DematInputProps,
+  ISINInput,
+  type ISINInputProps,
+  LEIInput,
+  type LEIInputProps,
+  MICRInput,
+  type MICRInputProps,
+  SWIFTInput,
+  type SWIFTInputProps,
+  UTRInput,
+  type UTRInputProps,
+} from "./components/ui/market-id-inputs";
 export {
   MaskedValue,
   type MaskedValueProps,
@@ -103,6 +148,23 @@ export {
   StateSelect,
   type StateSelectProps,
 } from "./components/ui/state-select";
+// ── Payment & document references ──────────────────────────────────────────
+export {
+  ARNInput,
+  type ARNInputProps,
+  ChequeNumberInput,
+  type ChequeNumberInputProps,
+  EWayBillInput,
+  type EWayBillInputProps,
+  IRNInput,
+  type IRNInputProps,
+  LPGConsumerInput,
+  type LPGConsumerInputProps,
+  RRNInput,
+  type RRNInputProps,
+  UMRNInput,
+  type UMRNInputProps,
+} from "./components/ui/transaction-id-inputs";
 export { UPIInput, type UPIInputProps } from "./components/ui/upi-input";
 export {
   type ValidationIssue,
@@ -178,6 +240,22 @@ export {
   validateExpiry,
 } from "./lib/card";
 export {
+  type DinErrorCode,
+  type FcraErrorCode,
+  formatLlpin,
+  type IecErrorCode,
+  type LlpinErrorCode,
+  type ReraErrorCode,
+  type TinErrorCode,
+  type TinResult,
+  validateDin,
+  validateFcra,
+  validateIec,
+  validateLlpin,
+  validateRera,
+  validateTin,
+} from "./lib/corporate-ids";
+export {
   ageFrom,
   type DobErrorCode,
   type DobResult,
@@ -204,12 +282,47 @@ export {
   validateGstin,
 } from "./lib/gstin";
 export {
+  type AbhaErrorCode,
+  type EsicErrorCode,
+  formatAbha,
+  type PranErrorCode,
+  type RationCardErrorCode,
+  type UanErrorCode,
+  validateAbha,
+  validateEsic,
+  validatePran,
+  validateRationCard,
+  validateUan,
+} from "./lib/health-ids";
+export {
   IFSC_BANK_CODES,
   type IfscErrorCode,
   type IfscResult,
   normalizeIfsc,
   validateIfsc,
 } from "./lib/ifsc";
+export {
+  type CkycErrorCode,
+  type DematErrorCode,
+  type DematResult,
+  type IsinErrorCode,
+  type IsinResult,
+  isinCheckDigit,
+  type LeiErrorCode,
+  type MicrErrorCode,
+  type MicrResult,
+  type SwiftErrorCode,
+  type SwiftResult,
+  type UtrErrorCode,
+  type UtrResult,
+  validateCkyc,
+  validateDemat,
+  validateIsin,
+  validateLei,
+  validateMicr,
+  validateSwift,
+  validateUtr,
+} from "./lib/market-ids";
 export {
   formatMobile,
   type MobileErrorCode,
@@ -240,6 +353,22 @@ export {
   stateByCode,
   stateByGstCode,
 } from "./lib/states";
+export {
+  type ArnErrorCode,
+  type ChequeErrorCode,
+  type EWayBillErrorCode,
+  type IrnErrorCode,
+  type LpgErrorCode,
+  type RrnErrorCode,
+  type UmrnErrorCode,
+  validateArn,
+  validateChequeNumber,
+  validateEWayBill,
+  validateIrn,
+  validateLpgConsumerId,
+  validateRrn,
+  validateUmrn,
+} from "./lib/transaction-ids";
 export {
   isPhoneVpa,
   isValidVpa,
