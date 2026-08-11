@@ -1,146 +1,170 @@
 <div align="center">
 
-# bharat-ui
+# Handoff UI
 
-**The form primitives Indian fintech keeps rebuilding.**
+**The UI layer for agent apps.**
 
-55 React components for UPI, PAN, Aadhaar, GSTIN, IFSC, RuPay and more — install them with the
-shadcn CLI so the code lands in your repo and stays yours, or use the npm package.
+Approvals, tool calls, traces, and diffs — accessible, streaming-aware, and unstyled by default.
 
-[Docs & live playground](https://bharat-ui.vercel.app) · [Contributing](CONTRIBUTING.md) · MIT
+[![CI](https://github.com/handoff-ui/handoff-ui/actions/workflows/ci.yml/badge.svg)](https://github.com/handoff-ui/handoff-ui/actions/workflows/ci.yml)
+[![npm](https://img.shields.io/npm/v/handoff-ui.svg)](https://www.npmjs.com/package/handoff-ui)
+[![license](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 
 </div>
 
 ---
 
-## Why
+## Why this exists
 
-Every Indian product rewrites the same handful of form fields, and most get the
-validation subtly wrong — amount fields that group digits as `1,234,567` instead of
-`12,34,567`, UPI fields that reject a perfectly good VPA because the regex predates the
-PSP, PAN fields that check length and nothing else.
+Agent apps are not chat apps. Chat is a solved problem — there are good libraries
+for message bubbles and markdown streaming, and you should use them.
 
-These are those fields, done properly, with the reasoning written down.
+What nobody ships is everything *around* the loop:
+
+- The agent wants to delete twelve files. **How does the user approve that?**
+- A tool has been running for nine seconds. **What is on screen right now?**
+- The model rewrote a file mid-stream. **How do you show a diff that is still arriving?**
+- A screen reader user is on this page. **Does any of the above reach them?**
+
+Every team building an agent product rebuilds these from scratch, and almost
+always without accessibility. Handoff UI is that missing layer.
+
+## Design principles
+
+**Accessible or it does not ship.** Keyboard navigable, correct ARIA roles,
+managed focus, and live regions that announce streaming content without flooding
+the user. This is the main reason the library exists, not a checkbox at the end.
+
+**Headless first.** `handoff-ui` renders zero styles — only behaviour,
+state, and ARIA wiring. Every part accepts `asChild`, so you can render into your
+own components without losing any of it.
+
+**Streaming aware.** Agent UIs render partial state constantly. Components handle
+incomplete arguments, missing output, and mid-flight status changes without
+throwing or shifting layout.
+
+**No SDK lock-in.** Core types depend on no AI SDK. Thin adapters translate from
+the Vercel AI SDK, LangGraph, Mastra, or your own protocol into one normalized
+model. Swap your backend without touching your UI.
 
 ## Install
 
-Copy the source into your project (recommended — you own it, you can edit it):
+Headless primitives:
 
 ```bash
-npx shadcn@latest add https://bharat-ui.vercel.app/r/upi-input.json
+pnpm add handoff-ui
 ```
 
-Or install as a package:
+Or copy the styled components into your project, shadcn-style:
 
 ```bash
-pnpm add bharat-ui
+npx shadcn@latest add https://handoff-ui.dev/r/tool-call.json
 ```
 
 ## Usage
 
 ```tsx
-import { UPIInput } from "bharat-ui";
+import {
+  ToolCall,
+  ToolCallTrigger,
+  ToolCallPanel,
+  ToolCallName,
+  ToolCallStatusText,
+  ToolCallDuration,
+  ToolCallInput,
+  ToolCallOutput,
+} from "handoff-ui";
 
-export function PayoutForm() {
-  return (
-    <UPIInput
-      label="UPI ID"
-      description="Where should we send your payout?"
-      onValidationChange={(result) => {
-        if (result.valid) console.log(result.normalized, result.provider);
-      }}
-    />
-  );
+<ToolCall
+  name="read_file"
+  status="running"
+  input={{ path: "src/index.ts" }}
+  startedAt={startedAt}
+>
+  <ToolCallTrigger>
+    <ToolCallName />
+    <ToolCallStatusText />
+    <ToolCallDuration />
+  </ToolCallTrigger>
+  <ToolCallPanel>
+    <ToolCallInput />
+    <ToolCallOutput />
+  </ToolCallPanel>
+</ToolCall>;
+```
+
+The root supplies state and ARIA; every visible piece is a part you compose, so
+styling never fights the primitive. Style with the `data-status` and `data-state`
+attributes each part exposes:
+
+```css
+[data-handoff-part="tool-call"][data-status="error"] {
+  border-color: var(--color-danger);
 }
 ```
 
-The validation logic has no React dependency and can be used on its own:
+### With the Vercel AI SDK
 
-```ts
-import { validateVpa, isPhoneVpa } from "bharat-ui";
+```tsx
+import { fromAISDK } from "handoff-ui/adapters/ai-sdk";
 
-validateVpa("9876543210@ybl");
-// {
-//   valid: true,
-//   normalized: "9876543210@ybl",
-//   local: "9876543210",
-//   handle: "ybl",
-//   provider: { provider: "PhonePe", bank: "Yes Bank", kind: "psp" },
-//   unrecognisedHandle: false,
-// }
-
-validateVpa("raiyyan.paytm");
-// { valid: false, error: { code: "missing_at", message: "A UPI ID needs an @ — like name@bank." } }
-
-isPhoneVpa("9876543210@ybl"); // true — show a numeric keypad
+const parts = fromAISDK(message.parts);
 ```
 
-## What it does
-
-| | |
-|---|---|
-| **Structural validation** | Length and character rules per segment, with a specific error code and message for each failure mode. |
-| **Handle autocomplete** | Type `@` and get ranked suggestions from a registry of 50+ handles, as an accessible combobox. |
-| **Provider detection** | Resolves `@ybl` → PhonePe, settling through Yes Bank. |
-| **Accessible by default** | APG combobox pattern — `aria-expanded`, `aria-activedescendant`, `role="alert"` on errors, full keyboard support. |
-
-## What it deliberately does not do
-
-**It cannot tell you whether a UPI ID exists.** That requires NPCI, reached through your
-PSP's ValidateVPA endpoint. Everything here is structural — it catches typos, not
-fictional accounts. Always verify server-side before you move money.
-
-**It will not reject an unfamiliar handle.** New PSPs launch constantly and the registry
-is maintained by hand, so an unknown handle is surfaced as a hint, not an error. Your
-users should never be blocked because this dataset went stale.
+The adapter is pure functions with no React, so it runs in Server Components.
 
 ## Components
 
-**Identity & KYC** — `UPIInput` `PANInput` `AadhaarInput` `DOBInput` `VoterIdInput`
-`DrivingLicenceInput` `PassportInput` `VehicleNumberInput`
+| Component     | What it does                                                            |
+| ------------- | ----------------------------------------------------------------------- |
+| `Approval`    | Human-in-the-loop gate: risk levels, two-press confirm, expiry auto-deny |
+| `ToolCall`    | Tool invocation as an accessible disclosure, with live duration          |
+| `Reasoning`   | Collapsible thinking that folds away once the model settles              |
+| `Diff`        | Streaming line diff, with its own LCS and optional context collapsing    |
+| `RunTimeline` | Ordered trace of agent steps                                            |
+| `TaskList`    | The agent's plan, with aggregate progress                               |
+| `AgentStatus` | idle / thinking / running / waiting indicator                           |
+| `UsageMeter`  | Tokens, cost, and context window fill                                   |
 
-**Banking & money** — `AmountInput` `AmountInWords` `IFSCInput` `BankAccountInput`
-`CardNumberInput` `CardExpiryInput` `CVVInput`
+Planned next: `ArtifactPanel`, `LogStream`, `Citation`, `PromptComposer`.
 
-**Business & tax** — `GSTINInput` `TANInput` `CINInput` `UdyamInput` `HSNInput`
-`FSSAIInput`
+## Repository layout
 
-**Contact & address** — `MobileInput` `OTPInput` `PincodeInput` `StateSelect`
-`AddressForm`
+| Path                                         | What lives there                                       |
+| -------------------------------------------- | ------------------------------------------------------ |
+| [`packages/core`](./packages/core)            | The `handoff-ui` package. Headless primitives, on npm.  |
+| [`apps/docs/registry`](./apps/docs/registry)  | Styled components, served to the `shadcn` CLI.          |
+| [`apps/docs`](./apps/docs)                    | Documentation site and live playground.                 |
 
-**Health & welfare** — `ABHAInput` `UANInput` `ESICInput` `PRANInput`
-`RationCardInput`
+The styled layer lives inside the docs app on purpose: `scripts/build-registry.mjs`
+generates `public/r/*.json` from the exact files the site renders, so what
+`shadcn add` installs can never drift from the demos you clicked.
 
-**Markets & banking** — `LEIInput` `ISINInput` `MICRInput` `DematInput`
-`SWIFTInput` `CKYCInput`
+## Development
 
-**Corporate & compliance** — `DINInput` `LLPINInput` `FCRAInput` `IECInput`
-`RERAInput` `TINInput`
+Requires Node 20+ and pnpm 9+.
 
-**Payment & document references** — `UTRInput` `UMRNInput` `ChequeNumberInput`
-`EWayBillInput` `ARNInput` `RRNInput` `IRNInput` `LPGConsumerInput`
+```bash
+pnpm install
+pnpm dev
+```
 
-**Display & utilities** — `MaskedValue` `CopyableId` `ConsentCheckbox`
-`ValidationSummary`
+`pnpm build` runs the whole pipeline, `pnpm test` runs the suite.
 
-### Which checksums actually run
+## Deploying the docs
 
-| Identifier | Algorithm | Verified offline |
-|---|---|---|
-| Aadhaar | Verhoeff (dihedral group D5) | yes |
-| LEI | ISO 7064 MOD 97-10 | yes |
-| ISIN | ISO 6166 check digit | yes |
-| GSTIN | Weighted mod-36 | yes |
-| Card number | Luhn (mod 10), plus RuPay BIN detection | yes |
-| PAN | 10th-character check digit | **no — the algorithm isn't public** |
-| ABHA, e-way bill | claimed but never published | structural only |
-| IFSC, account no., Voter ID, passport, MICR | none exist | structural only |
+A standard Next.js app. On Vercel, set **Root Directory** to `apps/docs`; the
+rest is detected automatically.
 
 ## Contributing
 
-The handle registry is only as good as its contributors — **corrections and additions
-are the single most useful PR you can send.** See [CONTRIBUTING.md](CONTRIBUTING.md).
+Issues and pull requests are welcome — see [CONTRIBUTING.md](./CONTRIBUTING.md)
+for setup and the bar every component has to clear. Issues tagged
+[`good first issue`](https://github.com/handoff-ui/handoff-ui/labels/good%20first%20issue)
+are scoped to land without deep context.
+
+Participation is governed by our [Code of Conduct](./CODE_OF_CONDUCT.md).
 
 ## License
 
-MIT
+[MIT](./LICENSE)

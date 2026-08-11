@@ -1,81 +1,77 @@
-# Contributing
+# Contributing to Handoff UI
 
-Thanks for helping out. The bar for a useful contribution here is low — the handle
-registry alone will never be complete without people who spot gaps.
+Thanks for taking the time to contribute. This guide covers how to get the
+project running and what we look for in a pull request.
 
-## The most useful contribution
+## Getting started
 
-**Adding or correcting a UPI handle.** NPCI doesn't publish a machine-readable list of
-handles, so [`packages/ui/src/lib/upi-handles.ts`](packages/ui/src/lib/upi-handles.ts)
-is compiled by hand. If you know a handle we're missing, or one that's wrong:
-
-1. Add or fix the entry in `UPI_HANDLES`.
-2. In the PR description, link a public source — the PSP's own docs, an app screenshot,
-   a bank's UPI page. "I have this VPA" is a fine source too.
-3. One handle per PR keeps review fast.
-
-## Development
+Requires Node 20+ and pnpm 9+.
 
 ```bash
+git clone https://github.com/<your-username>/handoff-ui.git
+cd handoff-ui
 pnpm install
-pnpm dev              # docs site
-pnpm build            # registry + package + docs
-pnpm lint
-pnpm typecheck
+pnpm dev
 ```
 
-Layout:
+`pnpm dev` starts the docs site at `http://localhost:3000` and rebuilds
+`handoff-ui` on change.
 
+## Repository layout
+
+| Path                 | What lives there                                              |
+| -------------------- | ------------------------------------------------------------- |
+| `packages/core`      | Headless, unstyled primitives. Published to npm.               |
+| `packages/registry`  | Styled components distributed via the `shadcn` CLI.            |
+| `apps/docs`          | Next.js documentation site and live playground.                |
+
+## Before you open a pull request
+
+Run the full check locally:
+
+```bash
+pnpm typecheck && pnpm lint && pnpm test && pnpm build
 ```
-packages/ui/src/lib/            validation logic  → ships to consumers as lib/*
-packages/ui/src/components/ui/  components        → ships as components/ui/*
-apps/docs/                      the docs site, not shipped
-registry.json                   registry manifest → built into apps/docs/public/r
-```
 
-Run `pnpm registry:build` after touching anything under `packages/ui/src`, and commit
-the regenerated `apps/docs/public/r/*.json`. CI fails if they've drifted.
+## What we look for
 
-## Two rules that are easy to break
+Handoff UI has a narrow, deliberate scope: **UI for agent applications**. We are
+unlikely to merge general-purpose components (buttons, dropdowns, modals) — use
+shadcn/ui or Radix for those.
 
-**1. Components must use relative imports, not `@/` aliases.**
+Every component must meet these bars before it ships:
 
-The shadcn CLI does *not* rewrite import paths on install, and a `@/` alias would also
-collide with the docs app's own `@/`. The directory structure under `packages/ui/src`
-mirrors what a consumer ends up with, so `components/ui/x.tsx` importing `../../lib/y`
-resolves correctly in all three places: this repo, the docs app, and the consumer.
-
-**2. Don't import `cn` from a shared `lib/utils`.**
-
-Shipping our own `lib/utils.ts` through the registry would overwrite the consumer's.
-Define `cn` locally in the component file instead and declare `clsx` / `tailwind-merge`
-in the registry item's `dependencies`.
+- **Accessible.** Keyboard navigable, correct ARIA roles, managed focus.
+  Streaming content announces through a live region. This is not optional; it is
+  the main reason the library exists.
+- **Headless first.** The primitive goes in `packages/core` with no styling and
+  `asChild` support. The styled version in `packages/registry` composes it.
+- **Streaming aware.** Agent UIs render partial state. Components must handle
+  incomplete input, missing output, and mid-flight status changes without
+  layout thrash.
+- **Server-component safe.** Mark `"use client"` only where genuinely needed,
+  and keep the module graph tree-shakeable.
+- **Adapter agnostic.** Core types must not depend on any specific AI SDK.
+  Framework bindings belong in adapters.
 
 ## Adding a component
 
-1. Create it under `packages/ui/src/components/ui/`.
-2. Export it from `packages/ui/src/index.ts`.
-3. Add an entry to `registry.json` with every file it needs, including libs, each with
-   an explicit `target`.
-4. Add a section to the docs site with a live playground — an example nobody can
-   interact with isn't documentation.
-5. `pnpm registry:build`, then verify a *real* install into a scratch project:
-   `npx shadcn@latest add http://localhost:3000/r/your-component.json`. This step
-   catches path bugs that never show up in the docs app.
+1. Open an issue describing the agent-app problem it solves before writing code.
+2. Add the headless primitive under `packages/core/src/<component>/`.
+3. Add the styled version under `packages/registry/`.
+4. Add a docs page with a live example and a props table.
+5. Add tests, including keyboard interaction and ARIA assertions.
 
-## Principles
+## Commit messages
 
-- **Structural validation only.** Nothing here should imply an identifier is real.
-  Verification is a server-side, API-backed concern, and the docs must keep saying so.
-- **Unknown is not invalid.** Never block a submission because our dataset is stale.
-  Warn, don't reject.
-- **Errors should teach.** Every failure returns a specific message. "Invalid input" is
-  not acceptable.
-- **Accessible by default.** Correct roles, labels, keyboard paths. If you add a listbox
-  or dialog, follow the WAI-ARIA APG pattern for it. Where a lint rule conflicts with the
-  APG pattern, suppress it *with a comment explaining why* rather than "fixing" it — the
-  combobox options in `upi-input.tsx` are a worked example.
+We follow [Conventional Commits](https://www.conventionalcommits.org):
+`feat:`, `fix:`, `docs:`, `refactor:`, `test:`, `chore:`.
+
+## Good first issues
+
+Issues tagged [`good first issue`](https://github.com/handoff-ui/handoff-ui/labels/good%20first%20issue)
+are scoped so you can land them without deep context. Comment on one to claim it.
 
 ## Code of Conduct
 
-By participating you agree to the [Code of Conduct](CODE_OF_CONDUCT.md).
+Participation is governed by the [Code of Conduct](./CODE_OF_CONDUCT.md).
