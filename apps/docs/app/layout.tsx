@@ -32,20 +32,16 @@ export const metadata: Metadata = {
 };
 
 /**
- * Runs before paint so a dark mode visitor never sees a white flash. It has to
- * be an inline script rather than an effect, which fires after hydration.
+ * Dark ships in the server rendered class list, so the script only ever has to
+ * remove it. Adding it here instead would be undone the moment React hydrates
+ * and reconciles className back to what the server sent.
  */
 const themeScript = `
 try {
-  var stored = localStorage.getItem("handoff-theme");
-  if (stored === "light") {
+  if (localStorage.getItem("handoff-theme") === "light") {
     document.documentElement.classList.remove("dark");
-  } else {
-    document.documentElement.classList.add("dark");
   }
-} catch (e) {
-  document.documentElement.classList.add("dark");
-}
+} catch (e) {}
 `;
 
 const NAV = [
@@ -59,7 +55,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${inter.variable} ${mono.variable}`} suppressHydrationWarning>
+    <html
+      lang="en"
+      className={`dark ${inter.variable} ${mono.variable}`}
+      suppressHydrationWarning
+    >
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
