@@ -36,6 +36,9 @@ const COMPONENTS = [
   { name: "task-list", title: "Task List" },
   { name: "agent-status", title: "Agent Status" },
   { name: "usage-meter", title: "Usage Meter" },
+  { name: "run-error", title: "Run Error" },
+  { name: "streaming-text", title: "Streaming Text" },
+  { name: "suggestions", title: "Suggestions" },
 ];
 
 const DESCRIPTIONS = {
@@ -53,6 +56,9 @@ const DESCRIPTIONS = {
   "task-list": "The agent's plan, with aggregate progress.",
   "agent-status": "Indicator for what the agent is doing right now.",
   "usage-meter": "Token, cost, and context-window readout.",
+  "run-error": "A failed run, with the trace collapsed and a retry beside it.",
+  "streaming-text": "Model output that announces one sentence at a time.",
+  suggestions: "Prompt chips that cost one tab stop, not one per chip.",
 };
 
 async function readSource(relativePath) {

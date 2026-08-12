@@ -25,6 +25,9 @@ export * from "./citation";
 export * from "./artifact";
 export * from "./composer";
 export * from "./code-block";
+export * from "./run-error";
+export * from "./streaming-text";
+export * from "./suggestions";
 
 // Escape hatches for building your own primitives on the same foundation.
 export { Slot, resolveElement } from "./utils/slot";

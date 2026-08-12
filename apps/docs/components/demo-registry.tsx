@@ -18,6 +18,11 @@ import {
   ComposerExample,
   LogStreamExample,
 } from "./gallery-agentic";
+import {
+  RunErrorExample,
+  StreamingTextExample,
+  SuggestionsExample,
+} from "./gallery-signals";
 
 /**
  * Slug to demo. Kept apart from the catalog so the metadata stays importable
@@ -37,6 +42,9 @@ const DEMOS: Record<string, React.ComponentType> = {
   "task-list": TaskListExample,
   "agent-status": AgentStatusExample,
   "usage-meter": UsageMeterExample,
+  "run-error": RunErrorExample,
+  "streaming-text": StreamingTextExample,
+  suggestions: SuggestionsExample,
 };
 
 export function Demo({ slug }: { slug: string }) {

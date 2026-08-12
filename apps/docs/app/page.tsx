@@ -7,9 +7,9 @@ import { CATALOG, CATEGORIES } from "@/lib/catalog";
 
 const STATS = [
   { value: String(CATALOG.length), label: "Components" },
-  { value: "16.3 kB", label: "Core, gzipped" },
+  { value: "18.2 kB", label: "Core, gzipped" },
   { value: "0", label: "Runtime deps" },
-  { value: "125", label: "Tests" },
+  { value: "140", label: "Tests" },
 ];
 
 const PRINCIPLES = [
@@ -144,7 +144,7 @@ export default function Home() {
           <SectionHeading
             id="catalog-heading"
             eyebrow="Catalog"
-            title="Thirteen pieces, one job each"
+            title={`${CATALOG.length} pieces, one job each`}
             lede="Every component has a live demo, its props, and notes on the details it gets right."
             action={
               <Link

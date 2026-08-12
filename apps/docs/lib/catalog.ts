@@ -280,6 +280,79 @@ export const CATALOG: CatalogEntry[] = [
 />`,
   },
   {
+    slug: "streaming-text",
+    name: "StreamingText",
+    category: "output",
+    tagline: "Model output that reads aloud like a person would.",
+    why: "Putting aria-live on a growing paragraph is the obvious move and it is close to unusable: a screen reader restarts the whole answer on every token. This splits the two jobs apart.",
+    details: [
+      "The visible text is hidden from assistive tech while streaming, and a separate region is fed one completed sentence at a time.",
+      "Sentence boundaries allow trailing quotes and brackets, so a quoted line is not cut in the wrong place.",
+      "Whatever never ends in punctuation gets flushed once the stream stops, so the last fragment is never lost.",
+      "The visible copy becomes readable again the moment streaming ends, so it can be navigated normally afterwards.",
+      "The caret is decorative and hidden.",
+    ],
+    props: [
+      { name: "text", type: "string", description: "The output, growing as tokens arrive." },
+      { name: "streaming", type: "boolean", default: "false", description: "True while tokens are still coming." },
+      { name: "announce", type: "boolean", default: "true", description: "Read completed sentences aloud." },
+    ],
+    example: `<StreamingText text={part.text} streaming={part.streaming}>
+  <StreamingTextBody />
+  <StreamingTextCaret />
+</StreamingText>`,
+  },
+  {
+    slug: "suggestions",
+    name: "Suggestions",
+    category: "input",
+    tagline: "Follow up prompts that cost one tab stop, not six.",
+    why: "A row of suggestion chips is usually a row of tab stops, so a keyboard user has to press Tab six times to get past something they did not want. A toolbar with roving tabindex is the fix, and it is the pattern almost nobody implements.",
+    details: [
+      "One tab stop for the whole group. Arrow keys move between chips, Home and End jump to the ends, and the selection wraps.",
+      "Clicking straight into a later chip moves the roving index with it, so the next arrow press goes where you expect.",
+      "A shrinking list cannot orphan the active index on an item that no longer exists.",
+      "Each chip can carry a value distinct from its label, for when the visible text is shorter than the prompt you want to send.",
+    ],
+    props: [
+      { name: "items", type: "Suggestion[]", description: "Chips, each with an id and label." },
+      { name: "onSelect", type: "(value, item) => void", description: "Fires with the value or the label." },
+      { name: "label", type: "string", default: '"Suggestions"', description: "Accessible name for the toolbar." },
+      { name: "orientation", type: '"horizontal" | "vertical"', default: '"horizontal"', description: "Which arrow keys move between chips." },
+    ],
+    example: `<Suggestions items={prompts} onSelect={send} label="Follow up prompts">
+  {prompts.map((item, i) => (
+    <SuggestionItem key={item.id} item={item} index={i} />
+  ))}
+</Suggestions>`,
+  },
+  {
+    slug: "run-error",
+    name: "RunError",
+    category: "signal",
+    tagline: "The run broke, and here is what you can do about it.",
+    why: "Agent runs fail constantly, for reasons from a timeout to a malformed tool argument. The usual treatment is a red toast that disappears before anyone finishes reading it, which throws away the only information the user had.",
+    details: [
+      "An alert, so it is announced the moment it appears rather than scrolling past in silence.",
+      "The stack trace stays collapsed. Otherwise a screen reader reads the entire trace before the sentence explaining what actually broke.",
+      "Retry disables itself while a retry is in flight, so an impatient double click does not fire two runs.",
+      "No retry handler means no retry button, instead of a dead control.",
+    ],
+    props: [
+      { name: "title", type: "string", default: '"Something went wrong"', description: "Short summary." },
+      { name: "message", type: "string", description: "What happened, in words the user can act on." },
+      { name: "details", type: "string", description: "Stack trace, kept behind a disclosure." },
+      { name: "onRetry", type: "() => void", description: "Omit to hide the retry button." },
+      { name: "retrying", type: "boolean", default: "false", description: "Locks the button while a retry runs." },
+    ],
+    example: `<RunError
+  title="The run stopped"
+  message="The model timed out after 60 seconds."
+  details={stack}
+  onRetry={rerun}
+/>`,
+  },
+  {
     slug: "run-timeline",
     name: "RunTimeline",
     category: "execute",
