@@ -280,6 +280,59 @@ export const CATALOG: CatalogEntry[] = [
 />`,
   },
   {
+    slug: "checkpoint",
+    name: "Checkpoint",
+    category: "decide",
+    tagline: "Rewind the run, once you know what that costs.",
+    why: "Long agent runs go wrong somewhere in the middle, and the fix is usually to go back rather than push on. The catch is that rewinding silently deletes every step after the point you picked, which is very easy to miss.",
+    details: [
+      "Restoring takes two presses by default, for the same reason Approval does. This one throws work away.",
+      "The count of steps about to be discarded is stated in words, not left as a bare number next to a button.",
+      "Each restore button is named against its checkpoint, so a list of them does not read as Restore, Restore, Restore.",
+      "The checkpoint you are already at is disabled and says so, rather than looking identical to the rest.",
+      "Escape backs out of an armed restore.",
+    ],
+    props: [
+      { name: "checkpoint", type: "CheckpointRef", description: "Id, label, and how many steps it discards." },
+      { name: "current", type: "boolean", default: "false", description: "True when the run is already here." },
+      { name: "onRestore", type: "(c: CheckpointRef) => void", description: "Fires once confirmed." },
+      { name: "requireConfirm", type: "boolean", default: "true", description: "Set false to restore in one press." },
+    ],
+    example: `<Checkpoint checkpoint={point} onRestore={rewind}>
+  <CheckpointLabel />
+  <CheckpointDiscardCount />
+  <CheckpointRestore />
+</Checkpoint>`,
+  },
+  {
+    slug: "attachment",
+    name: "Attachment",
+    category: "input",
+    tagline: "Files on a prompt, with their upload state legible.",
+    why: "Attachments are a list of near identical chips, which is exactly the shape that produces a screen reader reading Remove three times with no way to tell which is which.",
+    details: [
+      "Every remove button is named against its file, so it reads Remove trace.json.",
+      "Upload state is spoken as well as shown. A spinner and a tick look different and announce identically when they are only an icon.",
+      "A failed upload reads out its reason instead of just turning the chip red.",
+      "Progress is a real progressbar and only exists while an upload is actually running.",
+      "The fill is published as a CSS variable, so you draw the bar however you like.",
+    ],
+    props: [
+      { name: "file", type: "AttachmentFile", description: "Name, size, status, and optional progress." },
+      { name: "onRemove", type: "(f: AttachmentFile) => void", description: "Omit to hide the remove button." },
+      { name: "label", type: "string", default: '"Attachments"', description: "On AttachmentList, names the list." },
+    ],
+    example: `<AttachmentList>
+  {files.map((file) => (
+    <Attachment key={file.id} file={file} onRemove={remove}>
+      <AttachmentName />
+      <AttachmentMeta />
+      <AttachmentRemove />
+    </Attachment>
+  ))}
+</AttachmentList>`,
+  },
+  {
     slug: "streaming-text",
     name: "StreamingText",
     category: "output",

@@ -22,6 +22,8 @@ import {
   RunErrorExample,
   StreamingTextExample,
   SuggestionsExample,
+  CheckpointExample,
+  AttachmentExample,
 } from "./gallery-signals";
 
 /**
@@ -45,6 +47,8 @@ const DEMOS: Record<string, React.ComponentType> = {
   "run-error": RunErrorExample,
   "streaming-text": StreamingTextExample,
   suggestions: SuggestionsExample,
+  checkpoint: CheckpointExample,
+  attachment: AttachmentExample,
 };
 
 export function Demo({ slug }: { slug: string }) {

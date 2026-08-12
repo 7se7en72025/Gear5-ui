@@ -1,7 +1,9 @@
 "use client";
 
 import * as React from "react";
-import type { Suggestion } from "handoff-ui";
+import type { AttachmentFile, CheckpointRef, Suggestion } from "handoff-ui";
+import { AttachmentList } from "@/registry/attachment";
+import { Checkpoint } from "@/registry/checkpoint";
 import { RunError } from "@/registry/run-error";
 import { StreamingText } from "@/registry/streaming-text";
 import { Suggestions } from "@/registry/suggestions";
@@ -96,6 +98,105 @@ export function SuggestionsExample() {
           ? `Picked: "${picked}"`
           : "Tab once to enter, then arrow between them. Four chips, one tab stop."}
       </p>
+    </div>
+  );
+}
+
+/* -------------------------------------------------------------------------
+ * Checkpoint
+ * ---------------------------------------------------------------------- */
+
+const POINTS: CheckpointRef[] = [
+  { id: "c1", label: "Before the migration", discards: 6 },
+  { id: "c2", label: "After reading the schema", discards: 3 },
+  { id: "c3", label: "Latest", discards: 0 },
+];
+
+export function CheckpointExample() {
+  const [currentId, setCurrentId] = React.useState("c3");
+
+  return (
+    <div className="space-y-2">
+      {POINTS.map((point) => (
+        <Checkpoint
+          key={point.id}
+          checkpoint={point}
+          current={point.id === currentId}
+          onRestore={(p) => setCurrentId(p.id)}
+        />
+      ))}
+      <p className="pt-1 text-xs text-fg-muted">
+        Restoring discards the steps after it, so it takes two presses. Escape
+        backs out.
+      </p>
+    </div>
+  );
+}
+
+/* -------------------------------------------------------------------------
+ * Attachment
+ * ---------------------------------------------------------------------- */
+
+const INITIAL_FILES: AttachmentFile[] = [
+  { id: "a1", name: "trace.json", size: 48_200, status: "ready" },
+  {
+    id: "a2",
+    name: "screenshot.png",
+    size: 1_240_000,
+    status: "uploading",
+    progress: 0.4,
+  },
+  {
+    id: "a3",
+    name: "core-dump.zip",
+    size: 90_000_000,
+    status: "error",
+    error: "Too large",
+  },
+];
+
+export function AttachmentExample() {
+  const [files, setFiles] = React.useState(INITIAL_FILES);
+
+  // Nudge the uploading chip along so the progress bar is not frozen.
+  React.useEffect(() => {
+    const id = setInterval(() => {
+      setFiles((current) =>
+        current.map((file) =>
+          file.status === "uploading"
+            ? {
+                ...file,
+                progress: ((file.progress ?? 0) + 0.08) % 1,
+              }
+            : file,
+        ),
+      );
+    }, 400);
+    return () => clearInterval(id);
+  }, []);
+
+  return (
+    <div className="space-y-3">
+      <AttachmentList
+        files={files}
+        onRemove={(file) =>
+          setFiles((current) => current.filter((f) => f.id !== file.id))
+        }
+      />
+      {files.length === 0 ? (
+        <button
+          type="button"
+          onClick={() => setFiles(INITIAL_FILES)}
+          className="text-xs text-fg-muted underline underline-offset-4 hover:text-fg"
+        >
+          Add them back
+        </button>
+      ) : (
+        <p className="text-xs text-fg-muted">
+          Each remove button is named against its file, so a screen reader hears
+          &ldquo;Remove trace.json&rdquo; instead of three identical buttons.
+        </p>
+      )}
     </div>
   );
 }

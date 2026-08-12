@@ -39,6 +39,8 @@ const COMPONENTS = [
   { name: "run-error", title: "Run Error" },
   { name: "streaming-text", title: "Streaming Text" },
   { name: "suggestions", title: "Suggestions" },
+  { name: "checkpoint", title: "Checkpoint" },
+  { name: "attachment", title: "Attachment" },
 ];
 
 const DESCRIPTIONS = {
@@ -59,6 +61,8 @@ const DESCRIPTIONS = {
   "run-error": "A failed run, with the trace collapsed and a retry beside it.",
   "streaming-text": "Model output that announces one sentence at a time.",
   suggestions: "Prompt chips that cost one tab stop, not one per chip.",
+  checkpoint: "A point in the run you can rewind to, with a confirm because it discards work.",
+  attachment: "File chips with upload state and per file remove buttons.",
 };
 
 async function readSource(relativePath) {
