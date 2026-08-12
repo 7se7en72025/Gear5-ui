@@ -333,6 +333,137 @@ export const CATALOG: CatalogEntry[] = [
 </AttachmentList>`,
   },
   {
+    slug: "tool-permission",
+    name: "ToolPermission",
+    category: "decide",
+    tagline: "The answer to stop asking me, somewhere you can find it again.",
+    why: "Approval covers one moment. This covers the standing grant people hand out in a hurry to get unblocked, and then cannot locate when they want it back. Every grant listed, adjustable, revocable, in one place.",
+    details: [
+      "Scope is a real select, so it works on touch and by keyboard without a popup layer.",
+      "Each select is labelled against its tool, so a column of them does not read as identical unlabelled dropdowns.",
+      "Same for revoke. A page of Revoke buttons with no context is unusable with a screen reader.",
+      "A grant can carry a constraint, like a path prefix, so allowing a write tool does not have to mean allowing it everywhere.",
+    ],
+    props: [
+      { name: "grant", type: "ToolGrant", description: "Tool name, scope, and optional constraint." },
+      { name: "onScopeChange", type: "(scope, grant) => void", description: "Fires when the scope select changes." },
+      { name: "onRevoke", type: "(grant) => void", description: "Omit to hide the revoke button." },
+      { name: "label", type: "string", default: '"Tool permissions"', description: "On the list, names it." },
+    ],
+    example: `<ToolPermissionList>
+  {grants.map((grant) => (
+    <ToolPermission key={grant.toolName} grant={grant} onRevoke={revoke}>
+      <ToolPermissionName />
+      <ToolPermissionScope />
+      <ToolPermissionRevoke />
+    </ToolPermission>
+  ))}
+</ToolPermissionList>`,
+  },
+  {
+    slug: "run-controls",
+    name: "RunControls",
+    category: "execute",
+    tagline: "A brake for a run that is going the wrong way.",
+    why: "Long runs need pause, resume, step, and stop. The awkward part is that most of those are illegal most of the time, and a row of buttons that look clickable but do nothing is worse than having no buttons.",
+    details: [
+      "Which actions are legal in which state lives in one table, so a new state cannot quietly enable the wrong control.",
+      "Illegal actions are unmounted by default rather than disabled, so you never tab onto something that cannot do anything. Pass keepMounted when a stable layout matters more.",
+      "A control with no handler never appears, so there is no dead button to click.",
+      "Pausing changes nothing on screen except a label, so the state change is announced outright.",
+    ],
+    props: [
+      { name: "state", type: "RunControlState", description: "idle, running, paused, or stopped." },
+      { name: "onPause", type: "() => void", description: "Legal only while running." },
+      { name: "onResume", type: "() => void", description: "Legal only while paused." },
+      { name: "onStep", type: "() => void", description: "Advance one step. Legal only while paused." },
+      { name: "onStop", type: "() => void", description: "Legal while running or paused." },
+      { name: "keyboardShortcuts", type: "boolean", default: "false", description: "Bind Space on the group to pause and resume." },
+    ],
+    example: `<RunControls state={state} onPause={pause} onResume={resume} onStop={stop}>
+  <RunControlButton action="pause" />
+  <RunControlButton action="resume" />
+  <RunControlButton action="stop" />
+</RunControls>`,
+  },
+  {
+    slug: "context-list",
+    name: "ContextList",
+    category: "input",
+    tagline: "What the agent can actually see right now.",
+    why: "Why did it not know about that file is one of the most common questions people have about an agent, and the answer is nearly always that the file was never in context. This makes that visible, and shows what each item costs.",
+    details: [
+      "Per item token cost, so it is obvious which attachment is eating the window.",
+      "The total is a progressbar against your budget, with the value spoken exactly rather than left as a bar.",
+      "Going over budget says what happens next, that the oldest items get dropped, instead of just turning a colour.",
+      "The bar clamps at full, because a progressbar cannot be more than complete.",
+      "Pinned items are marked for screen readers, not only with an icon.",
+    ],
+    props: [
+      { name: "items", type: "ContextItem[]", description: "What is in context, each with an id and name." },
+      { name: "budget", type: "number", description: "Token budget. Drives the bar and the warning." },
+      { name: "onRemove", type: "(item) => void", description: "Omit to hide the remove buttons." },
+      { name: "label", type: "string", default: '"Context"', description: "Accessible name for the list." },
+    ],
+    example: `<ContextList items={items} budget={200_000} onRemove={drop}>
+  <ContextSummary />
+  <ContextEntries>
+    {items.map((item) => (
+      <ContextEntry key={item.id} item={item}>
+        <ContextEntryName />
+        <ContextEntryTokens />
+        <ContextEntryRemove />
+      </ContextEntry>
+    ))}
+  </ContextEntries>
+</ContextList>`,
+  },
+  {
+    slug: "agent-handoff",
+    name: "AgentHandoff",
+    category: "execute",
+    tagline: "Which agent just took over, and why.",
+    why: "Multi agent runs fail in a specific way. The wrong agent picks up the work and nobody notices until the output is wrong. Showing each transfer with its reason catches that at the moment it happens.",
+    details: [
+      "The three visible fragments are hidden from assistive tech and the whole thing is rendered once as a readable sentence, instead of making a screen reader user assemble it from a name, an arrow, and another name.",
+      "The transfer is announced politely as it happens, and that can be turned off for a static history where every row would otherwise fire.",
+      "The reason element disappears entirely when there is no reason, rather than leaving empty brackets.",
+    ],
+    props: [
+      { name: "from", type: "string", description: "The agent giving up control." },
+      { name: "to", type: "string", description: "The agent taking over." },
+      { name: "reason", type: "string", description: "Why control moved." },
+      { name: "announce", type: "boolean", default: "true", description: "Announce the transfer as it happens." },
+    ],
+    example: `<AgentHandoff from="researcher" to="writer" reason="Research complete">
+  <AgentHandoffFrom />
+  <AgentHandoffArrow />
+  <AgentHandoffTo />
+  <AgentHandoffReason />
+</AgentHandoff>`,
+  },
+  {
+    slug: "retry-after",
+    name: "RetryAfter",
+    category: "signal",
+    tagline: "Rate limited, with the retry gated until it will work.",
+    why: "Providers hand back a retry-after and most apps turn it into a toast saying try again later, which leaves people poking a button that keeps failing. Here the button simply is not available until it will succeed.",
+    details: [
+      "The countdown is not announced tick by tick. Only the moment it clears is, which is the part anyone cares about.",
+      "onReady fires exactly once, and re-arms if you hand it a new deadline.",
+      "The remaining time is null until mount, so a live countdown cannot cause a hydration mismatch.",
+    ],
+    props: [
+      { name: "until", type: "number", description: "Epoch ms when retrying becomes allowed." },
+      { name: "onRetry", type: "() => void", description: "Fires only once the wait has cleared." },
+      { name: "onReady", type: "() => void", description: "Fires once when the countdown reaches zero." },
+    ],
+    example: `<RetryAfter until={resetAt} onRetry={rerun}>
+  <RetryAfterMessage />
+  <RetryAfterButton />
+</RetryAfter>`,
+  },
+  {
     slug: "streaming-text",
     name: "StreamingText",
     category: "output",

@@ -25,6 +25,13 @@ import {
   CheckpointExample,
   AttachmentExample,
 } from "./gallery-signals";
+import {
+  AgentHandoffExample,
+  ContextListExample,
+  RetryAfterExample,
+  RunControlsExample,
+  ToolPermissionExample,
+} from "./gallery-control";
 
 /**
  * Slug to demo. Kept apart from the catalog so the metadata stays importable
@@ -49,6 +56,11 @@ const DEMOS: Record<string, React.ComponentType> = {
   suggestions: SuggestionsExample,
   checkpoint: CheckpointExample,
   attachment: AttachmentExample,
+  "run-controls": RunControlsExample,
+  "tool-permission": ToolPermissionExample,
+  "context-list": ContextListExample,
+  "agent-handoff": AgentHandoffExample,
+  "retry-after": RetryAfterExample,
 };
 
 export function Demo({ slug }: { slug: string }) {

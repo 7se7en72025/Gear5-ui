@@ -170,6 +170,33 @@ export interface AttachmentFile {
   error?: string;
 }
 
+/** How long a tool permission lasts. */
+export type GrantScope = "once" | "session" | "always";
+
+/** A standing permission for one tool. */
+export interface ToolGrant {
+  toolName: string;
+  scope: GrantScope;
+  grantedAt?: number;
+  /** Narrows the grant, e.g. a path prefix a file tool is limited to. */
+  constraint?: string;
+}
+
+/** One thing the agent can currently see. */
+export interface ContextItem {
+  id: string;
+  name: string;
+  /** file, url, selection, and so on. Free form, shown as a tag. */
+  kind?: string;
+  /** Roughly what this costs in the context window. */
+  tokens?: number;
+  /** Pinned items survive context trimming. */
+  pinned?: boolean;
+}
+
+/** Control state for a run in progress. */
+export type RunControlState = "idle" | "running" | "paused" | "stopped";
+
 /** A point in the run the user can rewind to. */
 export interface CheckpointRef {
   id: string;

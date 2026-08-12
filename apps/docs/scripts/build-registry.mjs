@@ -41,6 +41,11 @@ const COMPONENTS = [
   { name: "suggestions", title: "Suggestions" },
   { name: "checkpoint", title: "Checkpoint" },
   { name: "attachment", title: "Attachment" },
+  { name: "run-controls", title: "Run Controls" },
+  { name: "tool-permission", title: "Tool Permission" },
+  { name: "context-list", title: "Context List" },
+  { name: "agent-handoff", title: "Agent Handoff" },
+  { name: "retry-after", title: "Retry After" },
 ];
 
 const DESCRIPTIONS = {
@@ -63,6 +68,11 @@ const DESCRIPTIONS = {
   suggestions: "Prompt chips that cost one tab stop, not one per chip.",
   checkpoint: "A point in the run you can rewind to, with a confirm because it discards work.",
   attachment: "File chips with upload state and per file remove buttons.",
+  "run-controls": "Pause, resume, step, and stop, with only the legal actions shown.",
+  "tool-permission": "Standing per tool grants with scope and revoke.",
+  "context-list": "What the agent can see, with per item cost and a budget warning.",
+  "agent-handoff": "Control passing from one agent to another, with the reason.",
+  "retry-after": "A rate limit countdown that gates retry until it clears.",
 };
 
 async function readSource(relativePath) {

@@ -7,9 +7,9 @@ import { CATALOG, CATEGORIES } from "@/lib/catalog";
 
 const STATS = [
   { value: String(CATALOG.length), label: "Components" },
-  { value: "19.6 kB", label: "Core, gzipped" },
+  { value: "23 kB", label: "Core, gzipped" },
   { value: "0", label: "Runtime deps" },
-  { value: "152", label: "Tests" },
+  { value: "181", label: "Tests" },
 ];
 
 const PRINCIPLES = [

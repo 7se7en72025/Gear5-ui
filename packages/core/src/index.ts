@@ -30,6 +30,11 @@ export * from "./streaming-text";
 export * from "./suggestions";
 export * from "./checkpoint";
 export * from "./attachment";
+export * from "./run-controls";
+export * from "./tool-permission";
+export * from "./context-list";
+export * from "./agent-handoff";
+export * from "./retry-after";
 
 // Escape hatches for building your own primitives on the same foundation.
 export { Slot, resolveElement } from "./utils/slot";
