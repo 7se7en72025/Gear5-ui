@@ -1,178 +1,156 @@
+import Link from "next/link";
 import { AgentRunDemo } from "@/components/agent-run-demo";
-import {
-  AgentStatusExample,
-  ApprovalExample,
-  DiffExample,
-  ReasoningExample,
-  RunTimelineExample,
-  TaskListExample,
-  ToolCallExample,
-  UsageMeterExample,
-} from "@/components/component-gallery";
+import { CodeBlock } from "@/registry/code-block";
+import { CATALOG } from "@/lib/catalog";
 
-const COMPONENTS = [
+const PRINCIPLES = [
   {
-    id: "approval",
-    name: "Approval",
-    blurb:
-      "The human-in-the-loop gate. Risk levels, a two-press confirm on destructive actions, an expiry countdown, and an assertive announcement because the run is blocked on you.",
-    demo: <ApprovalExample />,
+    title: "Accessible, or it does not ship",
+    body: "Keyboard paths, correct ARIA, managed focus, and live regions tuned so streaming output does not talk over the person watching it. This is the reason the library exists, not a pass someone did at the end.",
   },
   {
-    id: "tool-call",
-    name: "ToolCall",
-    blurb:
-      "A tool invocation as a real disclosure: a button with aria-expanded, a labelled region, live duration, and partial arguments rendered safely while they stream.",
-    demo: <ToolCallExample />,
+    title: "Headless underneath",
+    body: "The core package renders no styles at all. It handles behaviour, state, and semantics. Every part takes asChild, so you can render into your own components and keep all of that.",
   },
   {
-    id: "reasoning",
-    name: "Reasoning",
-    blurb:
-      "Collapsible thinking. Expands while streaming and folds away once settled — unless you clicked it, in which case your choice wins.",
-    demo: <ReasoningExample />,
+    title: "Built for partial state",
+    body: "Agent interfaces spend most of their time half finished. Arguments arrive as broken JSON, output is missing, status flips mid render. Nothing here throws or jumps when that happens.",
   },
   {
-    id: "diff",
-    name: "Diff",
-    blurb:
-      "A line diff with its own LCS, prefix and suffix trimming, and a table-size guard so a streamed rewrite of a large file cannot lock the main thread.",
-    demo: <DiffExample />,
-  },
-  {
-    id: "run-timeline",
-    name: "RunTimeline",
-    blurb:
-      "The trace, as a real ordered list. Markers are decorative; their status is exposed as text.",
-    demo: <RunTimelineExample />,
-  },
-  {
-    id: "task-list",
-    name: "TaskList",
-    blurb:
-      "The agent's plan. Progress is aggregated into one progressbar rather than announcing every item as it flips.",
-    demo: <TaskListExample />,
-  },
-  {
-    id: "agent-status",
-    name: "AgentStatus",
-    blurb:
-      "What the agent is doing. Only waiting and error interrupt; everything else stays polite.",
-    demo: <AgentStatusExample />,
-  },
-  {
-    id: "usage-meter",
-    name: "UsageMeter",
-    blurb:
-      "Tokens, cost, and how close the run is to filling its context window.",
-    demo: <UsageMeterExample />,
+    title: "No SDK to marry",
+    body: "The types depend on no AI SDK. Small adapters translate from the Vercel AI SDK, LangGraph, Mastra, or whatever you built yourself. Change your backend without touching your interface.",
   },
 ];
 
 export default function Home() {
   return (
-    <div className="mx-auto max-w-5xl px-6">
-      <section className="py-16 sm:py-24">
-        <p className="mb-4 font-mono text-xs uppercase tracking-widest text-brand">
-          Headless · Accessible · MIT
-        </p>
-        <h1 className="max-w-3xl text-4xl font-semibold tracking-tight sm:text-5xl">
-          The UI layer for agent apps.
-        </h1>
-        <p className="mt-5 max-w-2xl text-lg text-muted-foreground">
-          Agent apps are not chat apps. Chat is solved. What nobody ships is
-          everything around the loop — approvals, tool calls, traces, and diffs.
-          Handoff UI is that missing layer.
-        </p>
+    <>
+      <section className="relative overflow-hidden border-b border-line">
+        <div aria-hidden="true" className="bg-grid absolute inset-0 opacity-50" />
 
-        <div className="mt-8 flex flex-wrap items-center gap-3">
-          <a
-            href="#components"
-            className="rounded-md bg-brand px-4 py-2 text-sm font-medium text-brand-foreground transition-opacity hover:opacity-90"
-          >
-            Browse components
-          </a>
-          <code className="rounded-md border border-border bg-surface px-3 py-2 font-mono text-sm">
-            pnpm add handoff-ui
-          </code>
+        <div className="relative mx-auto max-w-6xl px-5 pb-20 pt-20 sm:pt-28">
+          <p className="mb-6 inline-flex items-center gap-2 rounded-full border border-line bg-panel px-3 py-1 font-mono text-[11px] text-fg-muted">
+            <span
+              aria-hidden="true"
+              className="inline-block size-1.5 rounded-full bg-accent animate-pulse-soft"
+            />
+            {CATALOG.length} components, MIT licensed
+          </p>
+
+          <h1 className="max-w-3xl text-balance text-4xl leading-[1.08] sm:text-5xl">
+            Agent apps are not chat apps.
+          </h1>
+
+          <p className="mt-5 max-w-2xl text-lg leading-relaxed text-fg-muted">
+            Chat is a solved problem. What nobody ships is the rest of the
+            interface: the approval that stops a destructive write, the tool
+            call you need to inspect, the diff still streaming in, the log you
+            are trying to read while it scrolls. Handoff UI is that layer.
+          </p>
+
+          <div className="mt-9 flex flex-wrap items-center gap-3">
+            <Link
+              href="/components"
+              className="rounded-chip bg-fg px-4 py-2.5 text-sm font-medium text-bg transition-opacity hover:opacity-90"
+            >
+              Browse components
+            </Link>
+            <Link
+              href="/docs"
+              className="rounded-chip border border-line px-4 py-2.5 text-sm text-fg-muted transition-colors hover:border-line-strong hover:text-fg"
+            >
+              Read the docs
+            </Link>
+          </div>
+
+          <div className="mt-8 max-w-md">
+            <CodeBlock code="pnpm add handoff-ui" language="bash" bare />
+          </div>
         </div>
-      </section>
-
-      <section aria-labelledby="demo-heading" className="pb-20">
-        <h2 id="demo-heading" className="mb-1 text-xl font-semibold tracking-tight">
-          A run, end to end
-        </h2>
-        <p className="mb-6 text-sm text-muted-foreground">
-          Every component below is live. The run genuinely stops at the approval
-          until you decide — that pause is the point.
-        </p>
-        <AgentRunDemo />
-      </section>
-
-      <section aria-labelledby="why-heading" className="border-t border-border py-16">
-        <h2 id="why-heading" className="text-xl font-semibold tracking-tight">
-          Four decisions
-        </h2>
-        <dl className="mt-8 grid gap-8 sm:grid-cols-2">
-          <div>
-            <dt className="font-medium">Accessible or it does not ship</dt>
-            <dd className="mt-1.5 text-sm text-muted-foreground">
-              Keyboard navigable, correct ARIA, managed focus, and live regions
-              that announce streaming content without flooding you. This is the
-              reason the library exists, not a checkbox at the end.
-            </dd>
-          </div>
-          <div>
-            <dt className="font-medium">Headless first</dt>
-            <dd className="mt-1.5 text-sm text-muted-foreground">
-              The core package renders zero styles — only behaviour, state, and
-              ARIA. Every part takes <code className="font-mono">asChild</code>,
-              so you can render into your own components and keep all of it.
-            </dd>
-          </div>
-          <div>
-            <dt className="font-medium">Streaming aware</dt>
-            <dd className="mt-1.5 text-sm text-muted-foreground">
-              Agent UIs render partial state constantly. Components handle
-              incomplete arguments, missing output, and mid-flight status changes
-              without throwing or shifting layout.
-            </dd>
-          </div>
-          <div>
-            <dt className="font-medium">No SDK lock-in</dt>
-            <dd className="mt-1.5 text-sm text-muted-foreground">
-              Core types depend on no AI SDK. Thin adapters translate from the
-              Vercel AI SDK, LangGraph, Mastra, or your own protocol. Swap your
-              backend without touching your UI.
-            </dd>
-          </div>
-        </dl>
       </section>
 
       <section
-        id="components"
-        aria-labelledby="components-heading"
-        className="border-t border-border py-16"
+        aria-labelledby="run-heading"
+        className="mx-auto max-w-6xl px-5 py-20"
       >
-        <h2 id="components-heading" className="text-xl font-semibold tracking-tight">
-          Components
-        </h2>
+        <div className="mb-8 max-w-2xl">
+          <h2 id="run-heading" className="text-2xl">
+            A run, start to finish
+          </h2>
+          <p className="mt-2.5 text-fg-muted">
+            Every component below is the real thing, not a screenshot. It stops
+            at the approval and waits for you, because that pause is the whole
+            argument.
+          </p>
+        </div>
 
-        <div className="mt-10 space-y-14">
-          {COMPONENTS.map((component) => (
-            <article key={component.id} id={component.id} className="scroll-mt-20">
-              <h3 className="font-mono text-base font-semibold">{component.name}</h3>
-              <p className="mt-1.5 max-w-2xl text-sm text-muted-foreground">
-                {component.blurb}
-              </p>
-              <div className="mt-5">{component.demo}</div>
-              <p className="mt-4 font-mono text-xs text-muted-foreground">
-                npx shadcn@latest add https://handoff-ui.dev/r/{component.id}.json
-              </p>
-            </article>
-          ))}
+        <AgentRunDemo />
+      </section>
+
+      <section
+        aria-labelledby="principles-heading"
+        className="border-t border-line"
+      >
+        <div className="mx-auto max-w-6xl px-5 py-20">
+          <h2 id="principles-heading" className="text-2xl">
+            Four decisions worth knowing about
+          </h2>
+
+          <dl className="mt-10 grid gap-x-12 gap-y-10 sm:grid-cols-2">
+            {PRINCIPLES.map((item) => (
+              <div key={item.title}>
+                <dt className="text-[15px] font-medium">{item.title}</dt>
+                <dd className="mt-2 text-[15px] leading-relaxed text-fg-muted">
+                  {item.body}
+                </dd>
+              </div>
+            ))}
+          </dl>
         </div>
       </section>
-    </div>
+
+      <section
+        aria-labelledby="catalog-heading"
+        className="border-t border-line"
+      >
+        <div className="mx-auto max-w-6xl px-5 py-20">
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <h2 id="catalog-heading" className="text-2xl">
+                The catalog
+              </h2>
+              <p className="mt-2.5 text-fg-muted">
+                Each one has a live demo, the props, and notes on what it gets
+                right.
+              </p>
+            </div>
+            <Link
+              href="/components"
+              className="text-sm text-accent transition-opacity hover:opacity-80"
+            >
+              See all {CATALOG.length}
+            </Link>
+          </div>
+
+          <ul className="mt-8 grid gap-px overflow-hidden rounded-panel border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
+            {CATALOG.map((entry) => (
+              <li key={entry.slug} className="bg-bg">
+                <Link
+                  href={`/components/${entry.slug}`}
+                  className="group flex h-full flex-col gap-1.5 p-5 transition-colors hover:bg-panel"
+                >
+                  <span className="font-mono text-[13px] font-medium">
+                    {entry.name}
+                  </span>
+                  <span className="text-[13px] leading-relaxed text-fg-muted">
+                    {entry.tagline}
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    </>
   );
 }

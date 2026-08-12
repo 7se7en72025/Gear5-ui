@@ -28,14 +28,14 @@ export function Diff({
   return (
     <DiffPrimitive
       className={cn(
-        "overflow-hidden rounded-base border border-border bg-surface",
+        "overflow-hidden rounded-panel border border-line bg-panel",
         className,
       )}
       {...props}
     >
-      <DiffHeader className="flex items-center justify-between gap-3 border-b border-border px-3 py-2">
-        <DiffPath className="font-mono text-[13px] text-foreground" />
-        <DiffStat className="font-mono text-xs tabular-nums text-muted-foreground" />
+      <DiffHeader className="flex items-center justify-between gap-3 border-b border-line px-3 py-2">
+        <DiffPath className="font-mono text-[13px] text-fg" />
+        <DiffStat className="font-mono text-xs tabular-nums text-fg-muted" />
       </DiffHeader>
 
       <DiffBody
@@ -47,9 +47,9 @@ export function Diff({
             data-type={line.type}
             className={cn(
               "flex gap-3 px-3",
-              line.type === "add" && "bg-diff-add-bg text-diff-add",
-              line.type === "remove" && "bg-diff-remove-bg text-diff-remove",
-              line.type === "context" && "text-muted-foreground",
+              line.type === "add" && "bg-add-bg text-add",
+              line.type === "remove" && "bg-del-bg text-del",
+              line.type === "context" && "text-fg-muted",
             )}
           >
             {showLineNumbers ? (

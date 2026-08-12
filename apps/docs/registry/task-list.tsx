@@ -21,11 +21,11 @@ const glyph = {
 } as const;
 
 const itemStyles = {
-  pending: "text-muted-foreground",
-  active: "text-foreground font-medium",
-  done: "text-muted-foreground line-through decoration-border",
+  pending: "text-fg-muted",
+  active: "text-fg font-medium",
+  done: "text-fg-muted line-through decoration-line",
   failed: "text-danger",
-  skipped: "text-muted-foreground opacity-60",
+  skipped: "text-fg-muted opacity-60",
 } as const;
 
 /** Styled agent plan. */
@@ -33,7 +33,7 @@ export function TaskList({ className, items, ...props }: TaskListPrimitiveProps)
   return (
     <TaskListPrimitive
       items={items}
-      className={cn("rounded-base border border-border bg-surface p-3", className)}
+      className={cn("rounded-panel border border-line bg-panel p-3", className)}
       {...props}
     >
       <div className="mb-2 flex items-center justify-between">
@@ -41,11 +41,11 @@ export function TaskList({ className, items, ...props }: TaskListPrimitiveProps)
             heading is decoration and must not be announced a second time. */}
         <span
           aria-hidden="true"
-          className="text-xs font-medium uppercase tracking-wide text-muted-foreground"
+          className="text-xs font-medium uppercase tracking-wide text-fg-muted"
         >
           {props.label ?? "Plan"}
         </span>
-        <TaskListProgress className="font-mono text-xs tabular-nums text-muted-foreground" />
+        <TaskListProgress className="font-mono text-xs tabular-nums text-fg-muted" />
       </div>
 
       <TaskListItems className="flex flex-col gap-1">
@@ -58,7 +58,7 @@ export function TaskList({ className, items, ...props }: TaskListPrimitiveProps)
             <TaskListItemStatus
               className={cn(
                 "shrink-0 text-xs",
-                item.status === "active" && "animate-handoff-pulse text-brand",
+                item.status === "active" && "animate-pulse-soft text-accent",
                 item.status === "done" && "text-success",
                 item.status === "failed" && "text-danger",
               )}

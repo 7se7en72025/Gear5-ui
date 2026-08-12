@@ -175,7 +175,7 @@ export function AgentRunDemo() {
               : phase === "writing"
                 ? "Writing the patch"
                 : phase === "denied"
-                  ? "Stopped — you denied the change"
+                  ? "Stopped, you denied the change"
                   : undefined
           }
         />

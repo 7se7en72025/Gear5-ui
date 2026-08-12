@@ -17,17 +17,17 @@ export function Reasoning({ className, ...props }: ReasoningPrimitiveProps) {
     <ReasoningPrimitive className={cn("text-sm", className)} {...props}>
       <ReasoningTrigger
         className={cn(
-          "flex items-center gap-1.5 rounded-md px-1.5 py-1 text-xs text-muted-foreground transition-colors",
-          "hover:text-foreground",
-          "data-[streaming]:animate-handoff-pulse",
+          "flex items-center gap-1.5 rounded-md px-1.5 py-1 text-xs text-fg-muted transition-colors",
+          "hover:text-fg",
+          "data-[streaming]:animate-pulse-soft",
         )}
       >
         <span aria-hidden="true">✳</span>
         <ReasoningLabel />
       </ReasoningTrigger>
 
-      <ReasoningPanel className="mt-1 border-l-2 border-border pl-3">
-        <ReasoningText className="whitespace-pre-wrap text-[13px] leading-relaxed text-muted-foreground" />
+      <ReasoningPanel className="mt-1 border-l-2 border-line pl-3">
+        <ReasoningText className="whitespace-pre-wrap text-[13px] leading-relaxed text-fg-muted" />
       </ReasoningPanel>
     </ReasoningPrimitive>
   );

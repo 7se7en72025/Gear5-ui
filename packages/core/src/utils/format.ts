@@ -47,6 +47,21 @@ export function formatCost(micros: number, currency = "USD"): string {
   }
 }
 
+/** File sizes for attachment chips: `4.2 MB`, `812 kB`. */
+export function formatBytes(bytes: number): string {
+  if (!Number.isFinite(bytes) || bytes < 0) return "—";
+  if (bytes < 1000) return `${Math.round(bytes)} B`;
+
+  const units = ["kB", "MB", "GB", "TB"];
+  let value = bytes / 1000;
+  let unit = 0;
+  while (value >= 1000 && unit < units.length - 1) {
+    value /= 1000;
+    unit++;
+  }
+  return `${value < 10 ? value.toFixed(1) : Math.round(value)} ${units[unit]}`;
+}
+
 /**
  * Render tool arguments that may still be streaming.
  *

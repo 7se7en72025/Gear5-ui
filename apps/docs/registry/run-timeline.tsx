@@ -24,11 +24,11 @@ export function RunTimeline({ className, ...props }: RunTimelinePrimitiveProps) 
 }
 
 const markerStyles = {
-  pending: "border-border bg-surface",
-  active: "border-brand bg-brand animate-handoff-pulse",
+  pending: "border-line bg-panel",
+  active: "border-accent bg-accent animate-pulse-soft",
   done: "border-success bg-success",
   failed: "border-danger bg-danger",
-  skipped: "border-border bg-surface opacity-50",
+  skipped: "border-line bg-panel opacity-50",
 } as const;
 
 /** One step, with a connecting rail drawn between markers. */
@@ -43,7 +43,7 @@ export function RunStep({ className, children, ...props }: RunStepPrimitiveProps
       {/* The rail is decorative and must not reach past the final marker. */}
       <span
         aria-hidden="true"
-        className="absolute left-[5px] top-4 h-[calc(100%-1rem)] w-px bg-border [li:last-child_&]:hidden"
+        className="absolute left-[5px] top-4 h-[calc(100%-1rem)] w-px bg-line [li:last-child_&]:hidden"
       />
       <RunStepMarker
         className={cn(

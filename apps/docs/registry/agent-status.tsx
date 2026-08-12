@@ -10,10 +10,10 @@ import type { AgentStatusProps as AgentStatusPrimitiveProps } from "handoff-ui";
 import { cn } from "./lib/utils";
 
 const indicatorStyles = {
-  idle: "bg-muted-foreground",
-  thinking: "bg-brand animate-handoff-pulse",
-  running: "bg-brand animate-handoff-pulse",
-  waiting: "bg-warning animate-handoff-pulse",
+  idle: "bg-fg-muted",
+  thinking: "bg-accent animate-pulse-soft",
+  running: "bg-accent animate-pulse-soft",
+  waiting: "bg-warning animate-pulse-soft",
   error: "bg-danger",
   done: "bg-success",
 } as const;
@@ -23,7 +23,7 @@ export function AgentStatus({ className, ...props }: AgentStatusPrimitiveProps) 
   return (
     <AgentStatusPrimitive
       className={cn(
-        "inline-flex items-center gap-2 rounded-full border border-border bg-surface px-2.5 py-1",
+        "inline-flex items-center gap-2 rounded-full border border-line bg-panel px-2.5 py-1",
         className,
       )}
       {...props}
@@ -31,7 +31,7 @@ export function AgentStatus({ className, ...props }: AgentStatusPrimitiveProps) 
       <AgentStatusIndicator
         className={cn("size-1.5 rounded-full", indicatorStyles[props.status])}
       />
-      <AgentStatusLabel className="text-xs text-muted-foreground" />
+      <AgentStatusLabel className="text-xs text-fg-muted" />
     </AgentStatusPrimitive>
   );
 }

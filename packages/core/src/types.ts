@@ -124,6 +124,71 @@ export interface TextPart extends HandoffPartBase {
   streaming?: boolean;
 }
 
+/** One line of process output. */
+export interface LogLine {
+  id: string;
+  text: string;
+  /** stderr is usually worth distinguishing visually. */
+  stream?: "stdout" | "stderr";
+  timestamp?: number;
+}
+
+/** Streamed output from a long-running command. */
+export interface LogPart extends HandoffPartBase {
+  type: "log";
+  lines: LogLine[];
+  streaming?: boolean;
+}
+
+/** A document the agent grounded its answer in. */
+export interface SourceRef {
+  id: string;
+  title: string;
+  url?: string;
+  /** Excerpt shown in the citation card. */
+  snippet?: string;
+}
+
+/** One revision of an artifact. Agents rewrite their output repeatedly. */
+export interface ArtifactVersion {
+  id: string;
+  label: string;
+  content: string;
+  createdAt?: number;
+}
+
+/** A file the user attached to a prompt. */
+export interface AttachmentFile {
+  id: string;
+  name: string;
+  /** Size in bytes. */
+  size?: number;
+  mimeType?: string;
+  status?: "pending" | "uploading" | "ready" | "error";
+  /** Upload progress, 0–1. Only meaningful while `uploading`. */
+  progress?: number;
+  error?: string;
+}
+
+/** A point in the run the user can rewind to. */
+export interface CheckpointRef {
+  id: string;
+  label: string;
+  createdAt?: number;
+  /** How many later steps restoring this checkpoint would discard. */
+  discards?: number;
+}
+
+/** A document, file, or canvas the agent produced. */
+export interface ArtifactPart extends HandoffPartBase {
+  type: "artifact";
+  title: string;
+  versions: ArtifactVersion[];
+  /** Id of the version currently shown. Defaults to the last. */
+  activeVersionId?: string;
+  streaming?: boolean;
+}
+
 /** Any renderable unit of a run. */
 export type HandoffPart =
   | TextPart
@@ -131,7 +196,9 @@ export type HandoffPart =
   | ReasoningPart
   | ApprovalPart
   | DiffPart
-  | TaskListPart;
+  | TaskListPart
+  | LogPart
+  | ArtifactPart;
 
 /** Token and cost accounting for a run. */
 export interface UsageStats {
@@ -175,6 +242,8 @@ export function isPartActive(part: HandoffPart): boolean {
     case "reasoning":
     case "text":
     case "diff":
+    case "log":
+    case "artifact":
       return part.streaming === true;
     case "task-list":
       return part.items.some((item) => item.status === "active");
