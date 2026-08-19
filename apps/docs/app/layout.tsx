@@ -55,7 +55,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`dark ${inter.variable}`}>
+    <html
+      lang="en"
+      className={`dark ${inter.variable}`}
+      // The inline theme script below mutates this element's class list
+      // before React hydrates, so client and server markup legitimately
+      // disagree on `dark` — that mismatch is expected, not a bug.
+      suppressHydrationWarning
+    >
       <head>
         <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
       </head>
