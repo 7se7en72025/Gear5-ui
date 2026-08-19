@@ -72,8 +72,35 @@ async function buildItem(entry) {
   };
 }
 
+/**
+ * The manifest drives the registry; lib/catalog.ts drives the site's pages and
+ * routes. A slug in one but not the other means either a component with no
+ * documentation, or a documented page whose route is never generated — both of
+ * which ship as a 404. Cheaper to fail the build than to find it in prod.
+ */
+async function assertCatalogAgrees(components) {
+  const catalog = await readFile(path.join(docsRoot, "lib", "catalog.ts"), "utf8");
+  const documented = new Set(
+    [...catalog.matchAll(/^ {4}slug: "([^"]+)"/gm)].map((m) => m[1]),
+  );
+  const declared = components.map((c) => c.slug);
+
+  const missing = declared.filter((slug) => !documented.has(slug));
+  const orphaned = [...documented].filter((slug) => !declared.includes(slug));
+
+  if (missing.length || orphaned.length) {
+    const lines = [
+      "registry: manifest.json and lib/catalog.ts disagree",
+      ...missing.map((s) => `  in manifest, missing from catalog: ${s}`),
+      ...orphaned.map((s) => `  in catalog, missing from manifest: ${s}`),
+    ];
+    throw new Error(lines.join("\n"));
+  }
+}
+
 async function main() {
   const components = await readManifest();
+  await assertCatalogAgrees(components);
 
   // Rebuild from scratch so a component removed from the manifest does not
   // linger as a stale, still-installable JSON file.

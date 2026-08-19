@@ -23,21 +23,21 @@ export function InstallCommand({ command }: { command: string }) {
   }
 
   return (
-    <div className="flex w-full max-w-[640px] items-center gap-3 rounded-xl border border-white/[0.08] bg-white/[0.03] px-4 py-3 text-left">
-      <span aria-hidden className="select-none font-mono text-sm text-cyan-400">
+    <div className="flex w-full max-w-[640px] items-center gap-3 rounded-panel border border-line bg-panel px-4 py-3 text-left">
+      <span aria-hidden className="select-none font-mono text-sm text-accent">
         $
       </span>
-      <code className="min-w-0 flex-1 overflow-x-auto whitespace-nowrap font-mono text-sm text-neutral-300">
+      <code className="min-w-0 flex-1 overflow-x-auto whitespace-nowrap font-mono text-sm text-fg-muted">
         {command}
       </code>
       <button
         type="button"
         onClick={copy}
         aria-label={copied ? "Copied to clipboard" : "Copy install command"}
-        className="shrink-0 rounded-lg p-2 text-neutral-500 transition-colors hover:bg-white/[0.06] hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-400"
+        className="shrink-0 rounded-lg p-2 text-fg-faint transition-colors hover:bg-panel-raised hover:text-fg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
       >
         {copied ? (
-          <Check className="h-4 w-4 text-cyan-400" />
+          <Check className="h-4 w-4 text-accent" />
         ) : (
           <Copy className="h-4 w-4" />
         )}

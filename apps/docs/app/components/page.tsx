@@ -1,52 +1,86 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
 
-import { components } from "../_components/registry";
+import { byCategory, type Category } from "@/lib/catalog";
+import { Eyebrow } from "@/components/site-ui";
 
 export const metadata: Metadata = {
   title: "Components",
-  description: "Every component in Gear5 UI, installable with the shadcn CLI.",
+  description:
+    "Every component in Gear5 UI, grouped by the part of an agent run it belongs to.",
+};
+
+const CATEGORY_COPY: Record<Category, { title: string; lede: string }> = {
+  decide: {
+    title: "Decide",
+    lede: "Moments where the run stops and waits for a person.",
+  },
+  execute: {
+    title: "Execute",
+    lede: "What the agent is doing, and how far along it is.",
+  },
+  output: {
+    title: "Output",
+    lede: "What came back, and where it came from.",
+  },
+  input: {
+    title: "Input",
+    lede: "How work and context get handed to the agent.",
+  },
+  signal: {
+    title: "Signal",
+    lede: "Cost, failure, and everything that needs noticing.",
+  },
 };
 
 export default function ComponentsIndex() {
+  const groups = byCategory();
+  const total = groups.reduce((sum, group) => sum + group.entries.length, 0);
+
   return (
-    <main className="min-h-screen bg-[#0a0a0a] px-6 py-24">
-      <div className="mx-auto max-w-[900px]">
-        <Link
-          href="/"
-          className="text-sm text-neutral-500 transition-colors hover:text-neutral-300"
-        >
-          ← Back to home
-        </Link>
-
-        <h1 className="mt-6 text-4xl font-bold tracking-[-0.02em] text-white">
-          Components
-        </h1>
-        <p className="mt-3 max-w-[520px] text-neutral-400">
-          Every component is installable with the shadcn CLI and lands in your
-          project as plain source you own.
+    <main className="mx-auto max-w-6xl px-5 py-14">
+      <header className="max-w-2xl">
+        <Eyebrow>{total} components</Eyebrow>
+        <h1 className="text-3xl">Components</h1>
+        <p className="mt-3 text-lg leading-relaxed text-fg-muted">
+          Grouped by the part of an agent run they belong to. Every one installs
+          with the shadcn CLI and lands in your repo as source you own.
         </p>
+      </header>
 
-        <div className="mt-12 grid gap-4 sm:grid-cols-2">
-          {components.map((entry) => (
-            <Link
-              key={entry.slug}
-              href={`/components/${entry.slug}`}
-              className="group rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6 transition-colors hover:border-white/[0.12] hover:bg-white/[0.04]"
-            >
-              <div className="flex items-center justify-between gap-3">
-                <h2 className="text-lg font-semibold text-white">
-                  {entry.title}
-                </h2>
-                <ArrowRight className="h-4 w-4 shrink-0 text-neutral-600 transition-transform group-hover:translate-x-0.5 group-hover:text-white" />
+      <div className="mt-16 space-y-16">
+        {groups.map((group) => (
+          <section key={group.category}>
+            <div className="flex flex-wrap items-end justify-between gap-x-8 gap-y-2">
+              <div>
+                <h2 className="text-xl">{CATEGORY_COPY[group.category].title}</h2>
+                <p className="mt-1 text-[15px] text-fg-muted">
+                  {CATEGORY_COPY[group.category].lede}
+                </p>
               </div>
-              <p className="mt-2 text-sm leading-relaxed text-neutral-400">
-                {entry.description}
-              </p>
-            </Link>
-          ))}
-        </div>
+              <span className="font-mono text-[11px] uppercase tracking-wider text-fg-faint">
+                {group.entries.length}
+              </span>
+            </div>
+
+            <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {group.entries.map((entry) => (
+                <Link
+                  key={entry.slug}
+                  href={`/components/${entry.slug}`}
+                  className="group rounded-panel border border-line bg-panel p-5 transition-colors hover:border-line-strong hover:bg-panel-raised"
+                >
+                  <h3 className="text-[15px] transition-colors group-hover:text-accent">
+                    {entry.name}
+                  </h3>
+                  <p className="mt-2 text-[13px] leading-relaxed text-fg-muted">
+                    {entry.tagline}
+                  </p>
+                </Link>
+              ))}
+            </div>
+          </section>
+        ))}
       </div>
     </main>
   );

@@ -7,7 +7,7 @@ export const SITE_URL =
 export const REGISTRY_BASE =
   "https://raw.githubusercontent.com/7se7en72025/Gear5-ui/main/apps/docs/public/r";
 
-export const INSTALL_COMMAND = `npx shadcn@latest add ${REGISTRY_BASE}/one-piece-background.json`;
+export const INSTALL_COMMAND = `npx shadcn@latest add ${REGISTRY_BASE}/approval.json`;
 
 export function GithubIcon({ className }: { className?: string }) {
   return (

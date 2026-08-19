@@ -1,179 +1,181 @@
-/* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
-import {
-  Palette,
-  Terminal,
-  Sparkles,
-  Shield,
-  ArrowRight,
-  Star,
-} from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
+import { ApprovalExample, ToolCallExample } from "@/components/component-gallery";
+import { Eyebrow } from "@/components/site-ui";
+import { byCategory, CATALOG } from "@/lib/catalog";
 import { GithubIcon, INSTALL_COMMAND, REPO_URL } from "./_components/site";
 import { InstallCommand } from "./_components/install-command";
 import { Reveal, RevealGroup } from "./_components/reveal";
 
-function Navbar() {
-  return (
-    <nav className="fixed top-0 z-50 w-full border-b border-white/[0.06] bg-[#0a0a0a]/80 backdrop-blur-xl">
-      <div className="mx-auto flex h-16 max-w-[1200px] items-center justify-between px-6">
-        <div className="flex items-center gap-2.5">
-          <img src="/favicon.svg" alt="" className="h-7 w-7" />
-          <span className="text-sm font-semibold tracking-tight text-white">
-            Gear5 UI
-          </span>
-        </div>
-        <div className="flex items-center gap-6">
-          <Link
-            href="/docs"
-            className="text-sm text-neutral-400 transition-colors hover:text-white"
-          >
-            Docs
-          </Link>
-          <Link
-            href="/components"
-            className="text-sm text-neutral-400 transition-colors hover:text-white"
-          >
-            Components
-          </Link>
-          <a
-            href={REPO_URL}
-            target="_blank"
-            rel="noreferrer"
-            aria-label="Gear5 UI on GitHub"
-            className="text-neutral-400 transition-colors hover:text-white"
-          >
-            <GithubIcon className="h-5 w-5" />
-          </a>
-        </div>
-      </div>
-    </nav>
-  );
-}
-
 function Hero() {
   return (
-    <section className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6 pt-16">
+    <section className="relative overflow-hidden border-b border-line px-5 py-24 sm:py-32">
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute left-1/2 top-0 h-[600px] w-[900px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-cyan-500/[0.07] blur-[120px]" />
+        <div className="absolute left-1/2 top-0 h-[420px] w-[760px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent/[0.08] blur-[120px]" />
       </div>
 
       <RevealGroup
         animate
-        stagger={0.15}
-        className="relative z-10 mx-auto flex max-w-[800px] flex-col items-center text-center"
+        stagger={0.12}
+        className="relative mx-auto max-w-3xl text-center"
       >
-        <Reveal duration={0.6}>
-          <img src="/favicon.svg" alt="" className="mb-8 h-[72px] w-[72px]" />
+        <Reveal duration={0.5}>
+          <Eyebrow>
+            <span className="mx-auto">{CATALOG.length} components</span>
+          </Eyebrow>
         </Reveal>
 
-        <Reveal duration={0.6}>
-          <h1 className="text-5xl font-bold tracking-[-0.03em] text-white sm:text-7xl">
-            Gear5 UI
+        <Reveal duration={0.5}>
+          <h1 className="text-balance text-4xl leading-[1.08] sm:text-6xl">
+            The interface around your agent loop
           </h1>
         </Reveal>
 
-        <Reveal duration={0.6}>
-          <p className="mt-5 max-w-[520px] text-lg leading-relaxed text-neutral-400">
-            Design-first components for shadcn/ui. Built from real design
-            decisions, not copied defaults.
+        <Reveal duration={0.5}>
+          <p className="mx-auto mt-5 max-w-xl text-balance text-lg leading-relaxed text-fg-muted">
+            Approvals, tool calls, traces, and diffs — headless and accessible
+            underneath, styled source you own on top. It does not talk to a
+            model or hold your state.
           </p>
         </Reveal>
 
-        <Reveal duration={0.6} className="mt-10 w-full">
-          <InstallCommand command={INSTALL_COMMAND} />
+        <Reveal duration={0.5}>
+          <div className="mt-9 flex justify-center">
+            <InstallCommand command={INSTALL_COMMAND} />
+          </div>
         </Reveal>
 
-        <Reveal
-          duration={0.6}
-          className="mt-6 flex flex-col items-center gap-4 sm:flex-row"
-        >
-          <Link
-            href="/components"
-            className="group inline-flex items-center gap-2 rounded-full bg-cyan-500 px-6 py-3 text-sm font-semibold text-black transition-all hover:bg-cyan-400 hover:shadow-[0_0_32px_rgba(6,182,212,0.3)]"
-          >
-            Browse Components
-            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-          </Link>
-          <a
-            href={REPO_URL}
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center gap-2 rounded-full border border-white/10 px-6 py-3 text-sm font-semibold text-neutral-300 transition-all hover:border-white/20 hover:text-white"
-          >
-            <GithubIcon className="h-4 w-4" />
-            View on GitHub
-          </a>
+        <Reveal duration={0.5}>
+          <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <Link
+              href="/components"
+              className="group inline-flex items-center gap-2 rounded-chip bg-accent px-5 py-2.5 text-[14px] font-medium text-accent-fg transition-opacity hover:opacity-90"
+            >
+              Browse components
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+            </Link>
+            <a
+              href={REPO_URL}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 rounded-chip border border-line px-5 py-2.5 text-[14px] font-medium text-fg-muted transition-colors hover:border-line-strong hover:text-fg"
+            >
+              <GithubIcon className="h-4 w-4" />
+              GitHub
+            </a>
+          </div>
         </Reveal>
       </RevealGroup>
-
-      <div className="pointer-events-none absolute bottom-0 h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent" />
     </section>
   );
 }
 
-const features = [
-  {
-    icon: Palette,
-    title: "Design System First",
-    description:
-      "Every component starts as an actual design in Figma. Real spacing, real hierarchy, real motion choices, not guesswork.",
-  },
-  {
-    icon: Terminal,
-    title: "shadcn CLI Compatible",
-    description:
-      "Install components with npx shadcn add. You own the code once it hits your project. No vendor lock-in.",
-  },
-  {
-    icon: Sparkles,
-    title: "Thoughtful Motion",
-    description:
-      "Framer Motion animations that explain state changes and guide attention. Never added just for show.",
-  },
-  {
-    icon: Shield,
-    title: "Accessible by Default",
-    description:
-      "Built on Radix UI primitives with proper focus management, keyboard navigation, and ARIA support throughout.",
-  },
-];
-
-function WhyGear5() {
+/**
+ * Two real components, running. A library that only describes itself is asking
+ * to be taken on faith.
+ */
+function LiveProof() {
   return (
-    <section className="relative px-6 py-32">
-      <div className="mx-auto max-w-[1200px]">
-        <RevealGroup className="flex flex-col items-center text-center">
+    <section className="border-b border-line px-5 py-24">
+      <div className="mx-auto max-w-6xl">
+        <RevealGroup>
           <Reveal>
-            <p className="mb-3 text-sm font-medium uppercase tracking-widest text-cyan-400">
-              Why Gear5
-            </p>
+            <Eyebrow>Not a screenshot</Eyebrow>
           </Reveal>
           <Reveal>
-            <h2 className="text-3xl font-bold tracking-[-0.02em] text-white sm:text-5xl">
-              Built different, on purpose
+            <h2 className="max-w-2xl text-[1.6rem] leading-tight">
+              The components on this page are the components you install
             </h2>
           </Reveal>
           <Reveal>
-            <p className="mt-4 max-w-[480px] text-neutral-400">
-              Most UI kits feel the same. We started from design principles
-              instead of copying the last library.
+            <p className="mt-3 max-w-2xl leading-relaxed text-fg-muted">
+              Both of these are live, rendered from the same source the CLI
+              copies into your repo. Try them.
             </p>
           </Reveal>
         </RevealGroup>
 
-        <RevealGroup stagger={0.08} className="mt-16 grid gap-4 sm:grid-cols-2">
-          {features.map((feature) => (
-            <Reveal key={feature.title}>
-              <div className="h-full rounded-2xl border border-white/[0.06] bg-white/[0.02] p-8 transition-colors hover:border-white/[0.12] hover:bg-white/[0.04]">
-                <div className="mb-5 inline-flex rounded-xl bg-cyan-500/10 p-3">
-                  <feature.icon className="h-6 w-6 text-cyan-400" />
-                </div>
-                <h3 className="mb-2 text-lg font-semibold text-white">
-                  {feature.title}
-                </h3>
-                <p className="text-sm leading-relaxed text-neutral-400">
-                  {feature.description}
+        <RevealGroup stagger={0.1} className="mt-12 grid gap-4 lg:grid-cols-2">
+          <Reveal>
+            <figure className="h-full rounded-panel border border-line bg-panel p-6">
+              <figcaption className="mb-5 flex items-center justify-between">
+                <span className="font-mono text-[11px] uppercase tracking-wider text-fg-faint">
+                  Approval
+                </span>
+                <Link
+                  href="/components/approval"
+                  className="text-[13px] text-fg-faint transition-colors hover:text-accent"
+                >
+                  Docs →
+                </Link>
+              </figcaption>
+              <ApprovalExample />
+            </figure>
+          </Reveal>
+          <Reveal>
+            <figure className="h-full rounded-panel border border-line bg-panel p-6">
+              <figcaption className="mb-5 flex items-center justify-between">
+                <span className="font-mono text-[11px] uppercase tracking-wider text-fg-faint">
+                  Tool Call
+                </span>
+                <Link
+                  href="/components/tool-call"
+                  className="text-[13px] text-fg-faint transition-colors hover:text-accent"
+                >
+                  Docs →
+                </Link>
+              </figcaption>
+              <ToolCallExample />
+            </figure>
+          </Reveal>
+        </RevealGroup>
+      </div>
+    </section>
+  );
+}
+
+const PRINCIPLES = [
+  {
+    title: "Two layers, pick either",
+    body: "The npm package gives you headless primitives with the behaviour and accessibility already solved. The registry copies our styled versions into your repo, where you own the files outright. Mix them freely.",
+  },
+  {
+    title: "Accessibility is the product",
+    body: "Focus management, keyboard paths, and live-region announcements are the hard part of these components, not the styling. 181 tests cover that behaviour, and they run on every commit.",
+  },
+  {
+    title: "Colour reserved for meaning",
+    body: "The base is near monochrome. Colour marks risk, status, and the two sides of a diff. If everything is accented then nothing reads as urgent, and this library is mostly about urgency.",
+  },
+  {
+    title: "No runtime dependencies",
+    body: "The headless package ships nothing but React as a peer. Nothing to keep in step, nothing to audit, no transitive surprises in your lockfile.",
+  },
+];
+
+function Principles() {
+  return (
+    <section className="border-b border-line px-5 py-24">
+      <div className="mx-auto max-w-6xl">
+        <RevealGroup>
+          <Reveal>
+            <Eyebrow>Why it is built this way</Eyebrow>
+          </Reveal>
+          <Reveal>
+            <h2 className="max-w-2xl text-[1.6rem] leading-tight">
+              Opinionated where it counts
+            </h2>
+          </Reveal>
+        </RevealGroup>
+
+        <RevealGroup stagger={0.08} className="mt-12 grid gap-4 sm:grid-cols-2">
+          {PRINCIPLES.map((item) => (
+            <Reveal key={item.title}>
+              <div className="h-full rounded-panel border border-line bg-panel p-6">
+                <h3 className="text-[15px]">{item.title}</h3>
+                <p className="mt-2.5 text-[14px] leading-relaxed text-fg-muted">
+                  {item.body}
                 </p>
               </div>
             </Reveal>
@@ -184,97 +186,70 @@ function WhyGear5() {
   );
 }
 
-function Roadmap() {
+function Catalog() {
+  const groups = byCategory();
+
   return (
-    <section className="relative px-6 py-32">
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute bottom-0 left-1/2 h-[400px] w-[600px] -translate-x-1/2 translate-y-1/2 rounded-full bg-cyan-500/[0.05] blur-[100px]" />
-      </div>
+    <section className="px-5 py-24">
+      <div className="mx-auto max-w-6xl">
+        <RevealGroup>
+          <Reveal>
+            <Eyebrow>The set</Eyebrow>
+          </Reveal>
+          <Reveal>
+            <h2 className="max-w-2xl text-[1.6rem] leading-tight">
+              Everything an agent run needs a surface for
+            </h2>
+          </Reveal>
+        </RevealGroup>
 
-      <RevealGroup className="relative z-10 mx-auto max-w-[600px] text-center">
-        <Reveal>
-          <p className="mb-3 text-sm font-medium uppercase tracking-widest text-cyan-400">
-            Coming Soon
-          </p>
-        </Reveal>
-        <Reveal>
-          <h2 className="text-3xl font-bold tracking-[-0.02em] text-white sm:text-5xl">
-            Components in progress
-          </h2>
-        </Reveal>
-        <Reveal>
-          <p className="mt-4 text-neutral-400">
-            One component is shipping today and the rest of the core set is being
-            designed right now. Star the repo to stay in the loop.
-          </p>
-        </Reveal>
+        <RevealGroup stagger={0.06} className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          {groups.map((group) => (
+            <Reveal key={group.category}>
+              <div>
+                <h3 className="font-mono text-[11px] uppercase tracking-[0.14em] text-fg-faint">
+                  {group.category}
+                </h3>
+                <ul className="mt-3 space-y-1.5">
+                  {group.entries.map((entry) => (
+                    <li key={entry.slug}>
+                      <Link
+                        href={`/components/${entry.slug}`}
+                        className="text-[14px] text-fg-muted transition-colors hover:text-accent"
+                      >
+                        {entry.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </Reveal>
+          ))}
+        </RevealGroup>
 
-        <Reveal className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
-          <a
-            href={REPO_URL}
-            target="_blank"
-            rel="noreferrer"
-            className="group inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-6 py-3 text-sm font-semibold text-neutral-300 transition-all hover:border-white/20 hover:text-white"
-          >
-            <Star className="h-4 w-4" />
-            Star on GitHub
-          </a>
-        </Reveal>
-      </RevealGroup>
-    </section>
-  );
-}
-
-function Footer() {
-  return (
-    <footer className="border-t border-white/[0.06] px-6 py-12">
-      <div className="mx-auto flex max-w-[1200px] flex-col items-center justify-between gap-6 sm:flex-row">
-        <div className="flex items-center gap-2.5">
-          <img src="/favicon.svg" alt="" className="h-5 w-5" />
-          <span className="text-sm text-neutral-500">
-            Gear5 UI &middot; MIT License
-          </span>
-        </div>
-        <div className="flex items-center gap-6">
-          <Link
-            href="/docs"
-            className="text-sm text-neutral-500 transition-colors hover:text-neutral-300"
-          >
-            Docs
-          </Link>
-          <a
-            href={REPO_URL}
-            target="_blank"
-            rel="noreferrer"
-            className="text-sm text-neutral-500 transition-colors hover:text-neutral-300"
-          >
-            GitHub
-          </a>
-          <span className="text-sm text-neutral-600">
-            Built with{" "}
-            <a
-              href="https://ui.shadcn.com"
-              target="_blank"
-              rel="noreferrer"
-              className="underline transition-colors hover:text-neutral-400"
+        <Reveal>
+          <div className="mt-14">
+            <Link
+              href="/docs"
+              className="group inline-flex items-center gap-2 text-[14px] text-fg-muted transition-colors hover:text-fg"
             >
-              shadcn/ui
-            </a>
-          </span>
-        </div>
+              Read the docs
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+            </Link>
+          </div>
+        </Reveal>
       </div>
-    </footer>
+    </section>
   );
 }
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-[#0a0a0a]">
-      <Navbar />
+    <>
       <Hero />
-      <WhyGear5 />
-      <Roadmap />
-      <Footer />
-    </main>
+      <LiveProof />
+      <Principles />
+      <Catalog />
+    </>
   );
 }

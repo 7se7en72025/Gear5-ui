@@ -2,18 +2,19 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
-
+import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { SITE_URL as siteUrl } from "./_components/site";
+
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 const title = "Gear5 UI";
 const description =
-  "A shadcn/ui compatible component library built the design first way";
+  "Headless, accessible React primitives for agent applications — tool calls, approvals, traces, and diffs.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: title,
+    default: `${title} — components for agent interfaces`,
     template: "%s · Gear5 UI",
   },
   description,
@@ -34,14 +35,35 @@ export const metadata: Metadata = {
   },
 };
 
+/**
+ * Applied before first paint so a light-theme reader never sees a dark flash.
+ * Dark is the default because that is where agent tooling lives.
+ */
+const THEME_SCRIPT = `
+try {
+  var stored = localStorage.getItem("gear5-theme");
+  var dark = stored ? stored === "dark" : true;
+  document.documentElement.classList.toggle("dark", dark);
+} catch (e) {
+  document.documentElement.classList.add("dark");
+}
+`;
+
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="dark">
-      <body className={inter.className}>{children}</body>
+    <html lang="en" className={`dark ${inter.variable}`}>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
+      </head>
+      <body className={inter.className}>
+        <SiteHeader />
+        {children}
+        <SiteFooter />
+      </body>
     </html>
   );
 }
