@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { CopyCode } from "@/components/copy-code";
 import { Demo } from "@/components/demo-registry";
 import { CATALOG, getEntry } from "@/lib/catalog";
 import { InstallCommand } from "../../_components/install-command";
@@ -98,11 +99,9 @@ export default function ComponentPage({ params }: Props) {
 
       <section className="mt-14">
         <h2 className="text-xl">Usage</h2>
-        <pre className="mt-4 overflow-x-auto rounded-panel border border-line bg-panel-raised p-5">
-          <code className="font-mono text-[13px] leading-relaxed">
-            {entry.example}
-          </code>
-        </pre>
+        <div className="mt-4">
+          <CopyCode code={entry.example} />
+        </div>
       </section>
 
       {entry.props.length > 0 ? (
