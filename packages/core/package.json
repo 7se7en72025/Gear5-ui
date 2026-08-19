@@ -6,15 +6,12 @@
   "types": "./src/index.ts",
   "scripts": {
     "build": "tsup",
-    "lint": "eslint src --ext .ts,.tsx",
+    "lint": "eslint src --ext .ts,.tsx --max-warnings 0",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
-    "tailwind-merge": "^2.5.0",
-    "framer-motion": "^11.5.0",
-    "@radix-ui/react-slot": "^1.1.0"
+    "tailwind-merge": "^2.5.0"
   },
   "devDependencies": {
     "@types/react": "^18.3.0",
@@ -22,6 +19,10 @@
     "react": "^18.3.0",
     "react-dom": "^18.3.0",
     "tsup": "^8.2.0",
-    "typescript": "^5.5.0"
+    "typescript": "^5.5.0",
+    "eslint": "^8.57.0",
+    "@typescript-eslint/parser": "^7.18.0",
+    "@typescript-eslint/eslint-plugin": "^7.18.0",
+    "eslint-plugin-react-hooks": "^4.6.2"
   }
 }

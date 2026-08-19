@@ -37,7 +37,7 @@ export default function ComponentsIndex() {
             >
               <div className="flex items-center justify-between gap-3">
                 <h2 className="text-lg font-semibold text-white">
-                  {entry.name}
+                  {entry.title}
                 </h2>
                 <ArrowRight className="h-4 w-4 shrink-0 text-neutral-600 transition-transform group-hover:translate-x-0.5 group-hover:text-white" />
               </div>

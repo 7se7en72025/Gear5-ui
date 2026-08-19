@@ -19,7 +19,7 @@ export function generateStaticParams() {
 export function generateMetadata({ params }: Props): Metadata {
   const entry = getComponent(params.slug);
   if (!entry) return { title: "Not found" };
-  return { title: entry.name, description: entry.description };
+  return { title: entry.title, description: entry.description };
 }
 
 export default function ComponentPage({ params }: Props) {
@@ -37,7 +37,7 @@ export default function ComponentPage({ params }: Props) {
         </Link>
 
         <h1 className="mt-6 text-4xl font-bold tracking-[-0.02em] text-white">
-          {entry.name}
+          {entry.title}
         </h1>
         <p className="mt-3 max-w-[560px] text-neutral-400">
           {entry.description}

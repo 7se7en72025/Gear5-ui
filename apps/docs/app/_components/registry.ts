@@ -1,21 +1,27 @@
+import manifest from "@gear5/core/registry.json";
+
 import { REGISTRY_BASE } from "./site";
 
 export type ComponentEntry = {
   slug: string;
-  name: string;
+  title: string;
   description: string;
-  status: "stable" | "planned";
+  status: string;
 };
 
-export const components: ComponentEntry[] = [
-  {
-    slug: "one-piece-background",
-    name: "One Piece Background",
-    description:
-      "Animated ocean sunset background with layered waves and atmospheric effects.",
-    status: "stable",
-  },
-];
+/**
+ * The catalog is owned by packages/core/registry.json — the same file the
+ * registry generator reads — so the site and the installable JSON can never
+ * disagree about what exists.
+ */
+export const components: ComponentEntry[] = manifest.components.map(
+  ({ slug, title, description, status }) => ({
+    slug,
+    title,
+    description,
+    status,
+  }),
+);
 
 export function getComponent(slug: string) {
   return components.find((entry) => entry.slug === slug);
