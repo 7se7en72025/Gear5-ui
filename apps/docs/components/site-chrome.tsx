@@ -1,8 +1,10 @@
 import Link from "next/link";
 
+import { CommandPalette } from "./command-palette";
 import { MobileNav } from "./mobile-nav";
 import { ThemeToggle } from "./theme-toggle";
 import { GithubIcon, REPO_URL } from "@/app/_components/site";
+import { CATALOG } from "@/lib/catalog";
 
 const NAV = [
   { href: "/docs", label: "Docs" },
@@ -31,6 +33,15 @@ export function SiteHeader() {
               </Link>
             ))}
           </nav>
+
+          <CommandPalette
+            items={CATALOG.map((e) => ({
+              slug: e.slug,
+              name: e.name,
+              tagline: e.tagline,
+              category: e.category,
+            }))}
+          />
 
           <ThemeToggle />
 
