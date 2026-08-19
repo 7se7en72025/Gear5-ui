@@ -4,11 +4,32 @@ import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+const title = "Gear5 UI";
+const description =
+  "A shadcn/ui compatible component library built the design first way";
+
 export const metadata: Metadata = {
-  title: "Gear5 UI",
-  description: "A shadcn/ui compatible component library built the design first way",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: title,
+    template: "%s · Gear5 UI",
+  },
+  description,
   icons: {
     icon: "/favicon.svg",
+  },
+  openGraph: {
+    type: "website",
+    url: siteUrl,
+    siteName: title,
+    title,
+    description,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description,
   },
 };
 
