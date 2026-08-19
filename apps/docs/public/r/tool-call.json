@@ -1,0 +1,25 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "tool-call",
+  "type": "registry:ui",
+  "title": "Tool Call",
+  "description": "Tool invocation rendered as an accessible disclosure.",
+  "dependencies": [
+    "@gear5/core"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "components/ui/tool-call.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/tool-call.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport {\n  ToolCall as ToolCallPrimitive,\n  ToolCallDuration,\n  ToolCallInput,\n  ToolCallName,\n  ToolCallOutput,\n  ToolCallPanel,\n  ToolCallStatusText,\n  ToolCallTrigger,\n} from \"@gear5/core\";\nimport type { ToolCallProps as ToolCallPrimitiveProps } from \"@gear5/core\";\nimport { cn } from \"./lib/utils\";\n\nconst statusDot = {\n  pending: \"bg-fg-muted animate-pulse-soft\",\n  running: \"bg-accent animate-pulse-soft\",\n  success: \"bg-success\",\n  error: \"bg-danger\",\n  cancelled: \"bg-fg-muted\",\n} as const;\n\n/** Styled tool call disclosure. */\nexport function ToolCall({ className, ...props }: ToolCallPrimitiveProps) {\n  return (\n    <ToolCallPrimitive\n      className={cn(\n        \"overflow-hidden rounded-panel border border-line bg-panel\",\n        className,\n      )}\n      {...props}\n    >\n      <ToolCallTrigger\n        className={cn(\n          \"group flex w-full items-center gap-2.5 px-3 py-2 text-left transition-colors\",\n          \"hover:bg-panel-raised disabled:pointer-events-none disabled:opacity-60\",\n        )}\n      >\n        <span\n          aria-hidden=\"true\"\n          className={cn(\"size-1.5 shrink-0 rounded-full\", statusDot[props.status])}\n        />\n        <ToolCallName className=\"font-mono text-[13px] font-medium text-fg\" />\n        <ToolCallStatusText\n          className={cn(\n            \"text-xs text-fg-muted\",\n            \"data-[status=error]:text-danger\",\n          )}\n        />\n        <ToolCallDuration className=\"ml-auto font-mono text-xs tabular-nums text-fg-muted\" />\n        <span\n          aria-hidden=\"true\"\n          className=\"text-fg-muted transition-transform group-data-[state=open]:rotate-90\"\n        >\n          ›\n        </span>\n      </ToolCallTrigger>\n\n      <ToolCallPanel className=\"border-t border-line\">\n        <ToolCallInput className=\"max-h-56 overflow-auto bg-panel-raised p-3 font-mono text-xs leading-relaxed\" />\n        <ToolCallOutput\n          className={cn(\n            \"max-h-56 overflow-auto border-t border-line p-3 font-mono text-xs leading-relaxed\",\n            \"data-[status=error]:text-danger\",\n          )}\n        />\n      </ToolCallPanel>\n    </ToolCallPrimitive>\n  );\n}\n"
+    },
+    {
+      "path": "lib/utils.ts",
+      "type": "registry:lib",
+      "target": "lib/utils.ts",
+      "content": "import { clsx } from \"clsx\";\nimport type { ClassValue } from \"clsx\";\nimport { twMerge } from \"tailwind-merge\";\n\n/** Merge class names, letting a caller's utility win over the default. */\nexport function cn(...inputs: ClassValue[]) {\n  return twMerge(clsx(inputs));\n}\n"
+    }
+  ]
+}

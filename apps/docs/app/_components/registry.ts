@@ -1,4 +1,4 @@
-import manifest from "@gear5/core/registry.json";
+import manifest from "@/registry/manifest.json";
 
 import { REGISTRY_BASE } from "./site";
 
@@ -7,6 +7,8 @@ export type ComponentEntry = {
   title: string;
   description: string;
   status: string;
+  /** Whether a @gear5/core primitive backs this component. */
+  headless: boolean;
 };
 
 /**
@@ -15,11 +17,12 @@ export type ComponentEntry = {
  * disagree about what exists.
  */
 export const components: ComponentEntry[] = manifest.components.map(
-  ({ slug, title, description, status }) => ({
+  ({ slug, title, description, status, headless }) => ({
     slug,
     title,
     description,
     status,
+    headless,
   }),
 );
 

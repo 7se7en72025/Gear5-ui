@@ -1,0 +1,25 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "task-list",
+  "type": "registry:ui",
+  "title": "Task List",
+  "description": "The agent's plan, with aggregate progress.",
+  "dependencies": [
+    "@gear5/core"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "components/ui/task-list.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/task-list.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport {\n  TaskList as TaskListPrimitive,\n  TaskListItem,\n  TaskListItemLabel,\n  TaskListItemStatus,\n  TaskListItems,\n  TaskListProgress,\n} from \"@gear5/core\";\nimport type { TaskListProps as TaskListPrimitiveProps } from \"@gear5/core\";\nimport { cn } from \"./lib/utils\";\n\nconst glyph = {\n  pending: \"○\",\n  active: \"◐\",\n  done: \"●\",\n  failed: \"✕\",\n  skipped: \"–\",\n} as const;\n\nconst itemStyles = {\n  pending: \"text-fg-muted\",\n  active: \"text-fg font-medium\",\n  done: \"text-fg-muted line-through decoration-line\",\n  failed: \"text-danger\",\n  skipped: \"text-fg-muted opacity-60\",\n} as const;\n\n/** Styled agent plan. */\nexport function TaskList({ className, items, ...props }: TaskListPrimitiveProps) {\n  return (\n    <TaskListPrimitive\n      items={items}\n      className={cn(\"rounded-panel border border-line bg-panel p-3\", className)}\n      {...props}\n    >\n      <div className=\"mb-2 flex items-center justify-between\">\n        {/* The list already carries this name via aria-label, so the visible\n            heading is decoration and must not be announced a second time. */}\n        <span\n          aria-hidden=\"true\"\n          className=\"text-xs font-medium uppercase tracking-wide text-fg-muted\"\n        >\n          {props.label ?? \"Plan\"}\n        </span>\n        <TaskListProgress className=\"font-mono text-xs tabular-nums text-fg-muted\" />\n      </div>\n\n      <TaskListItems className=\"flex flex-col gap-1\">\n        {items.map((item) => (\n          <TaskListItem\n            key={item.id}\n            item={item}\n            className={cn(\"flex items-center gap-2 text-sm\", itemStyles[item.status])}\n          >\n            <TaskListItemStatus\n              className={cn(\n                \"shrink-0 text-xs\",\n                item.status === \"active\" && \"animate-pulse-soft text-accent\",\n                item.status === \"done\" && \"text-success\",\n                item.status === \"failed\" && \"text-danger\",\n              )}\n            >\n              {glyph[item.status]}\n            </TaskListItemStatus>\n            <TaskListItemLabel />\n          </TaskListItem>\n        ))}\n      </TaskListItems>\n    </TaskListPrimitive>\n  );\n}\n"
+    },
+    {
+      "path": "lib/utils.ts",
+      "type": "registry:lib",
+      "target": "lib/utils.ts",
+      "content": "import { clsx } from \"clsx\";\nimport type { ClassValue } from \"clsx\";\nimport { twMerge } from \"tailwind-merge\";\n\n/** Merge class names, letting a caller's utility win over the default. */\nexport function cn(...inputs: ClassValue[]) {\n  return twMerge(clsx(inputs));\n}\n"
+    }
+  ]
+}

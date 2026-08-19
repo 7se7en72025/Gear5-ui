@@ -13,8 +13,7 @@ import { fileURLToPath } from "node:url";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const docsRoot = path.resolve(here, "..");
-const coreRoot = path.resolve(docsRoot, "..", "..", "packages", "core");
-const srcDir = path.join(coreRoot, "src");
+const srcDir = path.join(docsRoot, "registry");
 const outDir = path.join(docsRoot, "public", "r");
 
 /** Every component pulls in `cn`, so it ships alongside each one. */
@@ -26,10 +25,10 @@ const UTILS = {
 };
 
 async function readManifest() {
-  const raw = await readFile(path.join(coreRoot, "registry.json"), "utf8");
+  const raw = await readFile(path.join(srcDir, "manifest.json"), "utf8");
   const { components } = JSON.parse(raw);
   if (!Array.isArray(components) || components.length === 0) {
-    throw new Error("registry.json declares no components");
+    throw new Error("manifest.json declares no components");
   }
   return components;
 }
@@ -65,7 +64,9 @@ async function buildItem(entry) {
     type: "registry:ui",
     title: entry.title,
     description: entry.description,
-    dependencies: entry.dependencies ?? [],
+    dependencies: entry.headless
+      ? ["@gear5/core", ...(entry.dependencies ?? [])]
+      : (entry.dependencies ?? []),
     registryDependencies: entry.registryDependencies ?? [],
     files,
   };

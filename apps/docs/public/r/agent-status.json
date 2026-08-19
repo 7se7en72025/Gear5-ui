@@ -1,0 +1,25 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "agent-status",
+  "type": "registry:ui",
+  "title": "Agent Status",
+  "description": "Indicator for what the agent is doing right now.",
+  "dependencies": [
+    "@gear5/core"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "components/ui/agent-status.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/agent-status.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport {\n  AgentStatus as AgentStatusPrimitive,\n  AgentStatusIndicator,\n  AgentStatusLabel,\n} from \"@gear5/core\";\nimport type { AgentStatusProps as AgentStatusPrimitiveProps } from \"@gear5/core\";\nimport { cn } from \"./lib/utils\";\n\nconst indicatorStyles = {\n  idle: \"bg-fg-muted\",\n  thinking: \"bg-accent animate-pulse-soft\",\n  running: \"bg-accent animate-pulse-soft\",\n  waiting: \"bg-warning animate-pulse-soft\",\n  error: \"bg-danger\",\n  done: \"bg-success\",\n} as const;\n\n/** Styled agent status pill. */\nexport function AgentStatus({ className, ...props }: AgentStatusPrimitiveProps) {\n  return (\n    <AgentStatusPrimitive\n      className={cn(\n        \"inline-flex items-center gap-2 rounded-full border border-line bg-panel px-2.5 py-1\",\n        className,\n      )}\n      {...props}\n    >\n      <AgentStatusIndicator\n        className={cn(\"size-1.5 rounded-full\", indicatorStyles[props.status])}\n      />\n      <AgentStatusLabel className=\"text-xs text-fg-muted\" />\n    </AgentStatusPrimitive>\n  );\n}\n"
+    },
+    {
+      "path": "lib/utils.ts",
+      "type": "registry:lib",
+      "target": "lib/utils.ts",
+      "content": "import { clsx } from \"clsx\";\nimport type { ClassValue } from \"clsx\";\nimport { twMerge } from \"tailwind-merge\";\n\n/** Merge class names, letting a caller's utility win over the default. */\nexport function cn(...inputs: ClassValue[]) {\n  return twMerge(clsx(inputs));\n}\n"
+    }
+  ]
+}

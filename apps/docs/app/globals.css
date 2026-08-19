@@ -2,30 +2,173 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+ * Gear5 UI design tokens.
+ *
+ * Dark first, because that is where agent tooling actually lives. The base is
+ * near monochrome and colour is reserved for meaning: risk, status, and the
+ * two sides of a diff. If everything is accented then nothing reads as urgent,
+ * and this library is mostly about telling people when something is urgent.
+ *
+ * Values are bare oklch channels rather than complete colours so Tailwind can
+ * splice in an alpha value — `border-danger/50` needs the slot to fill.
+ */
 @layer base {
   :root {
-    --background: 0 0% 3.9%;
-    --foreground: 0 0% 98%;
-    --primary: 198 93% 60%;
-    --primary-foreground: 0 0% 3.9%;
-    --secondary: 0 0% 14.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 14.9%;
-    --muted-foreground: 0 0% 63.9%;
-    --accent: 198 93% 60%;
-    --accent-foreground: 0 0% 3.9%;
-    --border: 0 0% 14.9%;
-    --ring: 198 93% 60%;
-    --radius: 0.625rem;
+    --bg: 0.985 0.002 265;
+    --bg-subtle: 0.965 0.003 265;
+    --fg: 0.17 0.012 265;
+    --fg-muted: 0.5 0.014 265;
+    --fg-faint: 0.64 0.012 265;
+
+    --panel: 1 0 0;
+    --panel-raised: 0.985 0.002 265;
+
+    --line: 0.9 0.005 265;
+    --line-strong: 0.82 0.008 265;
+
+    --accent: 0.55 0.13 232;
+    --accent-fg: 0.99 0.002 265;
+    --accent-soft: 0.95 0.03 232;
+
+    --success: 0.58 0.13 152;
+    --danger: 0.55 0.2 25;
+    --warning: 0.66 0.14 70;
+
+    --risk-low: var(--fg-muted);
+    --risk-medium: var(--warning);
+    --risk-high: var(--danger);
+
+    --add: 0.55 0.13 152;
+    --add-bg: 0.95 0.045 152;
+    --del: 0.55 0.2 25;
+    --del-bg: 0.955 0.04 25;
+
+    --radius: 0.75rem;
+    --radius-sm: 0.5rem;
+  }
+
+  .dark {
+    --bg: 0.145 0.008 265;
+    --bg-subtle: 0.175 0.009 265;
+    --fg: 0.97 0.003 265;
+    --fg-muted: 0.68 0.012 265;
+    --fg-faint: 0.52 0.012 265;
+
+    --panel: 0.185 0.009 265;
+    --panel-raised: 0.215 0.01 265;
+
+    --line: 0.27 0.011 265;
+    --line-strong: 0.36 0.013 265;
+
+    --accent: 0.78 0.13 205;
+    --accent-fg: 0.16 0.01 240;
+    --accent-soft: 0.3 0.06 210;
+
+    --success: 0.75 0.15 155;
+    --danger: 0.68 0.18 22;
+    --warning: 0.8 0.13 75;
+
+    --add: 0.75 0.15 155;
+    --add-bg: 0.26 0.05 155;
+    --del: 0.68 0.18 22;
+    --del-bg: 0.26 0.06 22;
   }
 }
 
 @layer base {
   * {
-    border-color: hsl(var(--border));
+    border-color: oklch(var(--line));
+    min-width: 0;
   }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
-    background-color: hsl(var(--background));
-    color: hsl(var(--foreground));
+    background-color: oklch(var(--bg));
+    color: oklch(var(--fg));
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Headings stay tight and mid weight. Oversized bold type reads like a
+     marketing site, and this is documentation people work from. */
+  h1,
+  h2,
+  h3 {
+    letter-spacing: -0.021em;
+  }
+
+  /* A library that sells itself on accessibility cannot ship a focus ring you
+     have to squint at. */
+  :focus-visible {
+    outline: 2px solid oklch(var(--accent));
+    outline-offset: 2px;
+    border-radius: 3px;
+  }
+
+  ::selection {
+    background: oklch(var(--accent-soft));
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  @keyframes pulse-soft {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.3;
+    }
+  }
+  .animate-pulse-soft {
+    animation: pulse-soft 1.5s ease-in-out infinite;
+  }
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  .animate-rise {
+    animation: rise 0.28s ease-out both;
+  }
+
+  @keyframes caret {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+  }
+  .animate-caret {
+    animation: caret 1.1s steps(2, start) infinite;
   }
 }

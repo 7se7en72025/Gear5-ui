@@ -1,0 +1,25 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "artifact",
+  "type": "registry:ui",
+  "title": "Artifact",
+  "description": "A document the agent produced, with its revision history.",
+  "dependencies": [
+    "@gear5/core"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "components/ui/artifact.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/artifact.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport {\n  Artifact as ArtifactPrimitive,\n  ArtifactContent,\n  ArtifactHeader,\n  ArtifactStaleNotice,\n  ArtifactTitle,\n  ArtifactVersionCount,\n  ArtifactVersionSelect,\n} from \"@gear5/core\";\nimport type { ArtifactProps as ArtifactPrimitiveProps } from \"@gear5/core\";\nimport { cn } from \"./lib/utils\";\n\n/** Styled artifact panel with version history. */\nexport function Artifact({ className, ...props }: ArtifactPrimitiveProps) {\n  return (\n    <ArtifactPrimitive\n      className={cn(\n        \"overflow-hidden rounded-panel border border-line bg-panel\",\n        className,\n      )}\n      {...props}\n    >\n      <ArtifactHeader className=\"flex flex-wrap items-center gap-2 border-b border-line px-3 py-2\">\n        <ArtifactTitle className=\"font-mono text-[13px] font-medium text-fg\" />\n        <ArtifactVersionCount className=\"text-xs text-fg-muted\" />\n        <ArtifactVersionSelect\n          className={cn(\n            \"ml-auto rounded-md border border-line bg-panel px-2 py-1 text-xs\",\n            \"text-fg-muted\",\n          )}\n        />\n      </ArtifactHeader>\n\n      <ArtifactStaleNotice className=\"border-b border-warning/40 bg-warning/10 px-3 py-1.5 text-xs text-warning\" />\n\n      <ArtifactContent className=\"max-h-80 overflow-auto whitespace-pre-wrap p-3 font-mono text-xs leading-relaxed\" />\n    </ArtifactPrimitive>\n  );\n}\n"
+    },
+    {
+      "path": "lib/utils.ts",
+      "type": "registry:lib",
+      "target": "lib/utils.ts",
+      "content": "import { clsx } from \"clsx\";\nimport type { ClassValue } from \"clsx\";\nimport { twMerge } from \"tailwind-merge\";\n\n/** Merge class names, letting a caller's utility win over the default. */\nexport function cn(...inputs: ClassValue[]) {\n  return twMerge(clsx(inputs));\n}\n"
+    }
+  ]
+}

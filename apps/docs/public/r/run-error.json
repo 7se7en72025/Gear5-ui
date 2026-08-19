@@ -1,0 +1,25 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "run-error",
+  "type": "registry:ui",
+  "title": "Run Error",
+  "description": "A failed run, with the trace collapsed and a retry beside it.",
+  "dependencies": [
+    "@gear5/core"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "components/ui/run-error.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/run-error.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport {\n  RunError as RunErrorPrimitive,\n  RunErrorDetails,\n  RunErrorMessage,\n  RunErrorRetry,\n  RunErrorTitle,\n} from \"@gear5/core\";\nimport type { RunErrorProps as RunErrorPrimitiveProps } from \"@gear5/core\";\nimport { cn } from \"./lib/utils\";\n\n/** Styled run failure. */\nexport function RunError({ className, ...props }: RunErrorPrimitiveProps) {\n  return (\n    <RunErrorPrimitive\n      className={cn(\n        \"animate-rise rounded-panel border border-danger/40 bg-danger/[0.06] p-4\",\n        className,\n      )}\n      {...props}\n    >\n      <div className=\"flex items-start gap-3\">\n        <span\n          aria-hidden=\"true\"\n          className=\"mt-1.5 size-1.5 shrink-0 rounded-full bg-danger\"\n        />\n        <div className=\"min-w-0 flex-1\">\n          <RunErrorTitle className=\"text-sm font-medium text-fg\" />\n          <RunErrorMessage className=\"mt-1 text-[13px] leading-relaxed text-fg-muted\" />\n\n          <RunErrorDetails\n            className={cn(\n              \"mt-3\",\n              \"[&_button]:rounded-chip [&_button]:border [&_button]:border-line [&_button]:px-2 [&_button]:py-1\",\n              \"[&_button]:font-mono [&_button]:text-[11px] [&_button]:text-fg-muted\",\n              \"[&_button:hover]:text-fg\",\n              \"[&_pre]:mt-2 [&_pre]:max-h-40 [&_pre]:overflow-auto [&_pre]:rounded-chip\",\n              \"[&_pre]:bg-panel [&_pre]:p-3 [&_pre]:font-mono [&_pre]:text-[11px] [&_pre]:leading-relaxed\",\n            )}\n          />\n\n          <RunErrorRetry\n            className={cn(\n              \"mt-3 rounded-chip bg-fg px-3 py-1.5 text-[13px] font-medium text-bg\",\n              \"transition-opacity hover:opacity-90\",\n              \"disabled:pointer-events-none disabled:opacity-40\",\n            )}\n          />\n        </div>\n      </div>\n    </RunErrorPrimitive>\n  );\n}\n"
+    },
+    {
+      "path": "lib/utils.ts",
+      "type": "registry:lib",
+      "target": "lib/utils.ts",
+      "content": "import { clsx } from \"clsx\";\nimport type { ClassValue } from \"clsx\";\nimport { twMerge } from \"tailwind-merge\";\n\n/** Merge class names, letting a caller's utility win over the default. */\nexport function cn(...inputs: ClassValue[]) {\n  return twMerge(clsx(inputs));\n}\n"
+    }
+  ]
+}

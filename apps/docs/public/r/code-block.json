@@ -1,0 +1,25 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "code-block",
+  "type": "registry:ui",
+  "title": "Code Block",
+  "description": "Code with a copy button that reports success and failure.",
+  "dependencies": [
+    "@gear5/core"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "components/ui/code-block.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/code-block.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport {\n  CodeBlock as CodeBlockPrimitive,\n  CodeBlockBody,\n  CodeBlockCopy,\n  CodeBlockHeader,\n  CodeBlockLabel,\n} from \"@gear5/core\";\nimport type { CodeBlockProps as CodeBlockPrimitiveProps } from \"@gear5/core\";\nimport { cn } from \"./lib/utils\";\n\nexport interface StyledCodeBlockProps extends CodeBlockPrimitiveProps {\n  showLineNumbers?: boolean;\n  /** Drop the header when the block is a bare one liner. */\n  bare?: boolean;\n}\n\n/** Styled code block with copy. */\nexport function CodeBlock({\n  className,\n  showLineNumbers = false,\n  bare = false,\n  ...props\n}: StyledCodeBlockProps) {\n  return (\n    <CodeBlockPrimitive\n      className={cn(\n        \"group overflow-hidden rounded-panel border border-line bg-panel\",\n        className,\n      )}\n      {...props}\n    >\n      {bare ? null : (\n        <CodeBlockHeader className=\"flex items-center justify-between gap-3 border-b border-line px-3 py-2\">\n          <CodeBlockLabel className=\"font-mono text-xs text-fg-muted\" />\n          <CopyButton />\n        </CodeBlockHeader>\n      )}\n\n      <div className=\"relative\">\n        {bare ? (\n          <div className=\"absolute right-2 top-2 z-10\">\n            <CopyButton />\n          </div>\n        ) : null}\n\n        <CodeBlockBody\n          showLineNumbers={showLineNumbers}\n          className={cn(\n            \"overflow-x-auto p-4 font-mono text-[13px] leading-relaxed\",\n            bare && \"pr-20\",\n            // The gutter is a child span, so it is styled from here.\n            showLineNumbers &&\n              \"[&_[data-handoff-slot=code-line]]:table-row [&_code]:table [&_code]:w-full\",\n            showLineNumbers &&\n              \"[&_[data-handoff-slot=code-gutter]]:table-cell [&_[data-handoff-slot=code-gutter]]:w-8 [&_[data-handoff-slot=code-gutter]]:select-none [&_[data-handoff-slot=code-gutter]]:pr-4 [&_[data-handoff-slot=code-gutter]]:text-right [&_[data-handoff-slot=code-gutter]]:text-fg-faint\",\n          )}\n        />\n      </div>\n    </CodeBlockPrimitive>\n  );\n}\n\nfunction CopyButton() {\n  return (\n    <CodeBlockCopy\n      className={cn(\n        \"rounded-chip border border-line bg-panel-raised px-2 py-1\",\n        \"font-mono text-[11px] text-fg-muted transition-colors\",\n        \"hover:border-line-strong hover:text-fg\",\n        \"data-[state=copied]:border-success/50 data-[state=copied]:text-success\",\n        \"data-[state=error]:border-danger/50 data-[state=error]:text-danger\",\n      )}\n    />\n  );\n}\n"
+    },
+    {
+      "path": "lib/utils.ts",
+      "type": "registry:lib",
+      "target": "lib/utils.ts",
+      "content": "import { clsx } from \"clsx\";\nimport type { ClassValue } from \"clsx\";\nimport { twMerge } from \"tailwind-merge\";\n\n/** Merge class names, letting a caller's utility win over the default. */\nexport function cn(...inputs: ClassValue[]) {\n  return twMerge(clsx(inputs));\n}\n"
+    }
+  ]
+}

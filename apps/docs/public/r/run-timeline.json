@@ -1,0 +1,25 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "run-timeline",
+  "type": "registry:ui",
+  "title": "Run Timeline",
+  "description": "Ordered trace of agent steps.",
+  "dependencies": [
+    "@gear5/core"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "components/ui/run-timeline.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/run-timeline.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport {\n  RunTimeline as RunTimelinePrimitive,\n  RunStep as RunStepPrimitive,\n  RunStepContent,\n  RunStepMarker,\n} from \"@gear5/core\";\nimport type {\n  RunTimelineProps as RunTimelinePrimitiveProps,\n  RunStepProps as RunStepPrimitiveProps,\n} from \"@gear5/core\";\nimport { cn } from \"./lib/utils\";\n\n/** Styled trace of agent steps. */\nexport function RunTimeline({ className, ...props }: RunTimelinePrimitiveProps) {\n  return (\n    <RunTimelinePrimitive\n      className={cn(\"flex flex-col gap-0\", className)}\n      {...props}\n    />\n  );\n}\n\nconst markerStyles = {\n  pending: \"border-line bg-panel\",\n  active: \"border-accent bg-accent animate-pulse-soft\",\n  done: \"border-success bg-success\",\n  failed: \"border-danger bg-danger\",\n  skipped: \"border-line bg-panel opacity-50\",\n} as const;\n\n/** One step, with a connecting rail drawn between markers. */\nexport function RunStep({ className, children, ...props }: RunStepPrimitiveProps) {\n  const status = props.status ?? \"pending\";\n\n  return (\n    <RunStepPrimitive\n      className={cn(\"relative flex gap-3 pb-4 last:pb-0\", className)}\n      {...props}\n    >\n      {/* The rail is decorative and must not reach past the final marker. */}\n      <span\n        aria-hidden=\"true\"\n        className=\"absolute left-[5px] top-4 h-[calc(100%-1rem)] w-px bg-line [li:last-child_&]:hidden\"\n      />\n      <RunStepMarker\n        className={cn(\n          \"relative z-10 mt-1 size-[11px] shrink-0 rounded-full border-2\",\n          markerStyles[status],\n        )}\n      />\n      <RunStepContent className=\"min-w-0 flex-1\">{children}</RunStepContent>\n    </RunStepPrimitive>\n  );\n}\n"
+    },
+    {
+      "path": "lib/utils.ts",
+      "type": "registry:lib",
+      "target": "lib/utils.ts",
+      "content": "import { clsx } from \"clsx\";\nimport type { ClassValue } from \"clsx\";\nimport { twMerge } from \"tailwind-merge\";\n\n/** Merge class names, letting a caller's utility win over the default. */\nexport function cn(...inputs: ClassValue[]) {\n  return twMerge(clsx(inputs));\n}\n"
+    }
+  ]
+}

@@ -1,41 +1,72 @@
 import type { Config } from "tailwindcss";
 
+/**
+ * Tokens are declared in app/globals.css as bare oklch channels; wrapping them
+ * with `<alpha-value>` here is what lets `border-danger/50` and friends work.
+ */
+const token = (name: string) => `oklch(var(--${name}) / <alpha-value>)`;
+
 const config: Config = {
   content: [
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
-    "../../packages/core/src/**/*.{js,ts,jsx,tsx,mdx}",
+    "./registry/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   darkMode: "class",
   theme: {
     extend: {
       colors: {
-        border: "hsl(var(--border))",
-        background: "hsl(var(--background))",
-        foreground: "hsl(var(--foreground))",
-        primary: {
-          DEFAULT: "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))",
+        bg: {
+          DEFAULT: token("bg"),
+          subtle: token("bg-subtle"),
         },
-        secondary: {
-          DEFAULT: "hsl(var(--secondary))",
-          foreground: "hsl(var(--secondary-foreground))",
+        fg: {
+          DEFAULT: token("fg"),
+          muted: token("fg-muted"),
+          faint: token("fg-faint"),
         },
-        muted: {
-          DEFAULT: "hsl(var(--muted))",
-          foreground: "hsl(var(--muted-foreground))",
+        panel: {
+          DEFAULT: token("panel"),
+          raised: token("panel-raised"),
+        },
+        line: {
+          DEFAULT: token("line"),
+          strong: token("line-strong"),
         },
         accent: {
-          DEFAULT: "hsl(var(--accent))",
-          foreground: "hsl(var(--accent-foreground))",
+          DEFAULT: token("accent"),
+          fg: token("accent-fg"),
+          soft: token("accent-soft"),
+        },
+        success: token("success"),
+        danger: token("danger"),
+        warning: token("warning"),
+        risk: {
+          low: token("risk-low"),
+          medium: token("risk-medium"),
+          high: token("risk-high"),
+        },
+        add: {
+          DEFAULT: token("add"),
+          bg: token("add-bg"),
+        },
+        del: {
+          DEFAULT: token("del"),
+          bg: token("del-bg"),
         },
       },
       borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
+        panel: "var(--radius)",
+        chip: "var(--radius-sm)",
       },
       fontFamily: {
-        sans: ["Inter", "system-ui", "sans-serif"],
+        sans: ["Inter", "ui-sans-serif", "system-ui", "sans-serif"],
+        mono: [
+          "ui-monospace",
+          "SF Mono",
+          "Menlo",
+          "Consolas",
+          "monospace",
+        ],
       },
     },
   },

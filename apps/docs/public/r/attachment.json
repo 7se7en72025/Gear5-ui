@@ -1,0 +1,25 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "attachment",
+  "type": "registry:ui",
+  "title": "Attachment",
+  "description": "File chips with upload state and per file remove buttons.",
+  "dependencies": [
+    "@gear5/core"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "components/ui/attachment.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/attachment.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport {\n  Attachment as AttachmentPrimitive,\n  AttachmentList as AttachmentListPrimitive,\n  AttachmentMeta,\n  AttachmentName,\n  AttachmentProgress,\n  AttachmentRemove,\n} from \"@gear5/core\";\nimport type { AttachmentFile } from \"@gear5/core\";\nimport { cn } from \"./lib/utils\";\n\nexport interface AttachmentListProps {\n  files: readonly AttachmentFile[];\n  onRemove?: (file: AttachmentFile) => void;\n  className?: string;\n}\n\n/** Styled attachment chips. */\nexport function AttachmentList({\n  files,\n  onRemove,\n  className,\n}: AttachmentListProps) {\n  return (\n    <AttachmentListPrimitive className={cn(\"flex flex-wrap gap-2\", className)}>\n      {files.map((file) => (\n        <AttachmentPrimitive\n          key={file.id}\n          file={file}\n          onRemove={onRemove}\n          className={cn(\n            \"group relative flex items-center gap-2 overflow-hidden rounded-chip border px-2.5 py-1.5\",\n            \"border-line bg-panel text-[12px]\",\n            \"data-[status=error]:border-danger/50\",\n          )}\n        >\n          <AttachmentName className=\"max-w-[11rem] truncate font-mono text-fg\" />\n          <AttachmentMeta\n            className={cn(\n              \"shrink-0 text-fg-faint\",\n              \"data-[status=error]:text-danger\",\n            )}\n          />\n\n          <AttachmentRemove\n            className={cn(\n              \"shrink-0 rounded px-1 text-fg-faint transition-colors hover:text-danger\",\n            )}\n          >\n            <span aria-hidden=\"true\">x</span>\n          </AttachmentRemove>\n\n          {/* Fill is published as a variable by the primitive. */}\n          <AttachmentProgress className=\"absolute inset-x-0 bottom-0 h-0.5 bg-line\">\n            <span\n              aria-hidden=\"true\"\n              className=\"block h-full bg-accent transition-[width] duration-300\"\n              style={{ width: \"calc(var(--handoff-upload-fill, 0) * 100%)\" }}\n            />\n          </AttachmentProgress>\n        </AttachmentPrimitive>\n      ))}\n    </AttachmentListPrimitive>\n  );\n}\n"
+    },
+    {
+      "path": "lib/utils.ts",
+      "type": "registry:lib",
+      "target": "lib/utils.ts",
+      "content": "import { clsx } from \"clsx\";\nimport type { ClassValue } from \"clsx\";\nimport { twMerge } from \"tailwind-merge\";\n\n/** Merge class names, letting a caller's utility win over the default. */\nexport function cn(...inputs: ClassValue[]) {\n  return twMerge(clsx(inputs));\n}\n"
+    }
+  ]
+}

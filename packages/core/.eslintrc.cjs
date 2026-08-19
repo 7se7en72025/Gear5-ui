@@ -20,7 +20,13 @@ module.exports = {
     // expected; unused locals are not.
     "@typescript-eslint/no-unused-vars": [
       "error",
-      { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
+      {
+        argsIgnorePattern: "^_",
+        varsIgnorePattern: "^_",
+        // Components destructure a prop purely to keep it out of `...rest`
+        // before spreading onto the DOM node; that is intent, not an oversight.
+        ignoreRestSiblings: true,
+      },
     ],
   },
 };
