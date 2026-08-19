@@ -1,5 +1,9 @@
 export const REPO_URL = "https://github.com/7se7en72025/Gear5-ui";
 
+/** Absolute origin, needed by metadata, sitemap.xml, and robots.txt. */
+export const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+
 export const REGISTRY_BASE =
   "https://raw.githubusercontent.com/7se7en72025/Gear5-ui/main/apps/docs/public/r";
 

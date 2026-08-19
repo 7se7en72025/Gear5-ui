@@ -25,6 +25,12 @@ function Navbar() {
         </div>
         <div className="flex items-center gap-6">
           <Link
+            href="/docs"
+            className="text-sm text-neutral-400 transition-colors hover:text-white"
+          >
+            Docs
+          </Link>
+          <Link
             href="/components"
             className="text-sm text-neutral-400 transition-colors hover:text-white"
           >
@@ -230,6 +236,12 @@ function Footer() {
           </span>
         </div>
         <div className="flex items-center gap-6">
+          <Link
+            href="/docs"
+            className="text-sm text-neutral-500 transition-colors hover:text-neutral-300"
+          >
+            Docs
+          </Link>
           <a
             href={REPO_URL}
             target="_blank"

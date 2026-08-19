@@ -4,7 +4,8 @@ import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+import { SITE_URL as siteUrl } from "./_components/site";
+
 const title = "Gear5 UI";
 const description =
   "A shadcn/ui compatible component library built the design first way";
