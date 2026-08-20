@@ -3,6 +3,8 @@
 import * as React from "react";
 import type { AttachmentFile, CheckpointRef, Suggestion } from "@gear5/core";
 import { AttachmentList } from "@/registry/attachment";
+import { EmptyState } from "@/registry/empty-state";
+import { Feedback } from "@/registry/feedback";
 import { Checkpoint } from "@/registry/checkpoint";
 import { RunError } from "@/registry/run-error";
 import { StreamingText } from "@/registry/streaming-text";
@@ -198,5 +200,34 @@ export function AttachmentExample() {
         </p>
       )}
     </div>
+  );
+}
+
+export function FeedbackExample() {
+  return (
+    <div className="flex items-center gap-4 rounded-panel border border-line bg-panel-raised p-4">
+      <p className="text-[14px] text-fg-muted">Was this response helpful?</p>
+      <Feedback
+        defaultRating={null}
+        onRatingChange={(rating) => console.log("feedback:", rating)}
+      />
+    </div>
+  );
+}
+
+export function EmptyStateExample() {
+  return (
+    <EmptyState
+      title="No runs yet"
+      description="Trigger the agent from the composer to see its trace here."
+      action={
+        <button
+          type="button"
+          className="rounded-chip bg-accent px-3.5 py-1.5 text-[13px] font-medium text-accent-fg transition-opacity hover:opacity-90"
+        >
+          Start a run
+        </button>
+      }
+    />
   );
 }

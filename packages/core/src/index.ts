@@ -35,6 +35,7 @@ export * from "./tool-permission";
 export * from "./context-list";
 export * from "./agent-handoff";
 export * from "./retry-after";
+export * from "./feedback";
 
 // Escape hatches for building your own primitives on the same foundation.
 export { Slot, resolveElement } from "./utils/slot";

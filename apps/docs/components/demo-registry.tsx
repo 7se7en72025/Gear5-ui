@@ -24,6 +24,8 @@ import {
   SuggestionsExample,
   CheckpointExample,
   AttachmentExample,
+  FeedbackExample,
+  EmptyStateExample,
 } from "./gallery-signals";
 import { OnePieceBackground } from "@/registry/one-piece-background";
 import {
@@ -78,6 +80,8 @@ const DEMOS: Record<string, React.ComponentType> = {
   "agent-handoff": AgentHandoffExample,
   "retry-after": RetryAfterExample,
   "one-piece-background": OnePieceBackgroundExample,
+  feedback: FeedbackExample,
+  "empty-state": EmptyStateExample,
 };
 
 export function Demo({ slug }: { slug: string }) {

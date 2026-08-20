@@ -159,6 +159,48 @@ export const CATALOG: CatalogEntry[] = [
 />`,
   },
   {
+    slug: "empty-state",
+    name: "EmptyState",
+    category: "output",
+    tagline: "The screen before there is anything to show yet.",
+    why: "No runs yet, no results, a search that matched nothing — every product hits this screen constantly, and left blank it reads as broken rather than new. It is the one component here with nothing behind it but layout, which is exactly why it gets skipped until someone notices the app looks empty rather than unstarted.",
+    details: [
+      "No default copy. A generic \"Nothing here\" is worse than nothing, because it tells the reader nothing about what to do next.",
+      "The action slot takes any element, not a fixed button prop, so the way out of the empty state is never a compromise on what it needs to be.",
+      "A dashed border rather than a solid one, so it reads as a placeholder and not as a card that failed to load.",
+    ],
+    props: [
+      { name: "title", type: "string", description: "What is missing, said plainly." },
+      { name: "description", type: "string", description: "Why, or what to do about it." },
+      { name: "icon", type: "React.ReactNode", description: "Small glyph above the title." },
+      { name: "action", type: "React.ReactNode", description: "A way out — usually a button." },
+    ],
+    example: `<EmptyState
+  title="No runs yet"
+  description="Trigger the agent from the composer to see it here."
+  action={<Button onClick={startRun}>Start a run</Button>}
+/>`,
+  },
+  {
+    slug: "feedback",
+    name: "Feedback",
+    category: "signal",
+    tagline: "Thumbs up or down, one active at a time.",
+    why: "The signal that a response was wrong is worth more than almost anything else in an agent product, and it is usually bolted on as an afterthought that does not even remember what you clicked. This one does one thing: hold a single rating per response, and let picking the same answer twice clear it.",
+    details: [
+      "Selecting the pressed value again clears the rating, rather than leaving it stuck. A misclick should not commit you to a verdict.",
+      "Both buttons are real toggle buttons with aria-pressed, not divs with a click handler, so the state is announced without extra wiring.",
+      "Controlled or uncontrolled, matching every other stateful primitive in the set, so it drops into a list of messages without a rating store to wire up first.",
+    ],
+    props: [
+      { name: "rating", type: '"up" | "down" | null', description: "Controlled value." },
+      { name: "defaultRating", type: '"up" | "down" | null', default: "null", description: "Uncontrolled initial value." },
+      { name: "onRatingChange", type: "(rating: FeedbackRating) => void", description: "Fires on every change, including to null." },
+      { name: "disabled", type: "boolean", default: "false", description: "Freezes the current rating." },
+    ],
+    example: `<Feedback onRatingChange={(rating) => logRating(messageId, rating)} />`,
+  },
+  {
     slug: "log-stream",
     name: "LogStream",
     category: "execute",

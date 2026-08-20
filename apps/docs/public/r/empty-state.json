@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "empty-state",
+  "type": "registry:ui",
+  "title": "Empty State",
+  "description": "The screen before there is anything to show yet.",
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "components/ui/empty-state.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/empty-state.tsx",
+      "content": "import type * as React from \"react\";\nimport { cn } from \"./lib/utils\";\n\nexport interface EmptyStateProps {\n  icon?: React.ReactNode;\n  title: string;\n  description?: string;\n  action?: React.ReactNode;\n  className?: string;\n}\n\n/**\n * The screen before there is anything to show — no runs yet, no results, a\n * search with nothing matching it. Left blank, this is where a product reads\n * as broken rather than as new.\n */\nexport function EmptyState({\n  icon,\n  title,\n  description,\n  action,\n  className,\n}: EmptyStateProps) {\n  return (\n    <div\n      className={cn(\n        \"flex flex-col items-center rounded-panel border border-dashed border-line px-6 py-14 text-center\",\n        className,\n      )}\n    >\n      {icon ? (\n        <div className=\"mb-4 flex h-11 w-11 items-center justify-center rounded-full bg-panel-raised text-fg-faint\">\n          {icon}\n        </div>\n      ) : null}\n      <p className=\"text-[15px]\">{title}</p>\n      {description ? (\n        <p className=\"mt-1.5 max-w-sm text-[13px] leading-relaxed text-fg-muted\">\n          {description}\n        </p>\n      ) : null}\n      {action ? <div className=\"mt-5\">{action}</div> : null}\n    </div>\n  );\n}\n"
+    },
+    {
+      "path": "lib/utils.ts",
+      "type": "registry:lib",
+      "target": "lib/utils.ts",
+      "content": "import { clsx } from \"clsx\";\nimport type { ClassValue } from \"clsx\";\nimport { twMerge } from \"tailwind-merge\";\n\n/** Merge class names, letting a caller's utility win over the default. */\nexport function cn(...inputs: ClassValue[]) {\n  return twMerge(clsx(inputs));\n}\n"
+    }
+  ]
+}

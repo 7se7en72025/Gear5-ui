@@ -1,0 +1,25 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "feedback",
+  "type": "registry:ui",
+  "title": "Feedback",
+  "description": "Thumbs up or down on a single response, one active at a time.",
+  "dependencies": [
+    "@gear5/core"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "components/ui/feedback.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/feedback.tsx",
+      "content": "\"use client\";\n\nimport type * as React from \"react\";\nimport {\n  Feedback as FeedbackPrimitive,\n  FeedbackButton,\n} from \"@gear5/core\";\nimport type { FeedbackProps as FeedbackPrimitiveProps } from \"@gear5/core\";\nimport { cn } from \"./lib/utils\";\n\nfunction ThumbUpIcon(props: React.SVGProps<SVGSVGElement>) {\n  return (\n    <svg viewBox=\"0 0 20 20\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.6\" {...props}>\n      <path\n        d=\"M7 8.5V17h7.2c.7 0 1.3-.5 1.4-1.2l1-5A1.5 1.5 0 0 0 15.1 9H11l.6-3.3A1.4 1.4 0 0 0 10.2 4L7 8.5Z\"\n        strokeLinejoin=\"round\"\n      />\n      <path d=\"M3.5 8.5H7V17H3.5V8.5Z\" strokeLinejoin=\"round\" />\n    </svg>\n  );\n}\n\nfunction ThumbDownIcon(props: React.SVGProps<SVGSVGElement>) {\n  return (\n    <svg viewBox=\"0 0 20 20\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.6\" {...props}>\n      <path\n        d=\"M13 11.5V3h-7.2c-.7 0-1.3.5-1.4 1.2l-1 5A1.5 1.5 0 0 0 4.9 11H9l-.6 3.3A1.4 1.4 0 0 0 9.8 16L13 11.5Z\"\n        strokeLinejoin=\"round\"\n      />\n      <path d=\"M16.5 11.5H13V3h3.5v8.5Z\" strokeLinejoin=\"round\" />\n    </svg>\n  );\n}\n\n/** Styled rating on a single response, up or down. */\nexport function Feedback({ className, ...props }: FeedbackPrimitiveProps) {\n  return (\n    <FeedbackPrimitive\n      className={cn(\"flex items-center gap-1.5\", className)}\n      {...props}\n    >\n      <FeedbackButton\n        value=\"up\"\n        className={cn(\n          \"rounded-chip p-1.5 text-fg-faint transition-colors\",\n          \"hover:bg-panel-raised hover:text-fg\",\n          \"disabled:pointer-events-none disabled:opacity-40\",\n          \"data-[pressed]:bg-add-bg data-[pressed]:text-add\",\n        )}\n      >\n        <ThumbUpIcon className=\"h-4 w-4\" />\n      </FeedbackButton>\n      <FeedbackButton\n        value=\"down\"\n        className={cn(\n          \"rounded-chip p-1.5 text-fg-faint transition-colors\",\n          \"hover:bg-panel-raised hover:text-fg\",\n          \"disabled:pointer-events-none disabled:opacity-40\",\n          \"data-[pressed]:bg-del-bg data-[pressed]:text-del\",\n        )}\n      >\n        <ThumbDownIcon className=\"h-4 w-4\" />\n      </FeedbackButton>\n    </FeedbackPrimitive>\n  );\n}\n"
+    },
+    {
+      "path": "lib/utils.ts",
+      "type": "registry:lib",
+      "target": "lib/utils.ts",
+      "content": "import { clsx } from \"clsx\";\nimport type { ClassValue } from \"clsx\";\nimport { twMerge } from \"tailwind-merge\";\n\n/** Merge class names, letting a caller's utility win over the default. */\nexport function cn(...inputs: ClassValue[]) {\n  return twMerge(clsx(inputs));\n}\n"
+    }
+  ]
+}

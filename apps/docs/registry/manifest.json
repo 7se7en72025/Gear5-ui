@@ -134,6 +134,30 @@
       "dependencies": []
     },
     {
+      "slug": "empty-state",
+      "title": "Empty State",
+      "description": "The screen before there is anything to show yet.",
+      "status": "stable",
+      "files": [
+        "empty-state.tsx"
+      ],
+      "headless": false,
+      "registryDependencies": [],
+      "dependencies": []
+    },
+    {
+      "slug": "feedback",
+      "title": "Feedback",
+      "description": "Thumbs up or down on a single response, one active at a time.",
+      "status": "stable",
+      "files": [
+        "feedback.tsx"
+      ],
+      "headless": true,
+      "registryDependencies": [],
+      "dependencies": []
+    },
+    {
       "slug": "log-stream",
       "title": "Log Stream",
       "description": "Process output with ANSI colour and autoscroll that releases when you scroll away.",
