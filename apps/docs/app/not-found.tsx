@@ -16,7 +16,7 @@ export default function NotFound() {
       <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row">
         <Link
           href="/components"
-          className="rounded-chip bg-accent px-5 py-2.5 text-[14px] font-medium text-accent-fg transition-opacity hover:opacity-90"
+          className="rounded-chip bg-gradient-to-b from-accent to-accent/80 px-5 py-2.5 text-[14px] font-medium text-accent-fg shadow-[0_1px_0_0_rgba(255,255,255,0.12)_inset,0_8px_24px_-8px_oklch(var(--accent)/0.65)] transition-all hover:shadow-[0_1px_0_0_rgba(255,255,255,0.12)_inset,0_10px_28px_-6px_oklch(var(--accent)/0.75)]"
         >
           Browse components
         </Link>

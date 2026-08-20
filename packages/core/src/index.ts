@@ -36,6 +36,7 @@ export * from "./context-list";
 export * from "./agent-handoff";
 export * from "./retry-after";
 export * from "./feedback";
+export * from "./model-picker";
 
 // Escape hatches for building your own primitives on the same foundation.
 export { Slot, resolveElement } from "./utils/slot";

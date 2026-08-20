@@ -4,6 +4,7 @@ import * as React from "react";
 import type { ApprovalStatus, TaskItem } from "@gear5/core";
 import { AgentStatus } from "@/registry/agent-status";
 import { Approval } from "@/registry/approval";
+import { Badge } from "@/registry/badge";
 import { Diff } from "@/registry/diff";
 import { Reasoning } from "@/registry/reasoning";
 import { RunStep, RunTimeline } from "@/registry/run-timeline";
@@ -158,6 +159,18 @@ export function UsageMeterExample() {
           costMicros: 512_000,
         }}
       />
+    </div>
+  );
+}
+
+export function BadgeExample() {
+  return (
+    <div className="flex flex-wrap gap-2">
+      <Badge>Draft</Badge>
+      <Badge tone="accent">In review</Badge>
+      <Badge tone="success">Approved</Badge>
+      <Badge tone="warning">Medium risk</Badge>
+      <Badge tone="danger">Denied</Badge>
     </div>
   );
 }

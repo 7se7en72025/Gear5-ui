@@ -134,6 +134,18 @@
       "dependencies": []
     },
     {
+      "slug": "badge",
+      "title": "Badge",
+      "description": "A small coloured label for a state that is simply true.",
+      "status": "stable",
+      "files": [
+        "badge.tsx"
+      ],
+      "headless": false,
+      "registryDependencies": [],
+      "dependencies": []
+    },
+    {
       "slug": "empty-state",
       "title": "Empty State",
       "description": "The screen before there is anything to show yet.",
@@ -164,6 +176,18 @@
       "status": "stable",
       "files": [
         "log-stream.tsx"
+      ],
+      "headless": true,
+      "registryDependencies": [],
+      "dependencies": []
+    },
+    {
+      "slug": "model-picker",
+      "title": "Model Picker",
+      "description": "A listbox for choosing which model runs, with a description per option.",
+      "status": "stable",
+      "files": [
+        "model-picker.tsx"
       ],
       "headless": true,
       "registryDependencies": [],

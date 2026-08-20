@@ -201,6 +201,23 @@ export const CATALOG: CatalogEntry[] = [
     example: `<Feedback onRatingChange={(rating) => logRating(messageId, rating)} />`,
   },
   {
+    slug: "badge",
+    name: "Badge",
+    category: "output",
+    tagline: "A small coloured label for a state that is simply true.",
+    why: "Half the components in this set need to say \"pending\", \"denied\", \"medium risk\", or \"stale\" somewhere in their corner, and each one used to invent its own span with its own colours. Badge exists so that invention happens once. It is deliberately inert — no hover state, no click handler — because everything else with colour in this library means the reader owes it a decision, and a badge does not.",
+    details: [
+      "Five tones, not an open colour prop. A label component that accepts any hex code stops meaning anything after the first three shades of blue get used for three different things.",
+      "className passes through last, so a consumer can still override without forking the component.",
+      "Renders a <span>, not a <div> — a label sits inline with the text describing it, not on its own line.",
+    ],
+    props: [
+      { name: "tone", type: '"neutral" | "accent" | "success" | "danger" | "warning"', default: '"neutral"', description: "Which token pair fills and colours the label." },
+      { name: "className", type: "string", description: "Merged after the tone, so it can override." },
+    ],
+    example: `<Badge tone="warning">Medium risk</Badge>`,
+  },
+  {
     slug: "log-stream",
     name: "LogStream",
     category: "execute",
@@ -655,6 +672,33 @@ export const CATALOG: CatalogEntry[] = [
     contextWindow: 200000,
     costMicros: 68000,
   }}
+/>`,
+  },
+  {
+    slug: "model-picker",
+    name: "ModelPicker",
+    category: "input",
+    tagline: "Choosing which model runs, with a reason for each option.",
+    why: "A model choice is not one label picked from a row of identical-looking options — it is a tradeoff between speed, cost, and capability that the person picking usually cannot see. A native select cannot carry a second line of text under each option, so every model picker either drops that context or gives up on being a select at all. This one is a real listbox for exactly that reason.",
+    details: [
+      "Each option is a listbox item with an optional description line, not a flat label — \"Fast, cheap, weaker reasoning\" fits under the model name instead of nowhere.",
+      "Closes on an outside pointerdown and on Escape, and Enter commits the highlighted option — the three things people actually expect from a dropdown.",
+      "A disabled option is reachable by pointer but skipped by arrow-key navigation, so keyboard users never get stuck on a choice they cannot make.",
+      "Controlled or uncontrolled, like the rest of the set.",
+    ],
+    props: [
+      { name: "options", type: "ModelOption[]", description: "value, label, optional description, optional disabled." },
+      { name: "value", type: "string", description: "Controlled selection." },
+      { name: "defaultValue", type: "string", description: "Uncontrolled initial selection." },
+      { name: "onValueChange", type: "(value: string) => void", description: "Fires when a new option is committed." },
+    ],
+    example: `<ModelPicker
+  options={[
+    { value: "fast", label: "Fast", description: "Cheaper, weaker reasoning." },
+    { value: "quality", label: "Quality", description: "Slower, best for hard tasks." },
+  ]}
+  value={model}
+  onValueChange={setModel}
 />`,
   },
   {

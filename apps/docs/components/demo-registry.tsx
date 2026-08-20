@@ -4,6 +4,7 @@ import * as React from "react";
 import {
   AgentStatusExample,
   ApprovalExample,
+  BadgeExample,
   DiffExample,
   ReasoningExample,
   RunTimelineExample,
@@ -31,6 +32,7 @@ import { OnePieceBackground } from "@/registry/one-piece-background";
 import {
   AgentHandoffExample,
   ContextListExample,
+  ModelPickerExample,
   RetryAfterExample,
   RunControlsExample,
   ToolPermissionExample,
@@ -82,6 +84,8 @@ const DEMOS: Record<string, React.ComponentType> = {
   "one-piece-background": OnePieceBackgroundExample,
   feedback: FeedbackExample,
   "empty-state": EmptyStateExample,
+  badge: BadgeExample,
+  "model-picker": ModelPickerExample,
 };
 
 export function Demo({ slug }: { slug: string }) {

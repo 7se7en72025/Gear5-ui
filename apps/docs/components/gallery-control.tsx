@@ -8,6 +8,7 @@ import type {
   ToolGrant,
 } from "@gear5/core";
 import { AgentHandoff } from "@/registry/agent-handoff";
+import { ModelPicker } from "@/registry/model-picker";
 import { ContextList } from "@/registry/context-list";
 import { RetryAfter } from "@/registry/retry-after";
 import { RunControls } from "@/registry/run-controls";
@@ -185,4 +186,15 @@ export function RetryAfterExample() {
       </p>
     </div>
   );
+}
+
+const MODEL_OPTIONS = [
+  { value: "fast", label: "Fast", description: "Cheaper, weaker reasoning." },
+  { value: "quality", label: "Quality", description: "Slower, best for hard tasks." },
+  { value: "beta", label: "Beta", description: "Not yet stable.", disabled: true },
+];
+
+export function ModelPickerExample() {
+  const [model, setModel] = React.useState("fast");
+  return <ModelPicker options={MODEL_OPTIONS} value={model} onValueChange={setModel} />;
 }

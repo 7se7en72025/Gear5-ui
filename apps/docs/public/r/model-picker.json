@@ -1,0 +1,25 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "model-picker",
+  "type": "registry:ui",
+  "title": "Model Picker",
+  "description": "A listbox for choosing which model runs, with a description per option.",
+  "dependencies": [
+    "@gear5/core"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "components/ui/model-picker.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/model-picker.tsx",
+      "content": "\"use client\";\n\nimport { ChevronDown } from \"lucide-react\";\nimport {\n  ModelPicker as ModelPickerPrimitive,\n  ModelPickerTrigger,\n  ModelPickerList,\n} from \"@gear5/core\";\nimport type { ModelPickerProps as ModelPickerPrimitiveProps } from \"@gear5/core\";\nimport { cn } from \"./lib/utils\";\n\n/** Styled model selector — a listbox so each option can carry a description. */\nexport function ModelPicker({\n  className,\n  ...props\n}: ModelPickerPrimitiveProps) {\n  return (\n    <ModelPickerPrimitive\n      className={cn(\"relative inline-block\", className)}\n      {...props}\n    >\n      <ModelPickerTrigger\n        className={cn(\n          \"flex items-center gap-2 rounded-chip border border-line bg-panel px-3 py-2 text-[13px]\",\n          \"transition-colors hover:border-line-strong\",\n          \"aria-expanded:border-accent\",\n        )}\n      >\n        <ChevronDown className=\"ml-1 h-3.5 w-3.5 shrink-0 text-fg-faint\" />\n      </ModelPickerTrigger>\n      <ModelPickerList\n        className={cn(\n          \"absolute left-0 top-[calc(100%+6px)] z-20 w-72 overflow-hidden\",\n          \"rounded-panel border border-line-strong bg-panel p-1 shadow-2xl\",\n          \"[&_li]:flex [&_li]:cursor-pointer [&_li]:flex-col [&_li]:gap-0.5 [&_li]:rounded-chip [&_li]:px-3 [&_li]:py-2\",\n          \"[&_li[data-active]]:bg-panel-raised\",\n          \"[&_li[data-selected]]:text-accent\",\n          \"[&_li[data-disabled]]:pointer-events-none [&_li[data-disabled]]:opacity-40\",\n          \"[&_[data-handoff-slot=model-picker-option-label]]:text-[13px]\",\n          \"[&_[data-handoff-slot=model-picker-option-description]]:text-[12px] [&_[data-handoff-slot=model-picker-option-description]]:text-fg-faint\",\n        )}\n      />\n    </ModelPickerPrimitive>\n  );\n}\n"
+    },
+    {
+      "path": "lib/utils.ts",
+      "type": "registry:lib",
+      "target": "lib/utils.ts",
+      "content": "import { clsx } from \"clsx\";\nimport type { ClassValue } from \"clsx\";\nimport { twMerge } from \"tailwind-merge\";\n\n/** Merge class names, letting a caller's utility win over the default. */\nexport function cn(...inputs: ClassValue[]) {\n  return twMerge(clsx(inputs));\n}\n"
+    }
+  ]
+}

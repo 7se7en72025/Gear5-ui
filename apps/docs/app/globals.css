@@ -27,9 +27,9 @@
     --line: 0.9 0.005 265;
     --line-strong: 0.82 0.008 265;
 
-    --accent: 0.55 0.13 232;
+    --accent: 0.52 0.19 260;
     --accent-fg: 0.99 0.002 265;
-    --accent-soft: 0.95 0.03 232;
+    --accent-soft: 0.94 0.045 260;
 
     --success: 0.58 0.13 152;
     --danger: 0.55 0.2 25;
@@ -61,9 +61,9 @@
     --line: 0.27 0.011 265;
     --line-strong: 0.36 0.013 265;
 
-    --accent: 0.78 0.13 205;
-    --accent-fg: 0.16 0.01 240;
-    --accent-soft: 0.3 0.06 210;
+    --accent: 0.65 0.2 258;
+    --accent-fg: 0.99 0.003 265;
+    --accent-soft: 0.32 0.09 258;
 
     --success: 0.75 0.15 155;
     --danger: 0.68 0.18 22;
@@ -130,6 +130,15 @@
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+
+  /* A faint grid behind the hero, masked so it fades rather than cutting off. */
+  .bg-grid {
+    background-image:
+      linear-gradient(to right, oklch(var(--line)) 1px, transparent 1px),
+      linear-gradient(to bottom, oklch(var(--line)) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(ellipse 80% 55% at 50% 0%, #000 30%, transparent 78%);
   }
 
   @keyframes pulse-soft {

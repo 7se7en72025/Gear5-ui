@@ -55,6 +55,11 @@
     "description": "Streaming-aware line diff."
   },
   {
+    "name": "badge",
+    "title": "Badge",
+    "description": "A small coloured label for a state that is simply true."
+  },
+  {
     "name": "empty-state",
     "title": "Empty State",
     "description": "The screen before there is anything to show yet."
@@ -68,6 +73,11 @@
     "name": "log-stream",
     "title": "Log Stream",
     "description": "Process output with ANSI colour and autoscroll that releases when you scroll away."
+  },
+  {
+    "name": "model-picker",
+    "title": "Model Picker",
+    "description": "A listbox for choosing which model runs, with a description per option."
   },
   {
     "name": "one-piece-background",

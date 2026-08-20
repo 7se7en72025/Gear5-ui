@@ -12,7 +12,9 @@ function Hero() {
   return (
     <section className="relative overflow-hidden border-b border-line px-5 py-24 sm:py-32">
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute left-1/2 top-0 h-[420px] w-[760px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent/[0.08] blur-[120px]" />
+        <div className="absolute left-1/2 top-[-180px] h-[560px] w-[920px] -translate-x-1/2 rounded-full bg-accent/[0.16] blur-[130px]" />
+        <div className="absolute left-1/2 top-[-40px] h-[320px] w-[560px] -translate-x-1/2 rounded-full bg-accent/[0.14] blur-[90px]" />
+        <div className="bg-grid absolute inset-0 opacity-[0.35]" />
       </div>
 
       <RevealGroup
@@ -50,7 +52,7 @@ function Hero() {
           <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <Link
               href="/components"
-              className="group inline-flex items-center gap-2 rounded-chip bg-accent px-5 py-2.5 text-[14px] font-medium text-accent-fg transition-opacity hover:opacity-90"
+              className="group inline-flex items-center gap-2 rounded-chip bg-gradient-to-b from-accent to-accent/80 px-5 py-2.5 text-[14px] font-medium text-accent-fg shadow-[0_1px_0_0_rgba(255,255,255,0.12)_inset,0_8px_24px_-8px_oklch(var(--accent)/0.65)] transition-all hover:shadow-[0_1px_0_0_rgba(255,255,255,0.12)_inset,0_10px_28px_-6px_oklch(var(--accent)/0.75)]"
             >
               Browse components
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
