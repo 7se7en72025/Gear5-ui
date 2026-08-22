@@ -7,9 +7,17 @@ import type { Config } from "tailwindcss";
 const token = (name: string) => `oklch(var(--${name}) / <alpha-value>)`;
 
 const config: Config = {
+  /**
+   * Every directory that renders markup has to be listed here. Miss one and
+   * its classes are silently never generated, which presents as broken CSS
+   * rather than a config error: `components/` was absent, so the site header
+   * shipped unstyled and its logo rendered at the SVG's intrinsic 464px.
+   */
   content: [
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./registry/**/*.{js,ts,jsx,tsx,mdx}",
+    "./lib/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   darkMode: "class",
   theme: {
