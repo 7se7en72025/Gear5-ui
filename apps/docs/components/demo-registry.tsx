@@ -36,6 +36,12 @@ import {
   RunControlsExample,
   ToolPermissionExample,
 } from "./gallery-control";
+import {
+  ArgumentEditorExample,
+  EnvironmentBadgeExample,
+  GuardrailExample,
+} from "./gallery-safety";
+import { TimezoneMapExample } from "./gallery-location";
 
 
 /**
@@ -70,6 +76,10 @@ const DEMOS: Record<string, React.ComponentType> = {
   "empty-state": EmptyStateExample,
   badge: BadgeExample,
   "model-picker": ModelPickerExample,
+  "environment-badge": EnvironmentBadgeExample,
+  guardrail: GuardrailExample,
+  "argument-editor": ArgumentEditorExample,
+  "timezone-map": TimezoneMapExample,
 };
 
 export function Demo({ slug }: { slug: string }) {

@@ -37,6 +37,10 @@ export * from "./agent-handoff";
 export * from "./retry-after";
 export * from "./feedback";
 export * from "./model-picker";
+export * from "./environment-badge";
+export * from "./guardrail";
+export * from "./argument-editor";
+export * from "./timezone-map";
 
 // Escape hatches for building your own primitives on the same foundation.
 export { Slot, resolveElement } from "./utils/slot";

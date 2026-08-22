@@ -1,0 +1,25 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "environment-badge",
+  "type": "registry:ui",
+  "title": "Environment Badge",
+  "description": "Which environment the agent's actions actually land in.",
+  "dependencies": [
+    "@gear5/core"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "components/ui/environment-badge.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/environment-badge.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport {\n  EnvironmentBadge as EnvironmentBadgePrimitive,\n  EnvironmentName,\n  EnvironmentWarning,\n} from \"@gear5/core\";\nimport type { EnvironmentBadgeProps as EnvironmentBadgePrimitiveProps } from \"@gear5/core\";\nimport { cn } from \"./lib/utils\";\n\n/**\n * Production is loud and everything else is quiet. If every environment had a\n * colour then production would be just another colour, which defeats the point.\n */\nconst surface = {\n  production: \"border-danger/50 bg-danger/10 text-danger\",\n  staging: \"border-warning/40 bg-warning/[0.07] text-warning\",\n  development: \"border-line bg-panel text-fg-muted\",\n  sandbox: \"border-line bg-panel text-fg-faint\",\n} as const;\n\n/** Styled environment target badge. */\nexport function EnvironmentBadge({\n  className,\n  ...props\n}: EnvironmentBadgePrimitiveProps) {\n  const kind = props.environment.kind;\n\n  return (\n    <EnvironmentBadgePrimitive\n      className={cn(\n        \"inline-flex items-center gap-2 rounded-full border py-1 pl-2.5 pr-3\",\n        \"font-mono text-[11px]\",\n        surface[kind],\n        className,\n      )}\n      {...props}\n    >\n      <span\n        aria-hidden=\"true\"\n        className={cn(\n          \"size-1.5 shrink-0 rounded-full bg-current\",\n          kind === \"production\" && \"animate-pulse-soft\",\n        )}\n      />\n      <EnvironmentName />\n      <EnvironmentWarning className=\"rounded-full bg-danger/20 px-1.5 py-0.5 text-[9px] font-medium uppercase tracking-[0.1em]\" />\n    </EnvironmentBadgePrimitive>\n  );\n}\n"
+    },
+    {
+      "path": "lib/utils.ts",
+      "type": "registry:lib",
+      "target": "lib/utils.ts",
+      "content": "import { clsx } from \"clsx\";\nimport type { ClassValue } from \"clsx\";\nimport { twMerge } from \"tailwind-merge\";\n\n/** Merge class names, letting a caller's utility win over the default. */\nexport function cn(...inputs: ClassValue[]) {\n  return twMerge(clsx(inputs));\n}\n"
+    }
+  ]
+}

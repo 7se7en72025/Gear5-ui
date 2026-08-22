@@ -15,6 +15,11 @@
     "description": "Human-in-the-loop gate with risk levels and a two-press confirm."
   },
   {
+    "name": "argument-editor",
+    "title": "Argument Editor",
+    "description": "Edit a tool's arguments before approving the call."
+  },
+  {
     "name": "artifact",
     "title": "Artifact",
     "description": "A document the agent produced, with its revision history."
@@ -23,6 +28,11 @@
     "name": "attachment",
     "title": "Attachment",
     "description": "File chips with upload state and per file remove buttons."
+  },
+  {
+    "name": "badge",
+    "title": "Badge",
+    "description": "A small coloured label for a state that is simply true."
   },
   {
     "name": "checkpoint",
@@ -55,19 +65,24 @@
     "description": "Streaming-aware line diff."
   },
   {
-    "name": "badge",
-    "title": "Badge",
-    "description": "A small coloured label for a state that is simply true."
-  },
-  {
     "name": "empty-state",
     "title": "Empty State",
     "description": "The screen before there is anything to show yet."
   },
   {
+    "name": "environment-badge",
+    "title": "Environment Badge",
+    "description": "Which environment the agent's actions actually land in."
+  },
+  {
     "name": "feedback",
     "title": "Feedback",
     "description": "Thumbs up or down on a single response, one active at a time."
+  },
+  {
+    "name": "guardrail",
+    "title": "Guardrail",
+    "description": "An action stopped by policy, naming the rule that stopped it."
   },
   {
     "name": "log-stream",
@@ -118,6 +133,11 @@
     "name": "task-list",
     "title": "Task List",
     "description": "The agent's plan, with aggregate progress."
+  },
+  {
+    "name": "timezone-map",
+    "title": "Timezone Map",
+    "description": "A searchable location picker with a supplementary world map."
   },
   {
     "name": "tool-call",

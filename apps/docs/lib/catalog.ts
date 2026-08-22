@@ -701,6 +701,110 @@ export const CATALOG: CatalogEntry[] = [
   onValueChange={setModel}
 />`,
   },
+  {
+    slug: "argument-editor",
+    name: "ArgumentEditor",
+    category: "decide",
+    tagline: "Fix the one wrong argument instead of denying the whole call.",
+    why: "Approval gives a person two options, yes and no, which is the wrong shape for the most common case: the model got the intent right and one argument wrong. Denying throws away a correct plan to fix a path. This lets the argument be corrected in place.",
+    details: [
+      "What the model proposed stays on screen next to the edit, struck through. Without it people can tell something changed but not what.",
+      "Nested objects and arrays are read only. Editing them properly means a JSON editor, and half a JSON editor is worse than an honest read only view.",
+      "Clearing a number input reports NaN, which is dropped rather than committed. Otherwise the argument becomes unsendable the moment someone selects all and types.",
+      "The control matches the value type, so a boolean is a checkbox rather than the string \"true\".",
+      "Reset appears per field only once that field is dirty, and the reset-all control only once anything is.",
+      "It renders a group rather than a form, so it can sit inside an Approval without breaking the outer form's submit.",
+    ],
+    props: [
+      { name: "values", type: "ArgumentValues", description: "Current arguments. Fully controlled." },
+      { name: "original", type: "ArgumentValues", description: "What the model proposed. Defaults to the first values seen." },
+      { name: "onChange", type: "(values) => void", description: "Fires on every edit." },
+      { name: "disabled", type: "boolean", default: "false", description: "Lock every field, e.g. once approved." },
+    ],
+    example: `<ArgumentEditor values={args} onChange={setArgs}>
+  <ArgumentFields>
+    {Object.keys(args).map((key) => (
+      <ArgumentField key={key} name={key} />
+    ))}
+  </ArgumentFields>
+  <ArgumentEditorReset />
+</ArgumentEditor>`,
+  },
+  {
+    slug: "environment-badge",
+    name: "EnvironmentBadge",
+    category: "signal",
+    tagline: "Which environment the agent is actually about to touch.",
+    why: "The worst agent failures are not wrong answers, they are right answers applied to the wrong target. Someone approves a migration believing they are on staging. Nothing else in an agent interface answers that question, so this states it in the same place every time.",
+    details: [
+      "Production is loud and everything else is quiet. If every environment had its own colour then production would be just another colour.",
+      "The target is spoken as a full sentence on entry, not left to a colour and an abbreviation.",
+      "A destructive target says outright that actions cannot be undone.",
+      "The warning renders only on production, so it keeps its meaning instead of becoming decoration people stop seeing.",
+    ],
+    props: [
+      { name: "environment", type: "EnvironmentRef", description: "Kind, optional name, and whether it is destructive." },
+      { name: "labels", type: "Partial<Record<EnvironmentKind, string>>", description: "Override the wording per kind." },
+    ],
+    example: `<EnvironmentBadge environment={{ kind: "production", name: "api-prod-eu" }}>
+  <EnvironmentName />
+  <EnvironmentWarning />
+</EnvironmentBadge>`,
+  },
+  {
+    slug: "guardrail",
+    name: "Guardrail",
+    category: "signal",
+    tagline: "Blocked by policy, and here is which rule did it.",
+    why: "Agents get blocked constantly and the usual treatment is a generic refusal, which teaches the user nothing and makes the agent look broken rather than careful. Naming the rule turns a dead end into something the user can act on.",
+    details: [
+      "Polite, not assertive. The run is not broken and nothing is waiting on the user, so this does not interrupt the way Approval and RunError do.",
+      "The rule and its reason are read as one sentence, and the visible copies are hidden so the identifier is not heard twice.",
+      "The rejected payload sits behind a disclosure, so a screen reader does not read the whole request body before the sentence explaining the block.",
+      "Every override button is named against the action it would allow, so several blocks in one run do not read as identical buttons.",
+      "No override handler means no override button, rather than a control that does nothing.",
+    ],
+    props: [
+      { name: "action", type: "string", description: "What the agent tried to do." },
+      { name: "rule", type: "PolicyRule", description: "The rule that stopped it, with an optional explanation." },
+      { name: "input", type: "unknown", description: "The rejected payload." },
+      { name: "onOverride", type: "() => void", description: "Omit for a hard block and the control disappears." },
+    ],
+    example: `<Guardrail
+  action="Write to /etc/hosts"
+  rule={{ id: "fs-1", name: "no-writes-outside-workspace" }}
+  onOverride={allowOnce}
+/>`,
+  },
+  {
+    slug: "timezone-map",
+    name: "TimezoneMap",
+    category: "input",
+    tagline: "Pick a location by search or by clicking a point on a map.",
+    why: "A clickable map is not, by itself, an accessible way to choose anything: there is no keyboard path onto a bare SVG dot and no way for a screen reader to know what a marker at a given position means. This pairs a fully accessible search and listbox with a supplementary map layered on the same state.",
+    details: [
+      "The map is aria-hidden. Every marker's action is already reachable through the search and list, so duplicating dozens of small pointer targets into the tab order would only add noise.",
+      "Marker positions come from an equirectangular projection of real latitude and longitude, which is exact. There is no hand-drawn coastline, because fabricating continent outlines from memory risks a map that is subtly or badly wrong.",
+      "The list is a real listbox with a single roving tab stop, the same pattern as Suggestions: arrow keys move between cities, one Tab press skips the whole list.",
+      "Search filters both the list and the map's marker set together, so the two views never disagree about what is currently on screen.",
+      "Selecting reports the IANA timezone string, not an internal id, since that is what a caller actually needs to act on.",
+    ],
+    props: [
+      { name: "options", type: "TimezoneOption[]", description: "Cities, each with an id, label, IANA timezone, and lat/lng." },
+      { name: "value", type: "string", description: "Selected option id. Controlled." },
+      { name: "onValueChange", type: "(timezone, option) => void", description: "Fires with the IANA timezone string." },
+      { name: "label", type: "string", default: '"Location"', description: "Accessible name for the search and listbox." },
+    ],
+    example: `<TimezoneMap options={cities} value={value} onValueChange={setValue}>
+  <TimezoneMapSearch />
+  <TimezoneMapList>
+    {filteredOptions.map((opt, i) => (
+      <TimezoneMapOption key={opt.id} option={opt} index={i} />
+    ))}
+  </TimezoneMapList>
+  <TimezoneMapGlobe />
+</TimezoneMap>`,
+  },
 ];
 
 export function getEntry(slug: string): CatalogEntry | undefined {

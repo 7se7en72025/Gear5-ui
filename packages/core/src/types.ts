@@ -278,3 +278,24 @@ export function isPartActive(part: HandoffPart): boolean {
       return false;
   }
 }
+
+/** Where the agent's actions actually land. */
+export type EnvironmentKind = "production" | "staging" | "development" | "sandbox";
+
+/** A named target the agent is operating against. */
+export interface EnvironmentRef {
+  kind: EnvironmentKind;
+  /** What to show, e.g. `api-prod-eu`. Falls back to the kind. */
+  name?: string;
+  /** True when actions here cannot be undone. */
+  destructive?: boolean;
+}
+
+/** A policy that stopped an action before it ran. */
+export interface PolicyRule {
+  id: string;
+  /** Short name of the rule, e.g. `no-writes-outside-src`. */
+  name: string;
+  /** Why the rule exists, in words the user can act on. */
+  explanation?: string;
+}
