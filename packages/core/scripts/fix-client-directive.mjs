@@ -22,7 +22,7 @@ for (const relativePath of CLIENT_BUNDLES) {
   const file = path.resolve(process.cwd(), relativePath);
 
   if (!existsSync(file)) {
-    console.error(`[handoff-ui] expected build output missing: ${relativePath}`);
+    console.error(`[gear5] expected build output missing: ${relativePath}`);
     failed = true;
     continue;
   }
@@ -34,7 +34,7 @@ for (const relativePath of CLIENT_BUNDLES) {
   const fixed = DIRECTIVE + withoutDirective;
 
   if (!fixed.startsWith(DIRECTIVE)) {
-    console.error(`[handoff-ui] could not place the directive in ${relativePath}`);
+    console.error(`[gear5] could not place the directive in ${relativePath}`);
     failed = true;
     continue;
   }
@@ -42,7 +42,7 @@ for (const relativePath of CLIENT_BUNDLES) {
   if (fixed !== original) {
     await writeFile(file, fixed, "utf8");
   }
-  console.log(`[handoff-ui] "use client" verified in ${relativePath}`);
+  console.log(`[gear5] "use client" verified in ${relativePath}`);
 }
 
 // The adapters entry is pure functions and must stay usable from Server
@@ -53,7 +53,7 @@ for (const relativePath of ["dist/adapters/ai-sdk.js", "dist/adapters/ai-sdk.cjs
 
   if ((await readFile(file, "utf8")).includes(DIRECTIVE)) {
     console.error(
-      `[handoff-ui] ${relativePath} must not be a client module — it is meant to run on the server.`,
+      `[gear5] ${relativePath} must not be a client module — it is meant to run on the server.`,
     );
     failed = true;
   }

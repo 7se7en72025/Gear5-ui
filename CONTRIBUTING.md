@@ -8,8 +8,8 @@ project running and what we look for in a pull request.
 Requires Node 20+ and pnpm 9+.
 
 ```bash
-git clone https://github.com/<your-username>/gear5-ui.git
-cd gear5-ui
+git clone https://github.com/7se7en72025/NYXA-UI.git
+cd NYXA-UI
 pnpm install
 pnpm dev
 ```
@@ -69,7 +69,7 @@ We follow [Conventional Commits](https://www.conventionalcommits.org):
 
 ## Good first issues
 
-Issues tagged [`good first issue`](https://github.com/gear5-ui/gear5-ui/labels/good%20first%20issue)
+Issues tagged [`good first issue`](https://github.com/7se7en72025/NYXA-UI/labels/good%20first%20issue)
 are scoped so you can land them without deep context. Comment on one to claim it.
 
 ## Code of Conduct

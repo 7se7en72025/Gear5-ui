@@ -28,7 +28,6 @@ import {
   FeedbackExample,
   EmptyStateExample,
 } from "./gallery-signals";
-import { OnePieceBackground } from "@/registry/one-piece-background";
 import {
   AgentHandoffExample,
   ContextListExample,
@@ -38,20 +37,6 @@ import {
   ToolPermissionExample,
 } from "./gallery-control";
 
-function OnePieceBackgroundExample() {
-  return (
-    <div className="overflow-hidden rounded-panel border border-line">
-      <OnePieceBackground className="h-[360px]">
-        <div className="flex h-[360px] flex-col items-center justify-center px-6 text-center text-white">
-          <p className="text-2xl font-semibold">Grand Line Awaits</p>
-          <p className="mt-2 text-sm text-white/80">
-            Sample content over the animated background
-          </p>
-        </div>
-      </OnePieceBackground>
-    </div>
-  );
-}
 
 /**
  * Slug to demo. Kept apart from the catalog so the metadata stays importable
@@ -81,7 +66,6 @@ const DEMOS: Record<string, React.ComponentType> = {
   "context-list": ContextListExample,
   "agent-handoff": AgentHandoffExample,
   "retry-after": RetryAfterExample,
-  "one-piece-background": OnePieceBackgroundExample,
   feedback: FeedbackExample,
   "empty-state": EmptyStateExample,
   badge: BadgeExample,

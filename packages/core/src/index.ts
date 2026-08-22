@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * handoff-ui — headless, accessible React primitives for agent apps.
+ * @gear5/core — headless, accessible React primitives for agent apps.
  *
  * Nothing here renders styles. Compose these primitives yourself, or install
  * the styled versions with `npx shadcn@latest add`.

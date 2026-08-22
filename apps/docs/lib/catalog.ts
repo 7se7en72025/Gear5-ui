@@ -701,29 +701,6 @@ export const CATALOG: CatalogEntry[] = [
   onValueChange={setModel}
 />`,
   },
-  {
-    slug: "one-piece-background",
-    name: "One Piece Background",
-    category: "output",
-    tagline: "An animated ocean sunset to sit a hero or an empty state on.",
-    why: "Purely decorative, and the only component here that is. Empty states and landing heroes need something behind them, and reaching for a stock gradient every time is how products end up looking like every other product. It renders no interactive surface, so it is the one component with nothing to get wrong accessibility-wise beyond staying out of the way.",
-    details: [
-      "Three wave layers with distinct silhouettes rather than one path repeated, so the water reads as layered instead of as a single blob.",
-      "Each layer is drawn wider than its container, because a layer that drifts horizontally at its exact width exposes the edge underneath.",
-      "Decorative elements are sized as a fraction of the box, so it holds up at a 360px card as well as a full screen.",
-      "The drift animation is dropped entirely under prefers-reduced-motion, and every layer is aria-hidden.",
-      "No height of its own. The consumer sets it, rather than fighting a min-height baked into the component.",
-    ],
-    props: [
-      { name: "children", type: "React.ReactNode", description: "Content rendered above the background." },
-      { name: "className", type: "string", description: "Sets the height and anything else you need." },
-    ],
-    example: `<OnePieceBackground className="h-[420px]">
-  <div className="flex h-full items-center justify-center">
-    <h1>Grand Line Awaits</h1>
-  </div>
-</OnePieceBackground>`,
-  },
 ];
 
 export function getEntry(slug: string): CatalogEntry | undefined {

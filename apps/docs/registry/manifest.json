@@ -194,18 +194,6 @@
       "dependencies": []
     },
     {
-      "slug": "one-piece-background",
-      "title": "One Piece Background",
-      "description": "Animated ocean sunset background with layered waves and atmospheric effects.",
-      "status": "stable",
-      "files": [
-        "one-piece-background.tsx"
-      ],
-      "headless": false,
-      "registryDependencies": [],
-      "dependencies": []
-    },
-    {
       "slug": "reasoning",
       "title": "Reasoning",
       "description": "Collapsible model reasoning that folds away once settled.",

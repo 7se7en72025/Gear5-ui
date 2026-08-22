@@ -89,7 +89,7 @@ export const Slot = React.forwardRef<HTMLElement, SlotProps>(
     if (!React.isValidElement(children)) {
       if (process.env.NODE_ENV !== "production" && children != null) {
         console.warn(
-          "[handoff-ui] `asChild` expects a single React element child. " +
+          "[gear5] `asChild` expects a single React element child. " +
             "Received a non-element, so the props were dropped.",
         );
       }

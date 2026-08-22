@@ -80,11 +80,6 @@
     "description": "A listbox for choosing which model runs, with a description per option."
   },
   {
-    "name": "one-piece-background",
-    "title": "One Piece Background",
-    "description": "Animated ocean sunset background with layered waves and atmospheric effects."
-  },
-  {
     "name": "reasoning",
     "title": "Reasoning",
     "description": "Collapsible model reasoning that folds away once settled."

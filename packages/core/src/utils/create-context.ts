@@ -14,7 +14,7 @@ export function createContext<T>(rootName: string) {
     const context = React.useContext(Context);
     if (context === null) {
       throw new Error(
-        `[handoff-ui] \`${consumerName}\` must be rendered inside \`${rootName}\`.`,
+        `[gear5] \`${consumerName}\` must be rendered inside \`${rootName}\`.`,
       );
     }
     return context;

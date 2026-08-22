@@ -19,7 +19,7 @@ const E = "\u001b";
 const BUILD_OUTPUT = [
   "$ pnpm build",
   "",
-  `${E}[2m> handoff-ui@0.1.0 build${E}[0m`,
+  `${E}[2m> @gear5/core@0.1.0 build${E}[0m`,
   `${E}[34m>${E}[0m compiling 128 modules...`,
   `${E}[32m✓${E}[0m compiled in 2.4s`,
   `${E}[33m!${E}[0m 2 chunks exceed the recommended size`,

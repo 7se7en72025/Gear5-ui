@@ -18,7 +18,7 @@ runtime dependencies and takes React 18 or 19 as a peer.
 shadcn CLI. The files land in your repo as source you own and edit.
 
 ```bash
-npx shadcn@latest add https://raw.githubusercontent.com/7se7en72025/Gear5-ui/main/apps/docs/public/r/approval.json
+npx shadcn@latest add https://raw.githubusercontent.com/7se7en72025/NYXA-UI/main/apps/docs/public/r/approval.json
 ```
 
 ## Components
