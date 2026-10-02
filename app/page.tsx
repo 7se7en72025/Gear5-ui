@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { OrbitHero } from "@/registry/gear5/ui/orbit-hero";
 import { ProjectShowcase } from "@/registry/gear5/ui/project-showcase";
+import { ProjectGallery } from "@/registry/gear5/ui/project-gallery";
+import { SpotlightBento } from "@/registry/gear5/ui/spotlight-bento";
 import { FeatureSwitcher } from "@/registry/gear5/ui/feature-switcher";
 import { Copyable } from "@/components/site/copyable";
 import { installCommand } from "@/lib/registry";
@@ -53,7 +55,7 @@ export default function Home() {
             </h2>
           </div>
           <Link href="/components" className="button-secondary">
-            All 5 components <span aria-hidden="true">↗</span>
+            Explore all 7 blocks <span aria-hidden="true">↗</span>
           </Link>
         </div>
         <div className="grid gap-5 lg:grid-cols-2">
@@ -90,6 +92,18 @@ export default function Home() {
               </Link>
             </div>
           </article>
+        </div>
+      </section>
+      <section className="border-y border-hairline bg-anvil/40">
+        <div className="mx-auto max-w-[1320px] space-y-5 px-5 py-10 sm:px-8 sm:py-16">
+          <ProjectGallery
+            eyebrow="NEW / PROJECT GALLERY"
+            title="More room for the work."
+          />
+          <SpotlightBento
+            eyebrow="NEW / SPOTLIGHT BENTO"
+            title="Tell the whole story, at a glance."
+          />
         </div>
       </section>
       <section className="border-y border-hairline bg-anvil/60">

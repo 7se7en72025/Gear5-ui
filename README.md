@@ -2,7 +2,7 @@
 
 **Make the web feel something.**
 
-Original, expressive React blocks for portfolios and product launches. Five
+Original, expressive React blocks for portfolios and product launches. Seven
 interactive components, one complete portfolio template, and editable source
 installed through the shadcn CLI. Built with React and Tailwind CSS 4.
 
@@ -10,17 +10,27 @@ installed through the shadcn CLI. Built with React and Tailwind CSS 4.
 
 ## Collection 01
 
-| Block | What it does |
-| --- | --- |
-| Orbit Hero | Bold headline, clear actions, and pointer-responsive orbital artwork |
-| Project Showcase | Tactile project cards with native expandable case studies |
+| Block            | What it does                                                            |
+| ---------------- | ----------------------------------------------------------------------- |
+| Orbit Hero       | Bold headline, clear actions, and pointer-responsive orbital artwork    |
+| Project Showcase | Tactile project cards with native expandable case studies               |
+| Project Gallery  | Filter real work and move through a selected case study                 |
 | Feature Switcher | Keyboard-controlled tabs and a visual stage for your process or product |
-| Pricing Switch | Monthly/yearly billing controls with explicit prices and billing notes |
-| Testimonial Deck | Manual quote navigation, wraparound controls, and live announcements |
+| Spotlight Bento  | An editorial feature grid with an optional mouse spotlight              |
+| Pricing Switch   | Monthly/yearly billing controls with explicit prices and billing notes  |
+| Testimonial Deck | Manual quote navigation, wraparound controls, and live announcements    |
 
-**Folio 01** combines all five into a complete independent designer/developer
-portfolio: introduction, selected work, process, services, testimonials, and
-contact. Default names, projects, prices, and quotes are fictional examples.
+**Folio 01** combines five complementary blocks into a complete independent
+designer/developer portfolio: introduction, visual project gallery, process,
+services, testimonials, and contact. Default names, projects, prices, and
+quotes are fictional examples.
+
+## New blocks
+
+`components.md` is the living product decision record. The first two reviewed
+additions are the keyboard-ready Project Gallery and the reduced-motion-aware
+Spotlight Bento. Their original artwork, acceptance criteria, and research are
+there. `learnings.md` keeps dated feedback and verified findings.
 
 ## Install
 
@@ -37,13 +47,18 @@ npx shadcn@latest add https://gear5-ui.vercel.app/r/portfolio-template.json
 import { OrbitHero } from "@/components/gear5/orbit-hero";
 
 export default function Hero() {
-  return <OrbitHero
-    headingLevel="h1"
-    title={"Ideas into\nsomething real."}
-    accent="#d9fc87"
-    action={{ label: "See my work", href: "#work" }}
-    secondaryAction={{ label: "Get in touch", href: "mailto:you@example.com" }}
-  />;
+  return (
+    <OrbitHero
+      headingLevel="h1"
+      title={"Ideas into\nsomething real."}
+      accent="#d9fc87"
+      action={{ label: "See my work", href: "#work" }}
+      secondaryAction={{
+        label: "Get in touch",
+        href: "mailto:you@example.com",
+      }}
+    />
+  );
 }
 ```
 

@@ -6,6 +6,7 @@ import {
   showcaseProjects,
 } from "@/registry/gear5/ui/project-showcase";
 import { FeatureSwitcher } from "@/registry/gear5/ui/feature-switcher";
+import { SpotlightBento } from "@/registry/gear5/ui/spotlight-bento";
 import { PricingSwitch } from "@/registry/gear5/ui/pricing-switch";
 import { TestimonialDeck } from "@/registry/gear5/ui/testimonial-deck";
 import { PortfolioTemplate } from "@/registry/gear5/ui/portfolio-template";
@@ -193,6 +194,20 @@ describe("Testimonial Deck", () => {
     );
     rerender(<TestimonialDeck testimonials={[]} />);
     expect(screen.queryByRole("button")).toBeNull();
+  });
+});
+describe("Spotlight Bento", () => {
+  it("keeps its content available when matchMedia is unavailable", () => {
+    vi.spyOn(window, "matchMedia").mockReturnValue(
+      undefined as unknown as MediaQueryList,
+    );
+    render(<SpotlightBento />);
+    expect(
+      screen.getByRole("heading", { name: "Good ideas, with room to breathe." }),
+    ).toBeTruthy();
+    expect(
+      screen.getByRole("heading", { name: "Know what makes you, you." }),
+    ).toBeTruthy();
   });
 });
 describe("Folio 01", () => {

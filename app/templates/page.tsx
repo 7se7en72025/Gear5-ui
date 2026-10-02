@@ -3,7 +3,7 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "Templates",
   description:
-    "Folio 01: a complete original portfolio made from five expressive Gear5 blocks.",
+    "Folio 01: a complete portfolio with image-led work and story-driven sections.",
   alternates: { canonical: "/templates" },
 };
 export default function TemplatesPage() {

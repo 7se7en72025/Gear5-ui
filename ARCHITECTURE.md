@@ -1,22 +1,23 @@
 # Gear5 UI architecture
 
 The root app is a curated animated-block library for portfolios and product
-launches. Collection 01 contains five blocks, one portfolio template, and a
+launches. Collection 01 contains seven blocks, one portfolio template, and a
 safe-link helper. The old general-purpose root catalog and unused demos have
 been removed. The historical `gear5/` project builds separately.
 
-| Stage | Source | Responsibility |
-| --- | --- | --- |
-| Block code | `registry/gear5/ui/` | Orbit Hero, Project Showcase, Feature Switcher, Pricing Switch, Testimonial Deck |
-| Composition | `portfolio-template.tsx` | Folio 01, using all five blocks and caller content |
-| Helper | `registry/gear5/lib/sanitize.ts` | Neutralize executable link schemes |
-| Manifest | `registry.json` | Five registry:ui items, one registry:block template, one registry:lib helper |
-| Distribution | `scripts/build-registry.mjs` | Rewrite imports and publish installer-ready JSON |
-| Fixtures | `components/demos.tsx` | Six minimal renders for axe and SSR |
-| Playground | `components/site/preview.tsx` | Accent/headline controls, reset, customized copyable usage |
-| Documentation | `app/components/[name]/`, `lib/doc-examples.ts` | Live preview, install, usage, notes, source, helper files |
-| Templates | `app/templates/` | Template catalog, complete live portfolio, all source and installation |
-| Verification | `tests/` | Registry reliability, budgets, source scans, keyboard/state behaviour, axe, SSR, fresh consumer bundle |
+| Stage         | Source                                          | Responsibility                                                                                                     |
+| ------------- | ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| Block code    | `registry/gear5/ui/`                            | Orbit Hero, Project Showcase, Project Gallery, Feature Switcher, Spotlight Bento, Pricing Switch, Testimonial Deck |
+| Composition   | `portfolio-template.tsx`                        | Folio 01, using five complementary blocks and caller content                                                       |
+| Helper        | `registry/gear5/lib/sanitize.ts`                | Neutralize executable link schemes                                                                                 |
+| Manifest      | `registry.json`                                 | Seven registry:ui items, one registry:block template, one registry:lib helper                                      |
+| Distribution  | `scripts/build-registry.mjs`                    | Rewrite imports and publish installer-ready JSON                                                                   |
+| Fixtures      | `components/demos.tsx`                          | One small fixture for each of seven blocks and the template; shared accessibility and server-render checks         |
+| Playground    | `components/site/preview.tsx`                   | Accent/headline controls, reset, customized copyable usage                                                         |
+| Documentation | `app/components/[name]/`, `lib/doc-examples.ts` | Live preview, install, usage, notes, source, helper files                                                          |
+| Templates     | `app/templates/`                                | Template catalog, complete live portfolio, all source and installation                                             |
+| Decisions     | `components.md`, `learnings.md`                 | Intake, acceptance criteria, verified findings, and dated choices                                                  |
+| Verification  | `tests/`                                        | Registry reliability, budgets, source scans, keyboard/state behaviour, axe, SSR, fresh consumer bundle             |
 
 ## Design and interaction
 

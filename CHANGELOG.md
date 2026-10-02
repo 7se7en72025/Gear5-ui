@@ -7,6 +7,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Living library improvements (2026-10-02)
+
+- Added Project Gallery for caller-owned portfolio artwork, category browsing,
+  and a keyboard-selectable case-study panel.
+- Added Spotlight Bento, a content-first story grid with a reduced-motion-aware
+  mouse spotlight, no image requests, and no motion dependency.
+- Expanded Collection 01 to seven distinct blocks. Folio 01 now includes the
+  image-led gallery and story grid so both additions appear in a real page.
+- Started `components.md` and `learnings.md` as living decision and research
+  records; added component intake guidance and a customer-feedback-led roadmap.
+- Recorded the requested twenty-minute improvement cadence and daily cap of
+  two new components in the repo handoff and learning notes. This Codex session
+  has no scheduling tool to run that cycle automatically.
+- Fixed Spotlight Bento's missing Next client boundary after it was found by
+  the local preview and made it safe when `matchMedia` is unavailable.
+- Fixed Folio 01's Process navigation anchor, exposed by the existing unique
+  section-link regression check.
+- Verification: `pnpm verify` passed all 14 registry regressions and 94 tests;
+  `pnpm build` generated 10 registry files and 26 static routes. New blocks
+  measured 2,309 B (Gallery), 2,143 B (Bento), and the whole Folio template at
+  7,394 B gzip with React external. Vite retains its existing CJS deprecation.
+
 ### Collection 01 rebuild (2026-10-02)
 
 - Replaced the previous root catalog with five original expressive blocks:

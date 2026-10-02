@@ -48,6 +48,21 @@
       ]
     },
     {
+      "name": "project-gallery",
+      "type": "registry:ui",
+      "title": "Project Gallery",
+      "description": "An image-forward project grid with filters and a keyboard-ready detail preview.",
+      "tier": "lg",
+      "category": "Portfolio",
+      "registryDependencies": ["sanitize"],
+      "files": [
+        {
+          "path": "registry/gear5/ui/project-gallery.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "feature-switcher",
       "type": "registry:ui",
       "title": "Feature Switcher",
@@ -58,6 +73,21 @@
       "files": [
         {
           "path": "registry/gear5/ui/feature-switcher.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "spotlight-bento",
+      "type": "registry:ui",
+      "title": "Spotlight Bento",
+      "description": "An editorial feature grid with a restrained cursor spotlight that stays calm for keyboard and touch.",
+      "tier": "lg",
+      "category": "Product storytelling",
+      "registryDependencies": ["sanitize"],
+      "files": [
+        {
+          "path": "registry/gear5/ui/spotlight-bento.tsx",
           "type": "registry:ui"
         }
       ]
@@ -96,12 +126,12 @@
       "name": "portfolio-template",
       "type": "registry:block",
       "title": "Folio 01",
-      "description": "A complete independent designer portfolio composed from all five Gear5 blocks.",
+      "description": "A complete independent designer portfolio composed from Gear5 blocks.",
       "tier": "page",
       "registryDependencies": [
         "orbit-hero",
-        "project-showcase",
-        "feature-switcher",
+        "project-gallery",
+        "spotlight-bento",
         "pricing-switch",
         "testimonial-deck",
         "sanitize"

@@ -2,54 +2,51 @@
 
 Updated 2026-10-02 (Asia/Calcutta).
 
-## Current direction
+## User's direction
 
-The user asked to rebuild Gear5 in a Vengeance UI style and replace the previous
-general-purpose library. The root application now focuses on original animated
-React blocks for portfolios and product launches.
+The user disliked the site's direction and wants Gear5 to become a useful,
+living library of polished, original blocks inspired by the category and live
+preview approach of Vengeance UI. Research and code belong in the repo so the
+user can stay hands-off.
 
-Collection 01: Orbit Hero, Project Showcase, Feature Switcher, Pricing Switch,
-Testimonial Deck. Folio 01 composes all five into a complete fictional designer
-portfolio. The catalog, homepage, component docs, installation guide, metadata,
-and machine-readable index now match that direction.
+At most two new blocks may be released per calendar day in India. The user
+wants a useful repo improvement every 20 minutes. No recurring-run automation
+tool is connected in this workspace, so this is a requested cadence, not an
+active scheduled job. After the daily block limit, improve previews, docs,
+polish, performance, or fixes; do not manufacture components for a count. The
+first two blocks today are Project Gallery and Spotlight Bento.
 
-Old root component sources and unused demonstrations were removed. The
-independent historical `gear5/` app is outside this collection.
+## Current repo state
 
-## Verification
+Commit `b7f723a` is on `origin/main`. A second local change adds seven total
+blocks and two researched components: image-led project browsing in Project
+Gallery, and an editorial four-tile story layout in Spotlight Bento. Folio 01
+now uses them for its work and process sections. It remains five complementary
+blocks, with caller-owned project artwork and contact details. `components.md`
+and `learnings.md` are the design intake and evidence record.
 
-- `pnpm verify` passed: type checking, lint with zero errors/warnings,
-  14 native registry regressions and 81 Vitest tests across eight files.
-- `pnpm build` passed and generated 22 static outputs and eight registry files.
-- Every block/template fixture passed axe and server rendering. Distributed
-  template source bundled successfully in a fresh consumer file tree.
-- Blocks are 1,226–1,660 B gzip. Template including dependencies is 6,005 B
-  with React external, within its 10,000 B budget.
-- Desktop and 390/320 px browser checks passed without horizontal page overflow.
-  Checked keyboard tabs, native disclosure, annual billing totals, testimonials,
-  customized code copying/reset, and portfolio section links.
-- The optimized production homepage rendered with no captured browser errors.
-- Vite still emits its CJS Node API deprecation notice. Reduced-motion styles
-  are covered by source checks; OS preference emulation and manual screen-reader
-  testing were not performed.
+`pnpm verify` measured Project Gallery at 2,309 B, Spotlight Bento at 2,143 B,
+and Folio 01 at 7,394 B gzip, with React external. All are inside their declared
+registry tiers.
 
-## Implementation notes
+## Current checks
 
-- Registry supports registry:block templates and a page budget (10 KB gzip,
-  including block dependencies, React external).
-- Source copies come from generated registry JSON with installer-ready aliases.
-- Customization copies the chosen headline and accent, including escaped input.
-- Project disclosures and billing controls use native browser behaviour.
-- Feature tabs use roving keyboard focus and computed writing direction.
-- Testimonial navigation wraps manually and retains focus.
-- Replace every fictional sample before using the portfolio as a real site.
-- Registry writes remain atomic per file; concurrent different builds need
-  separate output folders.
+`pnpm verify` passes: typecheck, full lint, 14 registry build regressions, and
+94 Vitest cases across eight files. One run exposed a missing `matchMedia`
+fallback; another confirmed and fixed Folio 01's process anchor. `pnpm build`
+passes, generating ten registry JSON files and 26 static pages. Vite reports
+its existing CJS Node API deprecation warning. The public registry CLI install
+and manual assistive-technology checks remain outstanding.
 
-## Next step
+## Next steps
 
-After hosting deploys the pushed commit, check public registry URLs and run a
-real shadcn CLI installation against the deployed site. The automated consumer
-test covers generated files and bundling, not the CLI's network/install workflow.
-Future additions should be original blocks that complete a real page, with a
-live example and an honest bundle budget.
+1. Fetch `origin/main`; it must still descend from `b7f723a` before publishing.
+2. Make a normal commit and push this verified state. Never force push.
+3. After publishing, check the deployed registry and attempt a real shadcn CLI
+   install as a consumer.
+4. Keep the daily cap and report the requested schedule as inactive until a
+   recurring automation surface is available.
+
+The last published production preview is at
+`http://localhost:58913`. Next's development preview is at
+`http://localhost:3000`. The separate `gear5/` app remains a historical project.

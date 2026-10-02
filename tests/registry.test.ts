@@ -15,8 +15,8 @@ import {
 } from "@/lib/registry";
 
 describe("collection registry", () => {
-  it("contains five blocks and one complete template", () => {
-    expect(components).toHaveLength(5);
+  it("contains seven blocks and one complete template", () => {
+    expect(components).toHaveLength(7);
     expect(templates).toHaveLength(1);
     expect(templates[0].name).toBe("portfolio-template");
   });

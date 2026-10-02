@@ -1,22 +1,21 @@
 # Gear5 UI roadmap
 
-## Collection 01
+## Current focus: make the library feel useful
 
-- Orbit Hero
-- Project Showcase
-- Feature Switcher
-- Pricing Switch
-- Testimonial Deck
-- Folio 01 portfolio template
-- Live customization, source copy, and CLI installation
+- Finish the Project Gallery and Spotlight Bento first release.
+- Improve previews, collection discovery, and readable installation examples.
+- Keep component decisions and acceptance criteria in `components.md`.
+- Put dated feedback and measured findings in `learnings.md`.
+- Replace fictional example work with clearly labelled visual scaffolding; do
+  not present invented clients or testimonials as proof.
 
-## Next, after feedback on the first collection
+## What follows user feedback
 
-- A second complete product-launch template using these same blocks
-- Original navigation and CTA interactions that fit a real page
-- Project artwork slots and more visual variants
-- Browser and screen-reader checks on more devices
-- Published screen recordings of each interaction
+- One product-launch template assembled from the best fitting blocks.
+- A clear, small use-case finder that routes visitors to the right component.
+- More real customer workflow examples if users identify a repeated need.
+- Browser and screen-reader review on devices available to maintainers.
 
-Prefer one complete, useful composition over adding interchangeable effects.
-Every new block needs its purpose, state behaviour, and installation verified.
+Prefer one useful, well-explained pattern to several interchangeable effects.
+Research a real user need first, measure bundle cost, and do not add an idea
+until its purpose is different from the existing collection.

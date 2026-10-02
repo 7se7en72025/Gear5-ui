@@ -5,7 +5,7 @@ import { components } from "@/lib/registry";
 export const metadata: Metadata = {
   title: "Components",
   description:
-    "Five expressive, interactive React blocks. Preview them, then make them yours.",
+    "Seven expressive React blocks for portfolio work, product stories, and their most useful details.",
   alternates: { canonical: "/components" },
 };
 export default function ComponentsPage() {
@@ -16,7 +16,7 @@ export default function ComponentsPage() {
         Pick your next move<span className="text-coral">.</span>
       </h1>
       <p className="mt-5 max-w-xl text-sm leading-7 text-smoke">
-        Five original blocks. Real interactions. Open every preview, try the
+        Seven original blocks. Real interactions. Open every preview, try the
         controls, then take the source with you.
       </p>
       <nav aria-label="Component index" className="mt-8 flex flex-wrap gap-2">

@@ -33,8 +33,13 @@ how to verify a change. `CLAUDE.md` points here so agents share one guide.
   Validate it with its own declared scripts when changing it.
 
 The current product is a curated library of original expressive blocks for
-portfolios and product launches. Collection 01 has five blocks and Folio 01.
+portfolios and product launches. Collection 01 has seven blocks and Folio 01.
 Do not restore the retired general-purpose catalog or its old positioning.
+
+Before adding a block, check `components.md` for overlap and record its user,
+page job, states, and acceptance bar. Keep `learnings.md` grounded in dated
+user feedback, measurements, and primary sources. Prefer two useful improvements
+over rushed quota fillers.
 
 These workflow practices are adapted from
 https://github.com/medhu123/amzn_code (AGENTS.md, IMPROVEMENT.md,

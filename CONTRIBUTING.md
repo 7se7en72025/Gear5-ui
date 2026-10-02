@@ -15,6 +15,8 @@ a product story, pricing, social proof, or a clear next action.
 - Test meaningful state and focus changes. Native disclosures and radio inputs
   should keep their browser behaviour.
 - Provide a runnable usage example and practical notes in `lib/doc-examples.ts`.
+- Record the page job, distinct behaviour, responsive states, and acceptance
+  bar in `components.md`; add verified discoveries to `learnings.md`.
 - Templates use `registry:block` and the `page` tier. Their bundle budget counts
   all transitive component code, with React external.
 

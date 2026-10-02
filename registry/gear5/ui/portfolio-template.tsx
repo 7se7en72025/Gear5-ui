@@ -2,12 +2,8 @@
 
 import { useId, type CSSProperties } from "react";
 import { OrbitHero } from "./orbit-hero";
-import {
-  ProjectShowcase,
-  showcaseProjects,
-  type ShowcaseProject,
-} from "./project-showcase";
-import { FeatureSwitcher } from "./feature-switcher";
+import { ProjectGallery, type GalleryProject } from "./project-gallery";
+import { SpotlightBento, type BentoFeature } from "./spotlight-bento";
 import { PricingSwitch, type PricingPlan } from "./pricing-switch";
 import {
   TestimonialDeck,
@@ -24,7 +20,8 @@ export interface PortfolioTemplateProps {
   title?: string;
   description?: string;
   availability?: string;
-  projects?: ShowcaseProject[];
+  projects?: GalleryProject[];
+  process?: BentoFeature[];
   testimonials?: DeckTestimonial[];
   projectLinkLabel?: string;
   services?: PricingPlan[];
@@ -72,7 +69,53 @@ const servicesDefault: PricingPlan[] = [
   },
 ];
 
-/** Complete sample portfolio. Replace the fictional content and pricing before publishing. */
+const projectsDefault: GalleryProject[] = [
+  {
+    id: "forma",
+    title: "Forma",
+    category: "Identity",
+    description:
+      "A new visual language for an architecture studio, made to grow.",
+    artworkAlt: "Abstract pale sage identity artwork marked f.",
+    artwork: (
+      <div className="flex aspect-[5/4] items-center justify-center bg-[#d5e6d3] font-serif text-8xl text-[#283329]">
+        f.
+      </div>
+    ),
+    href: "#contact",
+    linkLabel: "Discuss a similar project",
+  },
+  {
+    id: "mono",
+    title: "Mono",
+    category: "Product",
+    description: "Turning a busy creative workflow into a calmer workspace.",
+    artworkAlt: "Abstract lavender product artwork marked m.",
+    artwork: (
+      <div className="flex aspect-[5/4] items-center justify-center bg-[#c9c4e4] font-mono text-7xl text-[#302b48]">
+        m↗
+      </div>
+    ),
+    href: "#contact",
+    linkLabel: "Discuss a similar project",
+  },
+  {
+    id: "terrain",
+    title: "Terrain",
+    category: "Digital",
+    description: "An independent publication for the places in between.",
+    artworkAlt: "Warm sand-colored publication artwork marked t.",
+    artwork: (
+      <div className="flex aspect-[5/4] items-center justify-center bg-[#ead3b9] font-serif text-7xl italic text-[#49362b]">
+        t*
+      </div>
+    ),
+    href: "#contact",
+    linkLabel: "Discuss a similar project",
+  },
+];
+
+/** Complete sample portfolio with an editable gallery and process grid. Replace sample content before publishing. */
 export function PortfolioTemplate({
   name = "Alex Morgan",
   initials = "am.",
@@ -81,7 +124,8 @@ export function PortfolioTemplate({
   title = "Thoughtful design.\nUnexpected details.",
   description = "I’m Alex, an independent designer and developer turning ambitious ideas into digital experiences people love.",
   availability = "Available for select projects",
-  projects = showcaseProjects,
+  projects = projectsDefault,
+  process: processFeatures,
   testimonials = deckTestimonials,
   projectLinkLabel = "Discuss a similar project",
   services = servicesDefault,
@@ -89,7 +133,7 @@ export function PortfolioTemplate({
 }: PortfolioTemplateProps) {
   const id = useId().replace(/:/g, "");
   const work = `${id}-work`,
-    process = `${id}-process`,
+    processId = `${id}-process`,
     pricing = `${id}-services`,
     contact = `${id}-contact`;
   const emailHref = sanitizeHref(`mailto:${email}`);
@@ -112,7 +156,7 @@ export function PortfolioTemplate({
             className="flex flex-wrap gap-5 text-xs text-[#c2c4bd]"
           >
             <a href={`#${work}`}>{labels.work ?? "Work"}</a>
-            <a href={`#${process}`}>{labels.process ?? "Process"}</a>
+            <a href={`#${processId}`}>{labels.process ?? "Process"}</a>
             <a href={`#${pricing}`}>{labels.services ?? "Services"}</a>
             <a href={`#${contact}`} className="text-[var(--g5-accent)]">
               {labels.contact ?? "Let’s talk"} ↗
@@ -135,17 +179,24 @@ export function PortfolioTemplate({
           />
         </div>
         <div id={work} className="mt-6 scroll-mt-24">
-          <ProjectShowcase
+          <ProjectGallery
             accent={accent}
+            title="A few things I’ve made."
+            eyebrow={labels.work ?? "Selected work"}
             projects={projects.map((project) => ({
               ...project,
+              linkLabel: project.linkLabel ?? projectLinkLabel,
               href: project.href === "#contact" ? emailHref : project.href,
             }))}
-            linkLabel={projectLinkLabel}
           />
         </div>
-        <div id={process} className="mt-6 scroll-mt-24">
-          <FeatureSwitcher accent={accent} />
+        <div id={processId} className="mt-6 scroll-mt-24">
+          <SpotlightBento
+            accent={accent}
+            eyebrow={labels.process ?? "How I work"}
+            title="A considered path from first sketch to launch."
+            features={processFeatures}
+          />
         </div>
         <div id={pricing} className="mt-6 scroll-mt-24">
           <PricingSwitch
