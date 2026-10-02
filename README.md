@@ -167,8 +167,11 @@ Resolve the locale on the server. Reading `navigator.language` during render cau
 
 The claims above are assertions in the test suite, not aspirations.
 
+`tests/registry-build.test.mjs` also checks that failed registry inputs preserve
+published files, replacements leave complete JSON, and rebuilds are reproducible.
+
 ```bash
-pnpm verify   # typecheck, lint, and the full test suite
+pnpm verify   # typecheck, lint, registry regression tests, and component tests
 ```
 
 - `tests/budget.test.ts` covers performance and supply chain. It bundles and gzips every item with React external against its tier budget, and scans imports.
@@ -186,6 +189,11 @@ That same file is what the docs site renders as its previews. A component whose 
 
 ## Development
 
+The working guide in [AGENTS.md](AGENTS.md) links the current
+[handoff](HANDOFF.md), [architecture](ARCHITECTURE.md), and
+[improvement loop](IMPROVEMENT.md). Record material changes with their measured
+results in [CHANGELOG.md](CHANGELOG.md).
+
 ### Documentation site
 
 - Search by name, description, or category. Filters and sorting are encoded in the URL, so searches can be bookmarked and shared.
@@ -199,8 +207,10 @@ The registry URLs baked into `public/r/*.json` and shown on the docs site come f
 ```bash
 pnpm install
 pnpm dev              # docs site, component browser, and playground at localhost:3000
-pnpm verify           # everything CI runs
+pnpm verify           # typecheck, lint, registry and component tests
 pnpm registry:build   # compile registry.json into public/r/*.json
+pnpm test:registry    # failed-input preservation, safe writes, and rebuild checks
+pnpm build            # production build; also required before pushing
 ```
 
 `next.config.ts` also runs the registry build itself at config load time, so `next dev` and `next build` regenerate `public/r/` even when something upstream skips the `pnpm registry:build` step. A hosting platform's build command override or a cached CI step will both do that, and the failure is silent: a deployed site whose own install commands 404.

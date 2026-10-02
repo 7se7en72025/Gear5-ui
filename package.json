@@ -38,8 +38,9 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
+    "test:registry": "node --test tests/registry-build.test.mjs",
     "registry:build": "node scripts/build-registry.mjs",
-    "verify": "pnpm typecheck && pnpm lint && pnpm test"
+    "verify": "pnpm typecheck && pnpm lint && pnpm test:registry && pnpm test"
   },
   "dependencies": {
     "next": "16.3.2",

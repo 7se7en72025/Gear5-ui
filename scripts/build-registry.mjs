@@ -7,12 +7,12 @@
  * those imports are rewritten to `@/` aliases on the way out.
  */
 
-import { mkdir, readFile, readdir, rm, writeFile } from "node:fs/promises";
+import { mkdir, readFile, readdir, rename, rm, writeFile } from "node:fs/promises";
+import { randomUUID } from "node:crypto";
 import { dirname, join, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
-const outDir = join(root, "public", "r");
 
 /**
  * Mirrors lib/site.ts's getSiteUrl(). Duplicated rather than imported: this
@@ -21,17 +21,15 @@ const outDir = join(root, "public", "r");
  * commands point at a domain nobody is serving — is worse than one small
  * function kept in sync by hand.
  */
-function resolveSiteUrl() {
-  const explicit = process.env.NEXT_PUBLIC_SITE_URL;
+function resolveSiteUrl(env) {
+  const explicit = env.NEXT_PUBLIC_SITE_URL;
   if (explicit) return explicit.replace(/\/$/, "");
 
-  const vercel = process.env.VERCEL_PROJECT_PRODUCTION_URL ?? process.env.VERCEL_URL;
+  const vercel = env.VERCEL_PROJECT_PRODUCTION_URL ?? env.VERCEL_URL;
   if (vercel) return `https://${vercel}`;
 
   return "http://localhost:3000";
 }
-
-const HOMEPAGE = resolveSiteUrl();
 
 /** Where each registry type lands in a consumer's project. */
 const TARGETS = {
@@ -46,7 +44,8 @@ const TARGETS = {
  */
 function aliasFor(sourcePath, typeByBasename) {
   const basename = sourcePath.split("/").pop().replace(/\.tsx?$/, "");
-  const type = typeByBasename.get(basename) ?? "registry:lib";
+  const type = typeByBasename.get(basename);
+  if (!type) throw new Error(`Undeclared local registry import: ${sourcePath}`);
   return `@/${TARGETS[type]}/${basename}`;
 }
 
@@ -54,13 +53,48 @@ function rewriteImports(content, typeByBasename) {
   // Only relative specifiers pointing inside registry/gear5 are rewritten;
   // anything else (react, next, …) is left exactly as the author wrote it.
   return content.replace(
-    /from\s+"(\.\.?\/[^"]+)"/g,
-    (match, specifier) => `from "${aliasFor(specifier, typeByBasename)}"`,
+    /from\s+(["'])(\.\.?\/[^"']+)\1/g,
+    (match, quote, specifier) => `from ${quote}${aliasFor(specifier, typeByBasename)}${quote}`,
   );
 }
 
-async function main() {
-  const manifest = JSON.parse(await readFile(join(root, "registry.json"), "utf8"));
+async function writeJsonAtomic(path, value) {
+  const temporary = `${path}.${randomUUID()}.tmp`;
+  try {
+    await writeFile(temporary, JSON.stringify(value, null, 2), { flag: "wx" });
+    await rename(temporary, path);
+  } finally {
+    await rm(temporary, { force: true });
+  }
+}
+
+export async function buildRegistry(projectRoot = root, env = process.env) {
+  const outDir = join(projectRoot, "public", "r");
+  const homepage = resolveSiteUrl(env);
+  const manifest = JSON.parse(await readFile(join(projectRoot, "registry.json"), "utf8"));
+  if (!Array.isArray(manifest.items)) throw new Error("registry.json must contain an items array");
+  const names = new Set();
+  for (const item of manifest.items) {
+    if (typeof item.name !== "string" || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(item.name) || item.name === "index") {
+      throw new Error(`Invalid registry name: ${item.name}`);
+    }
+    if (names.has(item.name)) throw new Error(`Duplicate registry name: ${item.name}`);
+    names.add(item.name);
+    if (!Object.hasOwn(TARGETS, item.type) || !Array.isArray(item.files) || !item.files.length) {
+      throw new Error(`Invalid type or files for registry item: ${item.name}`);
+    }
+    for (const file of item.files) {
+      if (!Object.hasOwn(TARGETS, file.type) ||
+          !/^registry\/gear5\/(?:ui|lib)\/[a-z0-9-]+\.tsx?$/.test(file.path)) {
+        throw new Error(`Invalid registry file in ${item.name}: ${file.path}`);
+      }
+    }
+  }
+  for (const item of manifest.items) {
+    for (const dependency of item.registryDependencies ?? []) {
+      if (!names.has(dependency)) throw new Error(`${item.name} has unknown dependency: ${dependency}`);
+    }
+  }
 
   // Basename -> registry type, so an import can be routed to the right target
   // directory without resolving the filesystem.
@@ -68,20 +102,19 @@ async function main() {
   for (const item of manifest.items) {
     for (const file of item.files) {
       const basename = file.path.split("/").pop().replace(/\.tsx?$/, "");
+      if (typeByBasename.has(basename)) throw new Error(`Duplicate registry file basename: ${basename}`);
       typeByBasename.set(basename, file.type);
     }
   }
 
-  await rm(outDir, { recursive: true, force: true });
-  await mkdir(outDir, { recursive: true });
-
   const index = [];
+  const outputs = new Map();
 
   for (const item of manifest.items) {
     const files = [];
 
     for (const file of item.files) {
-      const raw = await readFile(join(root, file.path), "utf8");
+      const raw = await readFile(join(projectRoot, file.path), "utf8");
       const basename = file.path.split("/").pop();
 
       files.push({
@@ -100,29 +133,39 @@ async function main() {
       description: item.description,
       dependencies: item.dependencies ?? [],
       registryDependencies: (item.registryDependencies ?? []).map(
-        (dependency) => `${HOMEPAGE}/r/${dependency}.json`,
+        (dependency) => `${homepage}/r/${dependency}.json`,
       ),
       files,
     };
 
-    await writeFile(join(outDir, `${item.name}.json`), JSON.stringify(built, null, 2));
+    outputs.set(`${item.name}.json`, built);
 
     index.push({
       name: item.name,
       type: item.type,
       title: item.title,
       description: item.description,
-      url: `${HOMEPAGE}/r/${item.name}.json`,
+      url: `${homepage}/r/${item.name}.json`,
     });
   }
 
-  await writeFile(
-    join(outDir, "index.json"),
-    JSON.stringify({ name: manifest.name, homepage: HOMEPAGE, items: index }, null, 2),
-  );
-
+  // Read and validate every source before touching the last successful output.
+  // Each rename publishes a complete JSON file; publish the index last. This
+  // is per-file atomicity, not a transaction across the entire directory.
+  await mkdir(outDir, { recursive: true });
+  for (const [name, value] of outputs) await writeJsonAtomic(join(outDir, name), value);
+  await writeJsonAtomic(join(outDir, "index.json"), { name: manifest.name, homepage, items: index });
+  // Remove retired items only after all current items and the index exist.
   const written = await readdir(outDir);
-  console.log(`registry: wrote ${written.length} files to public/r`);
+  for (const name of written) {
+    if (name.endsWith(".json") && name !== "index.json" && !outputs.has(name)) {
+      await rm(join(outDir, name));
+    }
+  }
+  return outputs.size + 1;
 }
 
-await main();
+if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
+  const count = await buildRegistry();
+  console.log(`registry: wrote ${count} files to public/r`);
+}
