@@ -18,12 +18,12 @@ first two blocks today are Project Gallery and Spotlight Bento.
 
 ## Current repo state
 
-`origin/main` has the five-block baseline `b7f723a`. Local commit `a457504`
-adds the two researched blocks: image-led project browsing in Project Gallery,
-and an editorial four-tile story layout in Spotlight Bento. Folio 01 uses both
-for its work and process sections and remains five complementary blocks, with
-caller-owned project artwork and contact details. `components.md` and
-`learnings.md` are the design intake and evidence record.
+`origin/main` includes `cb8fcbd`, following the five-block baseline `b7f723a`.
+Commit `a457504` added the two researched blocks: image-led project browsing in
+Project Gallery and an editorial four-tile story layout in Spotlight Bento.
+Folio 01 uses both for its work and process sections and remains five
+complementary blocks, with caller-owned project artwork and contact details.
+`components.md` and `learnings.md` are the design intake and evidence record.
 
 `pnpm verify` measured Project Gallery at 2,309 B, Spotlight Bento at 2,143 B,
 and Folio 01 at 7,394 B gzip, with React external. All are inside their declared
@@ -40,13 +40,10 @@ and manual assistive-technology checks remain outstanding.
 
 ## Next steps
 
-1. Push `a457504` with a normal fast-forward update; `origin/main` was fetched
-   before this commit and has no competing changes. Never force push.
-2. After publishing, check the deployed registry and attempt a real shadcn CLI
-   install as a consumer.
-3. Keep the daily cap and report the requested schedule as inactive until a
+1. Check the public deploy after the push, then verify registry JSON and try a
+   real shadcn CLI install as a consumer.
+2. Keep the daily cap and report the requested schedule as inactive until a
    recurring automation surface is available.
 
-The last published production preview is at
-`http://localhost:58913`. Next's development preview is at
-`http://localhost:3000`. The separate `gear5/` app remains a historical project.
+The local Next development preview is at `http://localhost:3000`. Public deploy
+status was not checked. The separate `gear5/` app remains a historical project.
