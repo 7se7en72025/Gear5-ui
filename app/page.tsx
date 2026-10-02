@@ -32,6 +32,12 @@ export default function Home() {
           }}
           className="!p-0 !bg-transparent lg:!py-10"
         />
+        <p className="mt-5 text-sm text-smoke">
+          Not sure where to start?{" "}
+          <Link href="/use-cases" className="text-coral underline underline-offset-4">
+            Find blocks by page job <span aria-hidden="true">↗</span>
+          </Link>
+        </p>
         <div className="mt-10 grid min-w-0 gap-5 border-y border-hairline py-6 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center">
           <div className="min-w-0 max-w-lg">
             <Copyable

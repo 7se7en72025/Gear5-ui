@@ -9,6 +9,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     { url: siteUrl, lastModified, priority: 1 },
     { url: `${siteUrl}/components`, lastModified, priority: 0.9 },
+    { url: `${siteUrl}/use-cases`, lastModified, priority: 0.8 },
     { url: `${siteUrl}/getting-started`, lastModified, priority: 0.9 },
     { url: `${siteUrl}/templates`, lastModified, priority: 0.9 },
     { url: `${siteUrl}/templates/portfolio`, lastModified, priority: 0.9 },

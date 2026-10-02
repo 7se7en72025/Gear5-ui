@@ -6,6 +6,13 @@ facts. Add links beside claims about external tools or standards.
 
 ## 2026-10-02 — Build for the page, then design the interaction
 
+- **Collection discovery:** the repo roadmap had a use-case finder as the next
+  feedback-led site improvement. Added a static guide with five page jobs,
+  linked each to existing block details, and added a Folio 01 path for visitors
+  who need a complete composition. This is a product mapping decision, not
+  measured visitor behaviour; analytics or direct feedback should determine
+  which paths deserve refinement.
+
 - **User feedback:** the site did not feel useful enough. A small collection
   deserves stronger page-level previews and a product that solves work people
   actually need to show. Count alone is not a quality signal.

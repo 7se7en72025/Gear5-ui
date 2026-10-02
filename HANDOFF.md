@@ -18,7 +18,7 @@ first two blocks today are Project Gallery and Spotlight Bento.
 
 ## Current repo state
 
-`origin/main` includes `cb8fcbd`, following the five-block baseline `b7f723a`.
+`origin/main` includes `841d277`, following the five-block baseline `b7f723a`.
 Commit `a457504` added the two researched blocks: image-led project browsing in
 Project Gallery and an editorial four-tile story layout in Spotlight Bento.
 Folio 01 uses both for its work and process sections and remains five
@@ -31,10 +31,16 @@ registry tiers.
 
 ## Current checks
 
+The new `/use-cases` route maps five common page jobs to the existing seven
+blocks and links to customization/install pages; it is also linked from home,
+navigation, footer, and sitemap. It adds no registry item. `pnpm verify` passes
+14 registry regressions and 94 tests; `pnpm build` produces 27 static pages
+and ten registry JSON files, including `/use-cases`.
+
 `pnpm verify` passes: typecheck, full lint, 14 registry build regressions, and
 94 Vitest cases across eight files. One run exposed a missing `matchMedia`
 fallback; another confirmed and fixed Folio 01's process anchor. `pnpm build`
-passes, generating ten registry JSON files and 26 static pages. Vite reports
+passes, generating ten registry JSON files and 27 static pages. Vite reports
 its existing CJS Node API deprecation warning. The public registry CLI install
 and manual assistive-technology checks remain outstanding.
 

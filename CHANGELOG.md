@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Collection discovery (2026-10-02)
+
+- Added a static use-case guide that recommends existing blocks by page job,
+  links to each block's live usage/install page, and points complete-portfolio
+  visitors to Folio 01. Added entry points in the home hero, site navigation,
+  footer, and sitemap. No registry item or client-side dependency was added.
+- Verification: `pnpm verify` passed (14 registry regressions, 94 Vitest tests);
+  `pnpm build` generated 27 static pages and ten registry files. Vite reports
+  its existing CJS Node API deprecation notice.
+
 ### Living library improvements (2026-10-02)
 
 - Added Project Gallery for caller-owned portfolio artwork, category browsing,

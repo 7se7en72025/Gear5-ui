@@ -2,7 +2,6 @@
 
 ## Current focus: make the library feel useful
 
-- Finish the Project Gallery and Spotlight Bento first release.
 - Improve previews, collection discovery, and readable installation examples.
 - Keep component decisions and acceptance criteria in `components.md`.
 - Put dated feedback and measured findings in `learnings.md`.
@@ -12,7 +11,8 @@
 ## What follows user feedback
 
 - One product-launch template assembled from the best fitting blocks.
-- A clear, small use-case finder that routes visitors to the right component.
+- Review the new use-case finder with real visitors and adjust its routes from
+  observed selection behaviour.
 - More real customer workflow examples if users identify a repeated need.
 - Browser and screen-reader review on devices available to maintainers.
 

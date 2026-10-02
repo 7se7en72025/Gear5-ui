@@ -26,6 +26,9 @@ export function SiteHeader() {
           <Link href="/components" className="hover:text-cream">
             Components
           </Link>
+          <Link href="/use-cases" className="hidden hover:text-cream md:block">
+            By use case
+          </Link>
           <Link href="/templates" className="hover:text-cream">
             Templates
           </Link>
@@ -66,6 +69,7 @@ export function SiteFooter() {
             className="flex flex-wrap gap-x-8 gap-y-4 text-xs text-smoke"
           >
             <Link href="/components">Components</Link>
+            <Link href="/use-cases">By use case</Link>
             <Link href="/templates">Templates</Link>
             <Link href="/getting-started">Documentation</Link>
             <a href={siteConfig.repo}>Source ↗</a>
