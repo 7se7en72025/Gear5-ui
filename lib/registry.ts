@@ -8,11 +8,11 @@ export interface RegistryFile {
 
 export interface RegistryItem {
   name: string;
-  type: "registry:ui" | "registry:lib" | "registry:hook";
+  type: "registry:ui" | "registry:block" | "registry:lib" | "registry:hook";
   title: string;
   description: string;
   category?: string;
-  tier?: "xs" | "sm" | "md" | "lg";
+  tier?: "xs" | "sm" | "md" | "lg" | "page";
   registryDependencies?: string[];
   dependencies?: string[];
   files: RegistryFile[];
@@ -27,7 +27,10 @@ export const allItems = items;
 export const components = items.filter((item) => item.type === "registry:ui");
 
 /** Shared primitives the components build on. */
-export const primitives = items.filter((item) => item.type !== "registry:ui");
+export const primitives = items.filter(
+  (item) => item.type === "registry:lib" || item.type === "registry:hook",
+);
+export const templates = items.filter((item) => item.type === "registry:block");
 
 export function getItem(name: string): RegistryItem | undefined {
   return items.find((item) => item.name === name);
@@ -37,7 +40,10 @@ export function getItem(name: string): RegistryItem | undefined {
  * Components grouped by category, in the order categories first appear in the
  * registry — so the file is the single place that controls nav ordering.
  */
-export function componentsByCategory(): Array<{ category: string; items: RegistryItem[] }> {
+export function componentsByCategory(): Array<{
+  category: string;
+  items: RegistryItem[];
+}> {
   const groups = new Map<string, RegistryItem[]>();
 
   for (const item of components) {
@@ -52,7 +58,10 @@ export function componentsByCategory(): Array<{ category: string; items: Registr
 }
 
 /** Everything an item pulls in, transitively, by registry name. */
-export function resolveDependencies(name: string, seen = new Set<string>()): string[] {
+export function resolveDependencies(
+  name: string,
+  seen = new Set<string>(),
+): string[] {
   const item = getItem(name);
   if (!item) return [];
 
@@ -68,7 +77,9 @@ export function resolveDependencies(name: string, seen = new Set<string>()): str
 
 /** Components that list `name` among their direct dependencies. */
 export function dependentsOf(name: string): RegistryItem[] {
-  return items.filter((item) => (item.registryDependencies ?? []).includes(name));
+  return items.filter((item) =>
+    (item.registryDependencies ?? []).includes(name),
+  );
 }
 
 export function installCommand(name: string): string {
@@ -87,6 +98,7 @@ export const TIER_BUDGETS: Record<string, number> = {
   sm: 950,
   md: 1950,
   lg: 3300,
+  page: 10000,
 };
 
 export const TIER_LABELS: Record<string, string> = {
@@ -94,4 +106,5 @@ export const TIER_LABELS: Record<string, string> = {
   sm: "single-purpose control",
   md: "several states or a live subscription",
   lg: "composes several components",
+  page: "complete template, including its component dependencies",
 };

@@ -21,10 +21,14 @@ export default async function ComponentOpengraphImage({
   // Satori requires an explicit `display` on any element with more than one
   // child, and treats an interpolated expression as its own child — so every
   // string is assembled here rather than inline in JSX.
-  const eyebrow = item?.category ? `GEAR5 UI · ${item.category.toUpperCase()}` : "GEAR5 UI";
-  const facts = ["0 dependencies", budget ? `under ${budget} B gzipped` : null, "axe · SSR · i18n verified"].filter(
-    (fact): fact is string => fact !== null,
-  );
+  const eyebrow = item?.category
+    ? `GEAR5 UI · ${item.category.toUpperCase()}`
+    : "GEAR5 UI";
+  const facts = [
+    "React + Tailwind",
+    budget ? `${budget} B gzip ceiling` : null,
+    "Keyboard · reduced motion",
+  ].filter((fact): fact is string => fact !== null);
 
   return new ImageResponse(
     (
@@ -35,13 +39,20 @@ export default async function ComponentOpengraphImage({
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          background: "#ffffff",
+          background: "#0b0c0e",
           padding: 80,
           fontFamily: "sans-serif",
         }}
       >
         <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-          <div style={{ display: "flex", fontSize: 22, letterSpacing: 2, color: "#737373" }}>
+          <div
+            style={{
+              display: "flex",
+              fontSize: 22,
+              letterSpacing: 2,
+              color: "#d9fc87",
+            }}
+          >
             {eyebrow}
           </div>
 
@@ -51,13 +62,20 @@ export default async function ComponentOpengraphImage({
               fontSize: 72,
               fontWeight: 600,
               letterSpacing: -2,
-              color: "#0a0a0a",
+              color: "#f4f4ef",
             }}
           >
             {item?.title ?? "Component"}
           </div>
 
-          <div style={{ display: "flex", fontSize: 30, color: "#525252", lineHeight: 1.4 }}>
+          <div
+            style={{
+              display: "flex",
+              fontSize: 30,
+              color: "#b4b6af",
+              lineHeight: 1.4,
+            }}
+          >
             {item?.description ?? ""}
           </div>
         </div>
@@ -67,8 +85,8 @@ export default async function ComponentOpengraphImage({
             display: "flex",
             gap: 48,
             fontSize: 24,
-            color: "#0a0a0a",
-            borderTop: "1px solid #e5e5e5",
+            color: "#f4f4ef",
+            borderTop: "1px solid #34383b",
             paddingTop: 28,
           }}
         >

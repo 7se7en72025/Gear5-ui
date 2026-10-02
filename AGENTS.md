@@ -16,7 +16,7 @@ how to verify a change. `CLAUDE.md` points here so agents share one guide.
 
 - Establish the failing case or baseline before editing. Change one behaviour
   at a time and retain a regression test when failure could affect consumers.
-- Keep the ten-axis component requirements in `CONTRIBUTING.md`: React-only
+- Keep the block requirements in `CONTRIBUTING.md`: React-only
   registry imports, caller-provided strings, logical layout, safe URLs, no
   network calls, and a fixture for every component.
 - Use the committed pnpm version and `pnpm install --frozen-lockfile`. Run
@@ -31,6 +31,10 @@ how to verify a change. `CLAUDE.md` points here so agents share one guide.
   publish complete JSON files, and remove retired items only after success.
 - `gear5/` is an independent application with its own instructions and CI.
   Validate it with its own declared scripts when changing it.
+
+The current product is a curated library of original expressive blocks for
+portfolios and product launches. Collection 01 has five blocks and Folio 01.
+Do not restore the retired general-purpose catalog or its old positioning.
 
 These workflow practices are adapted from
 https://github.com/medhu123/amzn_code (AGENTS.md, IMPROVEMENT.md,

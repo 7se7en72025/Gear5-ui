@@ -1,49 +1,53 @@
 # Gear5 UI architecture
 
-The root application documents and distributes the components in
-`registry/gear5/`. `gear5/` is an independent earlier application with a
-separate package manifest and workflow.
+The root app is a curated animated-block library for portfolios and product
+launches. Collection 01 contains five blocks, one portfolio template, and a
+safe-link helper. The old general-purpose root catalog and unused demos have
+been removed. The historical `gear5/` project builds separately.
 
-| Stage | Source | Output or responsibility |
+| Stage | Source | Responsibility |
 | --- | --- | --- |
-| Component source | `registry/gear5/ui/`, `registry/gear5/lib/` | React components and shared hooks/utilities, with relative local imports |
-| Registry manifest | `registry.json` | Item names, files, dependency edges, categories, and size tiers |
-| Distribution build | `scripts/build-registry.mjs` | Consumer aliases and complete install JSON files in ignored `public/r/` |
-| Documentation data | `lib/registry.ts`, `lib/catalog.ts`, `lib/source.ts` | Catalog, dependency navigation, and source display |
-| Verified examples | `components/demos.tsx` | Shared fixtures for documentation, accessibility, SSR, and budgets |
-| Site | `app/`, `components/site/`, `components/demo/` | Next.js routes, search, previews, and interactive demonstrations |
-| Verification | `tests/`, `.github/workflows/ci.yml` | Types, lint, registry regressions, component checks, and production build |
+| Block code | `registry/gear5/ui/` | Orbit Hero, Project Showcase, Feature Switcher, Pricing Switch, Testimonial Deck |
+| Composition | `portfolio-template.tsx` | Folio 01, using all five blocks and caller content |
+| Helper | `registry/gear5/lib/sanitize.ts` | Neutralize executable link schemes |
+| Manifest | `registry.json` | Five registry:ui items, one registry:block template, one registry:lib helper |
+| Distribution | `scripts/build-registry.mjs` | Rewrite imports and publish installer-ready JSON |
+| Fixtures | `components/demos.tsx` | Six minimal renders for axe and SSR |
+| Playground | `components/site/preview.tsx` | Accent/headline controls, reset, customized copyable usage |
+| Documentation | `app/components/[name]/`, `lib/doc-examples.ts` | Live preview, install, usage, notes, source, helper files |
+| Templates | `app/templates/` | Template catalog, complete live portfolio, all source and installation |
+| Verification | `tests/` | Registry reliability, budgets, source scans, keyboard/state behaviour, axe, SSR, fresh consumer bundle |
 
-## Registry generation
+## Design and interaction
 
-`pnpm registry:build` runs the generator. `next.config.ts` also invokes it
-when Next.js loads its configuration, covering hosts that invoke Next directly.
-The generator resolves URLs from `NEXT_PUBLIC_SITE_URL`, then
-`VERCEL_PROJECT_PRODUCTION_URL`, then `VERCEL_URL`, then `localhost:3000`.
-Keep this precedence aligned with `lib/site.ts`.
+The site uses graphite surfaces, lime accents, system typography, and code-native
+artwork. Blocks include their own dark surfaces and `--g5-accent` variable;
+consumers need React and Tailwind CSS 4, not the site stylesheet or an animation
+package. Tailwind motion-safe/motion-reduce variants guard transforms and
+transitions. There is no autoplay or external asset request.
 
-The generator validates item names, supported types, source paths, unique file
-basenames, and dependency existence. It reads and rewrites every source file in
-memory before changing published output. Missing inputs and invalid manifests
-therefore preserve the previous registry. Relative `from` imports using either
-quote style become consumer aliases; external imports are preserved.
+Server pages use promised route params from the installed Next.js guides.
+Interactive blocks, clipboard controls, and customization are client components.
+The source reader is server-only and reads generated JSON, so manual source
+copies use exactly the same consumer aliases as the installer.
 
-Each JSON is written to a unique temporary sibling and renamed into place. The
-index is published after all items, then retired JSON files are removed. A failed
-write cleans its temporary file. This prevents truncated JSON; it is **not a
-directory transaction**. A process interrupted between renames can leave a mix
-of complete old and new items. Rerun the build to converge. Do not run concurrent
-builds with different manifests or deployment URLs into the same output folder.
+## Registry safety
 
-## Verification and reproducibility
+The build validates names, supported types, source paths, unique basenames, and
+dependency existence. It reads all source before replacing any output. Each
+JSON uses a unique temporary sibling and rename, index last, then retired JSON
+cleanup. Invalid inputs preserve old output. Atomicity is per file, not across
+the whole directory; rerun after interruption and avoid concurrent builds with
+different inputs into one folder.
 
-Use the Node version in `.nvmrc` and pnpm version in `package.json`. Install
-with `pnpm install --frozen-lockfile`; dependencies resolve from `pnpm-lock.yaml`.
-`pnpm verify` runs type checking, lint, the native Node registry tests, then
-Vitest. `pnpm build` generates the registry and builds the production site.
-CI runs both commands with a read-only repository token and a 20-minute limit.
+`next.config.ts` generates the registry for both Next dev and build. URL
+precedence matches `lib/site.ts`: explicit public URL, Vercel production URL,
+Vercel preview URL, localhost.
 
-`tests/registry-build.test.mjs` uses temporary repositories to exercise failed
-inputs, failed file replacement, deterministic output, import rewriting, URL
-precedence, and retired-item cleanup. Component verification is described in
-README.md; automated checks do not replace manual screen-reader testing.
+## Reproduction
+
+`pnpm install --frozen-lockfile`, `pnpm verify`, `pnpm build`.
+CI runs the same checks with read-only repository permissions. Budget tiers
+are mirrored and asserted in `lib/registry.ts` and `tests/budget.test.ts`;
+`page` is 10,000 B gzipped including all template dependencies.
+Generated output, local secrets, and dependencies stay out of Git.

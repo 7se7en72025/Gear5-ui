@@ -1,50 +1,53 @@
 import type { Metadata } from "next";
-import { Suspense } from "react";
-import { ComponentBrowser } from "@/components/site/component-browser";
-import { components, componentsByCategory } from "@/lib/registry";
-
+import Link from "next/link";
+import { Preview } from "@/components/site/preview";
+import { components } from "@/lib/registry";
 export const metadata: Metadata = {
   title: "Components",
+  description:
+    "Five expressive, interactive React blocks. Preview them, then make them yours.",
   alternates: { canonical: "/components" },
-  description: `All ${components.length} Gear5 UI components, with live previews. The same fixtures the conformance suite renders in CI.`,
 };
-
 export default function ComponentsPage() {
-  const categories = componentsByCategory().map((group) => group.category);
-
-  const items = components.map((item) => ({
-    name: item.name,
-    title: item.title,
-    description: item.description,
-    category: item.category ?? "Uncategorised",
-    tier: item.tier,
-  }));
-
   return (
-    <main id="main" className="gear-grid min-h-screen">
-      <div className="mx-auto flex max-w-[1200px] flex-col gap-10 px-5 py-12 pb-20 sm:px-6">
-        <header className="animate-fade-in-up relative overflow-hidden rounded-2xl border border-hairline bg-anvil/75 p-7 shadow-2xl shadow-black/10 sm:p-10">
-          <div aria-hidden="true" className="absolute -right-24 -top-24 size-64 rounded-full bg-coral/10 blur-3xl" />
-          <div className="relative flex max-w-3xl flex-col gap-4">
-            <p className="flex items-center gap-2 text-caption font-medium tracking-[0.16em] text-coral uppercase">
-              <span className="size-1.5 rounded-full bg-coral" /> Registry explorer
-            </p>
-            <h1 className="text-balance text-heading font-semibold text-cream">Find a component. See it work.</h1>
-            <p className="max-w-2xl text-body text-smoke">
-              Browse {components.length} components for forms, navigation, data, feedback, and global
-              interfaces. Each live preview uses the same fixture checked for accessibility and SSR in CI.
-            </p>
-            <div className="mt-2 flex flex-wrap gap-x-6 gap-y-2 text-caption text-smoke">
-              <span><strong className="font-semibold text-cream">{components.length}</strong> components</span>
-              <span><strong className="font-semibold text-cream">{categories.length}</strong> categories</span>
-              <span>No extra runtime packages beyond React</span>
+    <main id="main" className="mx-auto max-w-[1320px] px-5 py-14 sm:px-8">
+      <p className="eyebrow">Collection 01 / The essentials, with character.</p>
+      <h1 className="mt-5 text-5xl font-medium tracking-[-.065em] sm:text-7xl">
+        Pick your next move<span className="text-coral">.</span>
+      </h1>
+      <p className="mt-5 max-w-xl text-sm leading-7 text-smoke">
+        Five original blocks. Real interactions. Open every preview, try the
+        controls, then take the source with you.
+      </p>
+      <nav aria-label="Component index" className="mt-8 flex flex-wrap gap-2">
+        {components.map((item) => (
+          <a
+            key={item.name}
+            href={`#${item.name}`}
+            className="button-secondary !min-h-9 !px-4 !py-2 !text-xs"
+          >
+            {item.title}
+          </a>
+        ))}
+      </nav>
+      <div className="mt-12 space-y-12">
+        {components.map((item, i) => (
+          <section key={item.name} id={item.name} className="scroll-mt-28">
+            <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+              <div className="flex items-baseline gap-3">
+                <span className="font-mono text-xs text-coral">0{i + 1}</span>
+                <h2 className="text-lg font-medium">{item.title}</h2>
+              </div>
+              <Link
+                href={`/components/${item.name}`}
+                className="text-xs text-coral"
+              >
+                Customize & install ↗
+              </Link>
             </div>
-          </div>
-        </header>
-
-        <Suspense fallback={<div role="status" className="min-h-80 rounded-xl border border-hairline bg-anvil p-8 text-sm text-smoke">Loading component explorer…</div>}>
-          <ComponentBrowser items={items} categories={categories} />
-        </Suspense>
+            <Preview name={item.name} />
+          </section>
+        ))}
       </div>
     </main>
   );

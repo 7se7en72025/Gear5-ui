@@ -15,8 +15,9 @@ export function sanitizeHref(url: string): string {
   const trimmed = url.trim();
   if (!trimmed) return "#";
 
-  // Relative and protocol-relative-without-colon paths never carry a scheme.
-  if (!/^[a-z][a-z0-9+.-]*:/i.test(trimmed)) return trimmed;
+  // Browsers discard tabs and newlines when parsing a URL scheme.
+  const schemeProbe = trimmed.replace(/[\t\r\n]/g, "");
+  if (!/^[a-z][a-z0-9+.-]*:/i.test(schemeProbe)) return trimmed;
 
   try {
     const scheme = new URL(trimmed, "https://example.com").protocol;

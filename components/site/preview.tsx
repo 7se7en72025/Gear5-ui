@@ -1,101 +1,102 @@
 "use client";
-
 import { useState } from "react";
-import { fixtures } from "@/components/demos";
-import { overlayPreviews } from "./overlay-previews";
-import { LocaleProvider } from "@/registry/gear5/lib/use-locale";
-
-/**
- * A deliberately wide spread rather than a token few: right-to-left scripts,
- * non-Gregorian calendars, non-Latin digits, ten-thousand and lakh grouping,
- * and CJK line breaking are each represented, because those are the things
- * that actually break a component.
- *
- * The components themselves are not limited to this list — everything here
- * goes through `Intl`, so any BCP 47 tag the runtime knows works. This is the
- * set worth being able to check by hand.
- */
-const LOCALES = [
-  { tag: "en-US", name: "English" },
-  { tag: "es-ES", name: "Español" },
-  { tag: "pt-BR", name: "Português" },
-  { tag: "fr-FR", name: "Français" },
-  { tag: "de-DE", name: "Deutsch" },
-  { tag: "ru-RU", name: "Русский" },
-  { tag: "tr-TR", name: "Türkçe" },
-  { tag: "ar-EG", name: "العربية" },
-  { tag: "he-IL", name: "עברית" },
-  { tag: "fa-IR", name: "فارسی" },
-  { tag: "ur-PK", name: "اردو" },
-  { tag: "hi-IN", name: "हिन्दी" },
-  { tag: "bn-BD", name: "বাংলা" },
-  { tag: "ta-IN", name: "தமிழ்" },
-  { tag: "th-TH", name: "ไทย" },
-  { tag: "vi-VN", name: "Tiếng Việt" },
-  { tag: "zh-CN", name: "中文" },
-  { tag: "ja-JP", name: "日本語" },
-  { tag: "ko-KR", name: "한국어" },
-  { tag: "sw-KE", name: "Kiswahili" },
-] as const;
-
-export interface PreviewProps {
+import { OrbitHero } from "@/registry/gear5/ui/orbit-hero";
+import { ProjectShowcase } from "@/registry/gear5/ui/project-showcase";
+import { FeatureSwitcher } from "@/registry/gear5/ui/feature-switcher";
+import { PricingSwitch } from "@/registry/gear5/ui/pricing-switch";
+import { TestimonialDeck } from "@/registry/gear5/ui/testimonial-deck";
+import { Copyable } from "./copyable";
+const options = [
+  { label: "Lime", color: "#d9fc87" },
+  { label: "Lavender", color: "#d3c8ff" },
+  { label: "Peach", color: "#ffcbaa" },
+];
+export function Preview({
+  name,
+  showControls = false,
+}: {
   name: string;
-  /** Show the locale switcher. Off in dense grids, on for a single component. */
   showControls?: boolean;
-}
-
-/**
- * Renders a component's demo — the same fixture the conformance suite renders
- * in CI, so what a reader sees here is exactly what axe and the SSR pass
- * verified.
- */
-export function Preview({ name, showControls = false }: PreviewProps) {
-  const [locale, setLocale] = useState<string>("en-US");
-  const fixture = overlayPreviews[name] ?? fixtures[name];
-
-  if (!fixture) {
-    return (
-      <p className="text-sm text-neutral-600 dark:text-neutral-400">
-        No preview available for this item.
-      </p>
-    );
-  }
-
+}) {
+  const [accent, setAccent] = useState(options[0].color);
+  const [title, setTitle] = useState("");
+  const [version, setVersion] = useState(0);
+  const Block = {
+    "orbit-hero": OrbitHero,
+    "project-showcase": ProjectShowcase,
+    "feature-switcher": FeatureSwitcher,
+    "pricing-switch": PricingSwitch,
+    "testimonial-deck": TestimonialDeck,
+  }[name];
+  if (!Block) return null;
+  const exportName = {
+    "orbit-hero": "OrbitHero",
+    "project-showcase": "ProjectShowcase",
+    "feature-switcher": "FeatureSwitcher",
+    "pricing-switch": "PricingSwitch",
+    "testimonial-deck": "TestimonialDeck",
+  }[name];
+  const usage = `import { ${exportName} } from "@/components/gear5/${name}";\n\nexport default function Example() {\n  return <${exportName} accent={${JSON.stringify(accent)}}${title ? ` title={${JSON.stringify(title)}}` : ""} />;\n}`;
   return (
-    <div className="flex flex-col gap-3">
+    <div className="min-w-0">
       {showControls && (
-        <fieldset className="flex flex-wrap items-center gap-2">
-          <legend className="mb-2 text-xs font-medium text-smoke">Preview locale</legend>
-          {LOCALES.map(({ tag, name: label }) => (
-            <button
-              key={tag}
-              type="button"
-              lang={tag}
-              onClick={() => setLocale(tag)}
-              aria-pressed={locale === tag}
-              className={
-                locale === tag
-                  ? "min-h-9 rounded-md bg-neutral-900 px-2.5 py-1 text-xs text-white dark:bg-neutral-100 dark:text-neutral-900"
-                  : "min-h-9 rounded-md border border-neutral-300 px-2.5 py-1 text-xs dark:border-neutral-700"
-              }
-            >
-              {label}
-            </button>
-          ))}
-        </fieldset>
+        <div className="mb-4 flex flex-wrap items-end justify-between gap-4 rounded-xl border border-hairline bg-anvil p-4">
+          <fieldset className="flex gap-2">
+            <legend className="mb-2 font-mono text-[10px] text-smoke uppercase">
+              Accent
+            </legend>
+            {options.map((option) => (
+              <label
+                key={option.color}
+                className="cursor-pointer rounded-full focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-white"
+              >
+                <input
+                  type="radio"
+                  name={`${name}-accent`}
+                  className="sr-only"
+                  checked={accent === option.color}
+                  onChange={() => setAccent(option.color)}
+                />
+                <span
+                  className={`block rounded-full border px-3 py-2 text-xs ${accent === option.color ? "border-cream" : "border-hairline"}`}
+                  style={{ color: option.color }}
+                >
+                  {option.label}
+                </span>
+              </label>
+            ))}
+          </fieldset>
+          <label className="flex-1 sm:max-w-72">
+            <span className="mb-2 block font-mono text-[10px] text-smoke uppercase">
+              Heading
+            </span>
+            <input
+              aria-label="Preview heading"
+              value={title}
+              onChange={(event) => setTitle(event.target.value)}
+              placeholder="Try your own headline…"
+              className="min-h-10 w-full rounded-lg border border-hairline bg-canvas px-3 text-sm"
+            />
+          </label>
+          <button
+            type="button"
+            className="min-h-10 rounded-lg border border-hairline px-3 text-xs text-smoke"
+            onClick={() => {
+              setTitle("");
+              setAccent(options[0].color);
+              setVersion(version + 1);
+            }}
+          >
+            Reset preview
+          </button>
+        </div>
       )}
-
-      {/* `transform` makes this box the containing block for any
-          `position: fixed` descendant, so components that pin themselves to
-          the viewport — ScrollProgress, BackToTop, SkipLink — stay inside
-          their own preview instead of floating over the page. Components that
-          portal to <body> escape this by design; those are the ones handled by
-          overlayPreviews above. */}
-      <div className="flex min-h-32 items-center justify-center overflow-x-auto rounded-lg border border-neutral-200 bg-neutral-50 p-4 transform-gpu dark:border-neutral-800 dark:bg-neutral-950 sm:p-6">
-        <LocaleProvider locale={locale}>
-          <div className="w-full max-w-md">{fixture()}</div>
-        </LocaleProvider>
-      </div>
+      <Block key={version} accent={accent} {...(title ? { title } : {})} />
+      {showControls && (
+        <div className="mt-4">
+          <Copyable value={usage} label="Copy customized usage" block />
+        </div>
+      )}
     </div>
   );
 }

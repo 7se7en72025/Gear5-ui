@@ -1,8 +1,8 @@
 name: CI
 
-# Anywhere UI, at the repository root.
+# Gear5 Collection 01, at the repository root.
 #
-# The size budgets, axe assertions, and locale coverage the README claims are
+# The size budgets, axe assertions, and block interactions the README claims are
 # enforced here — every one of them is an assertion in this test run, and the
 # measured gzipped size of each component is printed in the log.
 

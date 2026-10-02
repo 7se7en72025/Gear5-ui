@@ -33,6 +33,7 @@ function resolveSiteUrl(env) {
 
 /** Where each registry type lands in a consumer's project. */
 const TARGETS = {
+  "registry:block": "components/gear5",
   "registry:ui": "components/gear5",
   "registry:lib": "lib/gear5",
   "registry:hook": "hooks/gear5",

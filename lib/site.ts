@@ -1,29 +1,24 @@
 export const siteConfig = {
   name: "Gear5 UI",
-  tagline: "React components that work anywhere.",
+  tagline: "Make the web feel something.",
   description:
-    "Open-source React components for slow connections, different languages, and keyboard navigation. Browse live demos, copy the source, and make it yours.",
+    "Expressive React blocks for portfolios and product launches. Original interactions, live previews, and editable source. Built with React and Tailwind CSS.",
   repo: "https://github.com/7se7en72025/gear5-ui",
   keywords: [
-    "react components",
-    "accessibility",
-    "internationalization",
-    "performance",
-    "offline first",
-    "save-data",
-    "rtl",
-    "wcag",
+    "React components",
+    "animated UI",
+    "portfolio template",
+    "landing page blocks",
+    "Tailwind CSS",
     "shadcn registry",
-    "next.js",
+    "interactive components",
+    "Gear5 UI",
   ],
 } as const;
-
 export function getSiteUrl(): string {
   const explicit = process.env.NEXT_PUBLIC_SITE_URL;
   if (explicit) return explicit.replace(/\/$/, "");
-
-  const vercel = process.env.VERCEL_PROJECT_PRODUCTION_URL ?? process.env.VERCEL_URL;
-  if (vercel) return `https://${vercel}`;
-
-  return "http://localhost:3000";
+  const vercel =
+    process.env.VERCEL_PROJECT_PRODUCTION_URL ?? process.env.VERCEL_URL;
+  return vercel ? `https://${vercel}` : "http://localhost:3000";
 }

@@ -1,369 +1,75 @@
 @import "tailwindcss";
-
-/*
-  Tailwind v4 defaults `dark:` to a `prefers-color-scheme` media query, not a
-  class. ThemeToggle explicitly manages a `.dark` class on <html> so a user's
-  in-page choice can override their OS setting — without this, that choice
-  did nothing: every `dark:` utility in the entire registry silently ignored
-  it and followed the OS preference regardless of what ThemeToggle set.
-*/
 @custom-variant dark (&:where(.dark, .dark *));
-
+:root {
+  color-scheme: dark;
+  --canvas: #0b0c0e;
+  --anvil: #121416;
+  --cream: #f4f4ef;
+  --smoke: #b4b6af;
+  --accent: #d9fc87;
+  --hairline: rgb(255 255 255 / 12%);
+}
+@theme inline {
+  --color-canvas: var(--canvas);
+  --color-anvil: var(--anvil);
+  --color-cream: var(--cream);
+  --color-smoke: var(--smoke);
+  --color-coral: var(--accent);
+  --color-hairline: var(--hairline);
+  --color-on-accent: #111214;
+  --font-sans: "Segoe UI", Inter, ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "SFMono-Regular", Consolas, ui-monospace, monospace;
+  --font-editorial: Georgia, "Times New Roman", serif;
+}
+@layer base {
+  body {
+    background: var(--canvas);
+    color: var(--cream);
+  }
+  ::selection {
+    background: var(--accent);
+    color: #111214;
+  }
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 5px;
+  }
+  summary:focus-visible {
+    border-radius: 12px;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+}
 @layer components {
   .eyebrow {
-    @apply text-xs font-semibold tracking-[0.14em] text-coral uppercase;
-  }
-  .button-primary {
-    @apply inline-flex min-h-11 items-center justify-center gap-3 rounded-lg bg-coral px-5 py-3 text-sm font-semibold text-on-accent transition-colors hover:opacity-90;
-  }
-  .button-secondary {
-    @apply inline-flex min-h-11 items-center justify-center gap-3 rounded-lg border border-hairline bg-anvil px-5 py-3 text-sm font-medium text-cream transition-colors hover:border-coral;
+    @apply font-mono text-[10px] tracking-[.16em] text-coral uppercase;
   }
   .section-heading {
-    @apply text-balance text-[clamp(1.9rem,4vw,3rem)] leading-tight tracking-[-0.045em] text-cream;
+    @apply text-4xl leading-tight font-medium tracking-[-.05em] sm:text-5xl;
+  }
+  .button-primary {
+    @apply inline-flex min-h-11 items-center justify-center gap-5 rounded-full bg-coral px-6 py-3 text-sm font-semibold text-on-accent transition-opacity hover:opacity-80 motion-reduce:transition-none;
+  }
+  .button-secondary {
+    @apply inline-flex min-h-11 items-center justify-center gap-4 rounded-full border border-hairline px-5 py-3 text-sm text-cream transition-colors hover:bg-white/5 motion-reduce:transition-none;
+  }
+  .gear-grid {
+    background-image:
+      linear-gradient(var(--hairline) 1px, transparent 1px),
+      linear-gradient(90deg, var(--hairline) 1px, transparent 1px);
+    background-size: 64px 64px;
   }
 }
-
-html { scroll-padding-top: 8rem; }
-:target { scroll-margin-top: 1rem; }
-::selection { background: var(--color-ember-coral); color: var(--on-accent); }
-
-/*
-  Gear5 UI's visual language: warm, high-contrast surfaces drawn from the brand mark.
-
-  A near-black matte canvas lit by a single dusk wash, one warm cream carrying
-  every piece of text, and colour reserved as a single-function event — one
-  coral accent and nothing else. Surfaces step by colour rather than by shadow.
-  Adapted from the Suno style reference.
-
-  This is a dark-first system, so the site defaults to dark. Light stays a
-  real, designed mode rather than an inversion: ThemeToggle is a component this
-  library ships, and a reader who needs a light interface is exactly the kind
-  of user the library exists for.
-
-  The whole registry retextures from this file alone. Every component uses
-  Tailwind's `neutral` scale for surfaces and text and a single accent hue for
-  interaction, always in those roles, so redefining what those scales resolve
-  to re-skins all 110 at once — and anything added later inherits the system
-  for free by using the same classes.
-*/
-
-/* Light mode — a daylit reading of the same palette, not an inversion. */
-:root {
-  --color-studio-black: #fcf9f2;
-  --color-deep-anvil: #ffffff;
-  --color-warm-cream: #2f2316;
-  --smoke: #6d6256;
-  --hairline: #e7dfd2;
-  --color-ember-coral: #a56e0c;
-
-  --canvas: var(--color-studio-black);
-  --ink: var(--color-warm-cream);
-
-  /* Foreground for the coral fill, which stays a deep chroma in both themes. */
-  --on-accent: #ffffff;
-}
-
-/* Dark mode — the reference system, and the site's default. */
-:root.dark {
-  --color-studio-black: #09090d;
-  --color-deep-anvil: #121119;
-  --color-warm-cream: #f3eeeb;
-  --smoke: #aaa7b3;
-  --hairline: rgb(243 238 235 / 14%);
-  --color-ember-coral: #eebe52;
-
-  /* Near-black, not white. The reference puts white on this coral, which
-     measures 3.26:1 — below WCAG AA for normal text. The same coral with the
-     canvas colour on top reads at 5.82:1, so the accent is kept exactly as
-     specified and only its foreground changes. */
-  --on-accent: #2f2316;
-}
-
-@theme inline {
-  /*
-    No web fonts, by choice.
-
-    The reference pairs Neue Montreal with an Editorial New display italic. A
-    variable face is 60–120 KB — several seconds on the 2G connections this
-    library exists to serve — and the display serif would be a second file on
-    top. The system stack carries the same compact grotesk character, and the
-    editorial voice below uses serif faces already on the reader's machine.
-  */
-  --font-sans:
-    ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
-    "Noto Sans", "Noto Sans Arabic", "Noto Sans Devanagari", sans-serif;
-  --font-mono:
-    ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
-  --font-editorial: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Noto Serif", serif;
-
-  /*
-    Surfaces and text.
-
-    Deliberately an *absolute* warm ramp — 50 is the lightest tone in both
-    themes, 950 the darkest — because that is the contract every component in
-    the registry is written against: `text-neutral-900 dark:text-neutral-100`,
-    `bg-white dark:bg-neutral-950`. The components' own `dark:` variants do the
-    theme flipping; the scale must not also flip, or `dark:text-neutral-100`
-    resolves to a dark tone and every label rendered with it disappears.
-
-    The brand's canvas and card colours live in the separate tokens below, for
-    the site's own chrome.
-  */
-  --color-neutral-50: #faf8f5;
-  --color-neutral-100: #f2efe9;
-  --color-neutral-200: #e6e2db;
-  --color-neutral-300: #d2ccc2;
-  --color-neutral-400: #a8a29a;
-  --color-neutral-500: #7c766e;
-  --color-neutral-600: #5c5750;
-  --color-neutral-700: #3d3935;
-  --color-neutral-800: #232326;
-  --color-neutral-900: #17171a;
-  --color-neutral-950: #101012;
-
-  /*
-    The single accent. Every `bg-blue-600`, `text-blue-700`, and
-    `focus-visible:outline-blue-600` in the registry resolves to ember coral.
-
-    One deliberate departure from the reference, which reserves coral for
-    exactly one element per screen: a component library needs one consistent
-    focus colour, and a focus ring in any other hue would mean the system has
-    two accents. Coral therefore carries focus and primary actions — and
-    nothing else in the library is chromatic at all.
-  */
-  --color-blue-50: color-mix(in oklab, var(--color-ember-coral) 12%, var(--color-studio-black));
-  --color-blue-100: color-mix(in oklab, var(--color-ember-coral) 20%, var(--color-studio-black));
-  --color-blue-200: color-mix(in oklab, var(--color-ember-coral) 35%, var(--color-studio-black));
-  --color-blue-300: color-mix(in oklab, var(--color-ember-coral) 55%, var(--color-studio-black));
-  --color-blue-400: color-mix(in oklab, var(--color-ember-coral) 75%, var(--color-studio-black));
-  --color-blue-500: var(--color-ember-coral);
-  --color-blue-600: var(--color-ember-coral);
-  --color-blue-700: var(--color-ember-coral);
-  --color-blue-800: var(--color-ember-coral);
-  --color-blue-900: var(--color-ember-coral);
-  --color-blue-950: var(--color-ember-coral);
-
-  /* Brand colours as utilities, for the site's own chrome. */
-  --color-canvas: var(--color-studio-black);
-  --color-anvil: var(--color-deep-anvil);
-  --color-cream: var(--color-warm-cream);
-  --color-hairline: var(--hairline);
-  --color-smoke: var(--smoke);
-  --color-coral: var(--color-ember-coral);
-  --color-on-accent: var(--on-accent);
-
-  /*
-    The radius vocabulary is exactly four values: 6px for controls, 12px for
-    cards and inputs, 20px for image tiles, 24px for hero-scale artwork. The
-    registry already uses `rounded-md` for controls and `rounded-lg`/`-xl` for
-    surfaces, so those tiers carry it with nothing to change per component.
-  */
-  --radius: 4px;
-  --radius-sm: 6px;
-  --radius-md: 6px;
-  --radius-lg: 12px;
-  --radius-xl: 12px;
-  --radius-2xl: 20px;
-  --radius-3xl: 24px;
-
-  /*
-    Matte and low-elevation: surfaces step by colour, not by shadow. The one
-    ambient drop shadow is reserved for genuinely floating tiles, which is what
-    the registry's overlays are.
-  */
-  --shadow-sm: none;
-  --shadow-lg: 0 0 0 1px rgb(255 255 255 / 6%), 0 12px 32px rgb(0 0 0 / 20%);
-  --shadow-xl: 0 25px 50px -12px rgb(0 0 0 / 25%);
-
-  /*
-    A compact type scale living in a narrow middle band, with display sizes
-    tracking hard — the reference's signature move, where large text behaves as
-    architectural mass rather than as copy.
-  */
-  --text-caption: 0.75rem;
-  --text-caption--line-height: 1.5;
-  --text-body-sm: 0.875rem;
-  --text-body-sm--line-height: 1.55;
-  --text-body: 1rem;
-  --text-body--line-height: 1.5;
-  --text-body-lg: 1.125rem;
-  --text-body-lg--line-height: 1.5;
-  --text-subheading: 1.25rem;
-  --text-subheading--line-height: 1.4;
-  --text-subheading--letter-spacing: -0.013em;
-  --text-heading-sm: 1.5rem;
-  --text-heading-sm--line-height: 1.33;
-  --text-heading-sm--letter-spacing: -0.013em;
-  --text-heading: 2.5rem;
-  --text-heading--line-height: 1.14;
-  --text-heading--letter-spacing: -0.026em;
-  --text-heading-lg: 4.5rem;
-  --text-heading-lg--line-height: 1;
-  --text-heading-lg--letter-spacing: -0.026em;
-  --text-display: 7rem;
-  --text-display--line-height: 0.87;
-  --text-display--letter-spacing: -0.026em;
-}
-
-body {
-  background: var(--canvas);
-  color: var(--ink);
-  /* The reference's default is a light cut; 340 where the face has the axis. */
-  font-variation-settings: "wght" 340;
-}
-
-h1,
-h2,
-h3 {
-  font-variation-settings: "wght" 340;
-  font-weight: 340;
-}
-
-/*
-  The one gradient in the system: a warm dusk wash, reserved for the hero and
-  at most one atmospheric interstitial. Never on a card, a button, or any UI
-  surface.
-*/
-.dusk-wash {
-  background-image: radial-gradient(
-    ellipse at 24% 16%,
-    #eebe52 0%,
-    #743c50 40%,
-    #121119 100%
-  );
-}
-
-.gear-grid {
-  background-image:
-    linear-gradient(rgb(255 255 255 / 0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgb(255 255 255 / 0.035) 1px, transparent 1px);
-  background-size: 38px 38px;
-}
-
-.hero-orb {
-  background: radial-gradient(circle, rgb(233 190 104 / 0.22), rgb(185 58 66 / 0.11) 35%, transparent 68%);
-  filter: blur(12px);
-}
-
-/* A visible focus ring everywhere, on every theme. Removing focus outlines is
-   the most common single act of accessibility damage on the web. */
-:focus-visible {
-  outline: 2px solid var(--color-ember-coral);
-  outline-offset: 2px;
-}
-
-/* Smooth entrance animations for sections */
-@keyframes fade-in-up {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes slide-in-right {
-  from {
-    opacity: 0;
-    transform: translateX(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes pulse-glow {
-  0%, 100% {
-    box-shadow: 0 0 0 0 color-mix(in oklab, var(--color-ember-coral) 40%, transparent);
-  }
-  50% {
-    box-shadow: 0 0 20px 4px color-mix(in oklab, var(--color-ember-coral) 20%, transparent);
-  }
-}
-
-.animate-fade-in-up {
-  animation: fade-in-up 0.6s ease-out both;
-}
-
-.animate-fade-in {
-  animation: fade-in 0.5s ease-out both;
-}
-
-.animate-slide-in-right {
-  animation: slide-in-right 0.6s ease-out both;
-}
-
-.animate-pulse-glow {
-  animation: pulse-glow 3s ease-in-out infinite;
-}
-
-/* Staggered children animation */
-.stagger-children > * {
-  animation: fade-in-up 0.5s ease-out both;
-}
-.stagger-children > *:nth-child(1) { animation-delay: 0ms; }
-.stagger-children > *:nth-child(2) { animation-delay: 60ms; }
-.stagger-children > *:nth-child(3) { animation-delay: 120ms; }
-.stagger-children > *:nth-child(4) { animation-delay: 180ms; }
-.stagger-children > *:nth-child(5) { animation-delay: 240ms; }
-.stagger-children > *:nth-child(6) { animation-delay: 300ms; }
-.stagger-children > *:nth-child(7) { animation-delay: 360ms; }
-.stagger-children > *:nth-child(8) { animation-delay: 420ms; }
-.stagger-children > *:nth-child(9) { animation-delay: 480ms; }
-.stagger-children > *:nth-child(10) { animation-delay: 540ms; }
-
-/* Interactive hover effects */
-.hover-lift {
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-.hover-lift:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px -5px rgb(0 0 0 / 15%);
-}
-
-/* Gradient text effect */
-.gradient-text {
-  background: linear-gradient(135deg, var(--color-ember-coral), color-mix(in oklab, var(--color-ember-coral) 60%, #fff));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-/* Glassmorphism card */
-.glass-card {
-  background: color-mix(in oklab, var(--color-deep-anvil) 70%, transparent);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--hairline);
-}
-
-/* Focus ring animation */
-:focus-visible {
-  outline: 2px solid var(--color-ember-coral);
-  outline-offset: 2px;
-  transition: outline-offset 0.15s ease;
-}
-
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
   *,
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-
-  .hover-lift:hover {
-    transform: none;
   }
 }

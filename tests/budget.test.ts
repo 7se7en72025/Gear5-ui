@@ -12,7 +12,7 @@ import manifest from "@/registry.json";
 
 const root = process.cwd();
 
-type Tier = "xs" | "sm" | "md" | "lg";
+type Tier = "xs" | "sm" | "md" | "lg" | "page";
 
 /**
  * Gzipped-size ceiling per declared tier, bundled and minified with React
@@ -31,6 +31,7 @@ const TIER_BUDGETS: Record<Tier, number> = {
   sm: 950, // a hook, a small utility, a single-purpose field or control
   md: 1950, // a component with a few states or a live subscription
   lg: 3300, // a component composing several of the above (forms, boundaries)
+  page: 10000, // a complete page, including its bundled component dependencies
 };
 
 const items = manifest.items as Array<{
@@ -69,7 +70,10 @@ beforeAll(async () => {
 
   const total = [...sizes.values()].reduce((sum, size) => sum + size, 0);
   const report = items
-    .map((item) => `  ${item.name.padEnd(20)} ${String(sizes.get(item.name)).padStart(5)} B  (${item.tier})`)
+    .map(
+      (item) =>
+        `  ${item.name.padEnd(20)} ${String(sizes.get(item.name)).padStart(5)} B  (${item.tier})`,
+    )
     .join("\n");
   console.log(
     `\ngzipped, bundled, React external:\n${report}\n  ${"— sum of parts".padEnd(20)} ${String(total).padStart(5)} B\n` +
@@ -122,7 +126,10 @@ describe("dependencies", () => {
     // The reason a size budget is possible at all: a single transitive
     // dependency can quietly cost more than everything here put together.
     for (const item of items) {
-      expect(item.dependencies ?? [], `${item.name} declares runtime dependencies`).toEqual([]);
+      expect(
+        item.dependencies ?? [],
+        `${item.name} declares runtime dependencies`,
+      ).toEqual([]);
     }
   });
 
@@ -137,12 +144,19 @@ describe("dependencies", () => {
         // Comments are stripped first: prose can legitimately contain the
         // words `from "…"`, and matching that as an import made a doc comment
         // explaining a component look like a forbidden dependency.
-        const source = stripComments(readFileSync(join(root, file.path), "utf8"));
-        const specifiers = [...source.matchAll(/from\s+"([^"]+)"/g)].map((m) => m[1]);
+        const source = stripComments(
+          readFileSync(join(root, file.path), "utf8"),
+        );
+        const specifiers = [...source.matchAll(/from\s+"([^"]+)"/g)].map(
+          (m) => m[1],
+        );
 
         for (const specifier of specifiers) {
           if (specifier.startsWith(".")) continue;
-          expect(allowed.has(specifier), `${file.path} imports "${specifier}"`).toBe(true);
+          expect(
+            allowed.has(specifier),
+            `${file.path} imports "${specifier}"`,
+          ).toBe(true);
         }
       }
     }

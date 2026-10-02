@@ -55,6 +55,17 @@ test("deployment URL precedence matches the site", async (t) => {
   }
 });
 
+test("complete block templates install into the components directory", async (t) => {
+  const f = await fixture(t);
+  f.manifest.items[1].type = "registry:block";
+  f.manifest.items[1].files[0].type = "registry:block";
+  await writeFile(join(f.root, "registry.json"), JSON.stringify(f.manifest));
+  await buildRegistry(f.root, {});
+  const built = await f.read("button.json");
+  assert.equal(built.type, "registry:block");
+  assert.equal(built.files[0].target, "components/gear5/button.tsx");
+});
+
 test("missing source leaves every previous install file intact", async (t) => {
   const f = await fixture(t);
   await buildRegistry(f.root, {});

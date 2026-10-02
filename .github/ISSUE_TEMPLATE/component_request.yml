@@ -1,33 +1,29 @@
-name: Component request
-description: Propose a new component
+name: Block request
+description: Propose an expressive block for a real page
 labels: [component request]
 body:
   - type: markdown
     attributes:
       value: |
-        A component belongs here if it is something teams keep rebuilding badly
-        for users on cheap devices, bad networks, other languages, or assistive
-        technology. A prettier button does not qualify; a button that stays
-        usable when the request behind it hangs for forty seconds might.
-
+        Gear5 focuses on expressive React blocks for portfolios and product
+        launches. Describe the page this block helps someone build and the
+        interaction that makes it useful.
   - type: input
     id: name
     attributes:
       label: Proposed name
     validations:
       required: true
-
   - type: textarea
     id: problem
     attributes:
-      label: What does it get wrong today?
-      description: Describe the failure you have actually seen, not the feature you want.
+      label: What page or use case does it enable?
+      description: Include a concrete example and the content someone would supply.
     validations:
       required: true
-
   - type: textarea
     id: who
     attributes:
-      label: Who does that failure affect, and under what conditions?
+      label: What interaction and responsive behaviour should it have?
     validations:
       required: true
